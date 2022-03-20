@@ -6,5 +6,6 @@
 '''
 
 from project.widget_check_ips import main
+# from project.pack.ping_ip import main
 
 main()
