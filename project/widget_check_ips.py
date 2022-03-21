@@ -43,6 +43,7 @@ class Notify(QThread):
             if ip != '':
                 logger.info("发射信号ip = {}".format(ip))
                 self.signal.emit(ip)
+            time.sleep(0.01) 
         else:
             logger.info("线程已经停止")
             
@@ -67,6 +68,7 @@ class MyClass(Ui_Form, QWidget):
         self.thread = Notify()
         self.thread.signal[str].connect(self.on_receive_ip)
 
+
     def initUI(self):
 
         self.pushCheckOneLine.clicked.connect(self.on_clicked_check)
@@ -74,6 +76,8 @@ class MyClass(Ui_Form, QWidget):
         self.btns = []
         self.onLineIps = []
 
+        self.set_start_end_lineEdit()
+        self.pushConfigIp.clicked.connect(self.on_clicked_save)
 
         # grid 
         ips = [str(i) for i in range(2, 255)]
@@ -89,45 +93,78 @@ class MyClass(Ui_Form, QWidget):
             button.clicked.connect(self.on_clicked_ips)
             self.btns.append(button)
             self.gridLayout.addWidget(button, *position)
+    
+    def set_start_end_lineEdit(self):
+        if currency.is_exists_ini_path():
+            start, end = currency.get_start_ip(), currency.get_end_ip()
+            self.lIpStart.setText(start)
+            self.lIpEnd.setText(end)
 
     def on_receive_ip(self, ip):
+        """ singal信号的槽 """
         logger.info(" 接收到ip = {}".format(ip))
         if ip!= '0':
             self.onLineIps.append(ip)
-            rection, tail = currency.split_ip(ip)
-            for pushbutton in self.btns:
-                self.set_pushbutton_background(pushbutton)
+            rection, tail = currency.get_ip_sec_tail(ip)
+            self.set_pushbutton_background(tail)
         else:
             self.pushCheckOneLine.setEnabled(True)
             self.thread.stop()
         pass
         
 
-    def set_pushbutton_background(self, pushbutton:QPushButton):
-        if pushbutton.text() in currency.get_ip_tails(self.onLineIps):
-            pushbutton.setStyleSheet("background-color: rgb(0,255,0)") 
+    def set_pushbutton_background(self, will_set_text, color = '#00ff00'):
+        """ 设置在线IP的按钮背景颜色 绿色 """
+        for pushbutton in self.btns:
+            if pushbutton.text()  ==  will_set_text:
+                logger.info("将要设置的btn:{}, 颜色值为{}".format(will_set_text ,color))
+                pushbutton.setStyleSheet("background-color: %s" % color) 
     
+
+    def reset_some(self):
+        logger.info("-------------->reset_some")
+        q_ips.queue.clear()
+
+        for ip in self.onLineIps:
+            sec, tail = currency.get_ip_sec_tail(ip)
+            self.set_pushbutton_background(tail, color='#ff0000')
+        self.onLineIps.clear()
+
 
     def on_clicked_check(self):
         """ 开始检查IP是否ping的通 """
-        logger.info("self.pushCheckOneLine is clicked")
+        logger.info("-------------------> on_clicked_check !")
+
+        self.reset_some()
 
         self.pushCheckOneLine.setEnabled(False)
+        self.thread.set_flg()   # flg = True
         self.thread.start()
+        logger.info("开始检测")
         checking_ips()
 
     
-    
     def on_clicked_modify(self):
-
+        """ modify enable ip range 0 - 255 or other """
         logger.info("self.pushConfigIp is clicked")
         pass
     
-    def on_clicked_ips(self):
 
+    def on_clicked_ips(self):
+        """ 254个button通用的槽函数 """
         text = self.sender().text()
         logger.info("text = {}".format(text))
         pass
+
+    
+    def on_clicked_save(self):
+        start = self.lIpStart.text().strip()
+        end = self.lIpEnd.text().strip()
+        currency.set_start_ip(start)
+        currency.set_end_ip(end)
+        pass
+    
+     
 
 
     

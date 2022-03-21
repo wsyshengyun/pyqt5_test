@@ -14,6 +14,8 @@ from .log import logger
 import subprocess 
 import threading 
 from queue import Queue
+import random
+from .currency import get_range_ips
 
 # -----------------------------------------------------------
 # ping 多个IP  都在同一网段， 比如 192.168.2.1~ 2.254
@@ -58,27 +60,37 @@ on_line_ips = []
 q_ips = Queue(255)
 
 def ping_of_subprocess(ip_dns):
+
     p = subprocess.Popen(['ping.exe',ip_dns], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     res = p.stdout.readlines()
-    # logger.info('res length: %s' % len(res))
     for line in res:
         if 'TTL' in line.decode('gbk'):
-            # on_line_ips.append(ip_dns)
             q_ips.put(ip_dns)
-            logger.info('{} is online!'.format(ip_dns))
+            logger.info("队列添加元素 ip_dns = {}, 队列的现在元素个数{}".format(ip_dns, q_ips.qsize()))
             return True
-    # else:
-        # if threading.active_count()   #TODO
-        # pass
+
+
+def ping_of_subprocess1(ip_dns):
+    # logger.info('res length: %s' % len(res))
+    time.sleep(1)
+    ips = ['192.168.43.3', '192.168.43.43' ,'192.168.43.253' , '192.168.43.3', '192.168.43.113']
+    if ip_dns in ips:
+        q_ips.put(ip_dns)
+        logger.info("队列添加元素 ip_dns = {}, 队列的现在元素个数{}".format(ip_dns, q_ips.qsize()))
+        return True
+
 
 
 def checking_ips():
-    ip0= '192.168.43.'
+
+    ips = get_range_ips()
+    logger.info("待检测的 ips = {}".format(ips))
     ths = []
-    for ip_num in range(2,255):
-        ip = ip0 + str(ip_num) 
+    # for ip_num in range(2,255):
+        # ip = ip0 + str(ip_num) 
         # logger.info(ip)
 
+    for ip in ips:
         th = threading.Thread(target=ping_of_subprocess,args=(ip,))
         ths.append(th)
         th.setDaemon(True)
@@ -86,7 +98,9 @@ def checking_ips():
 
     for th in ths:
         th.join()
+
     q_ips.put('0')
+
     logger.info("检查IP结束")
 
 def main():
