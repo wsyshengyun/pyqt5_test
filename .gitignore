@@ -2,7 +2,6 @@
 venv/
 dist/
 build/
-*.spec
 # ignore vscode environment
 .vscode/
 # Log Files
