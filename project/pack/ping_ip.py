@@ -60,16 +60,19 @@ on_line_ips = []
 q_ips = Queue(255)
 
 def ping_of_subprocess(ip_dns):
-
     p = subprocess.Popen(['ping.exe',ip_dns], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     res = p.stdout.readlines()
     for line in res:
         if 'TTL' in line.decode('gbk'):
+        # if 'TTL' in 'TTL1':
             q_ips.put(ip_dns)
             logger.info("队列添加元素 ip_dns = {}, 队列的现在元素个数{}".format(ip_dns, q_ips.qsize()))
-            return True
+            # return True
+        # else:
+            # logger.info("ip_duns = {} is not ....".format(ip_dns))
 
 
+# 测试函数
 def ping_of_subprocess1(ip_dns):
     # logger.info('res length: %s' % len(res))
     time.sleep(1)
@@ -84,20 +87,17 @@ def ping_of_subprocess1(ip_dns):
 def checking_ips():
 
     ips = get_range_ips()
-    logger.info("待检测的 ips = {}".format(ips))
+    # logger.info("待检测的 ips = {}".format(ips))
     ths = []
-    # for ip_num in range(2,255):
-        # ip = ip0 + str(ip_num) 
-        # logger.info(ip)
 
     for ip in ips:
         th = threading.Thread(target=ping_of_subprocess,args=(ip,))
         ths.append(th)
-        th.setDaemon(True)
+        # th.setDaemon(True)
         th.start()
 
-    for th in ths:
-        th.join()
+    # for th in ths:
+        # th.join()
 
     q_ips.put('0')
 

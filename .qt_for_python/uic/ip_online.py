@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\_python\xdkj_test\dist\main\project\ui\ip_online.ui'
+# Form implementation generated from reading ui file 'd:\_python\xdkj_test\project\ui\ip_online.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -66,14 +66,11 @@ class Ui_Form(object):
         self.pushCheckOneLine = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.pushCheckOneLine.setObjectName("pushCheckOneLine")
         self.horizontalLayout_2.addWidget(self.pushCheckOneLine)
-        self.horizontalLayout_2.setStretch(4, 4)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
-        spacerItem1 = QtWidgets.QSpacerItem(1236, 88, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem1)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout.addLayout(self.gridLayout)
-        self.verticalLayout.setStretch(2, 1)
+        self.verticalLayout.setStretch(1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
