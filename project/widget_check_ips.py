@@ -48,7 +48,7 @@ class Notify(QThread):
             
 
            
-class RunThread(QThread):
+class RunThread(QObject):
 
     signal = pyqtSignal(str)
     def __init__(self):
@@ -59,6 +59,7 @@ class RunThread(QThread):
 
 
     def run(self):
+        logger.info("run()")
         while self.flg:
             if not q_ips.empty():
                 ip = q_ips.get() 
@@ -124,10 +125,14 @@ class MyClass(Ui_Form, QWidget):
         if self.thread.isRunning():
             return 
         
+        logger.info("in function: self.start")
+        
         # 先启动QThread的子线程
         self.myT.flag = True
-        self.thread.run() 
-        
+        # self.thread.run() 
+        self.thread.start()
+    
+        logger.info("_startThread.emit()")
         # 发送信号,启动线程处理函数 
         # 不能直接调用,否则会导致线程处理函数和主线程在同一个线程,同样操作不了主界面.
         self._startThread.emit()
@@ -135,8 +140,9 @@ class MyClass(Ui_Form, QWidget):
     
     
     def stop(self):
-        if not self.thread.isRunning():
-            return 
+        if not self.thread.isRunning(): return 
+
+        logger.info("self.stop")
 
         self.myT.flg = False
         self.stop_thread()
@@ -152,7 +158,7 @@ class MyClass(Ui_Form, QWidget):
         
 
     def call_backing(self, rev_ip):
-        self.on_receive_ip(ip)
+        self.on_receive_ip(rev_ip)
         pass
    
     

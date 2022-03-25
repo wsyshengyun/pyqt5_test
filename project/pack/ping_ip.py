@@ -60,9 +60,11 @@ on_line_ips = []
 q_ips = Queue(255)
 
 def ping_of_subprocess(ip_dns):
+    logger.info("pint_of_subprocess")
     p = subprocess.Popen(['ping.exe',ip_dns], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
     res = p.stdout.readlines()
     for line in res:
+        logger.info(" ine in res")
         if 'TTL' in line.decode('gbk'):
         # if 'TTL' in 'TTL1':
             q_ips.put(ip_dns)
@@ -99,7 +101,7 @@ def checking_ips():
     # for th in ths:
         # th.join()
 
-    q_ips.put('0')
+    # q_ips.put('0')
 
     logger.info("检查IP结束")
 
