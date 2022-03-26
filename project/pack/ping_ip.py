@@ -8,105 +8,127 @@
 
 
 import imp
-import os, time
-from sys import stdin 
-from .log import logger
-import subprocess 
-import threading 
-from queue import Queue
+import os
 import random
+import subprocess
+import threading
+import time
+from queue import Queue
+from sys import stdin
+
+from PyQt5.QtCore import QObject, QThread, pyqtSignal
+
 from .currency import get_range_ips
+from .log import logger
+
 
 # -----------------------------------------------------------
-# ping 多个IP  都在同一网段， 比如 192.168.2.1~ 2.254
-# 从1开始
+# 重构  用QThread实现
 # -----------------------------------------------------------
-def pingComputer():
-    range_max_num = 2
-    for i in range(1,range_max_num):
-        host = '192.168.2.' + str(i)
-        status1 = 'ping success'
-        status2 = 'ping faild' 
-        now_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())
-        )
-        p = os.popen('ping ' + host + " -n 3") 
-        line = p.read()
+class Ping_Ip(QObject):
+    send_ip_signal = pyqtSignal(str)
+    signal_check_end = pyqtSignal()
+    
 
-        find_str = "无法访问目标主机"
-        str_time_out = "请求超时"
-        print(line)
-        if find_str in line or str_time_out in line:
-            print(now_time, host, status2)
-        else:
-            print(now_time, host, status1)
+    def __init__(self, ip):
+        super(Ping_Ip, self).__init__()
+        self.ip = ip
 
-# pingComputer()
+        
+    def run(self):
+        p = subprocess.Popen(['ping.exe', self.ip], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                             shell=True)
+        res = p.stdout.readlines()
+        for line in res:
+            if 'TTL' in line.decode('gbk'):
+                logger.info("IP {} is online".format(self.ip)) 
+                self.send_ip_signal.emit(self.ip) 
+                break
 
-
-def ping_one_ip(ip):
-    p = os.popen('ping ' + ip + " -n 3") 
-    line = p.read()
-    print(line)
-
-# ip = '192.168.43.214'
-# ping_one_ip(ip)
-
-# -----------------------------------------------------------
-# 多线程ping  IP 速度快 
-# -----------------------------------------------------------
-
-
-on_line_ips = []
-q_ips = Queue(255)
-
-def ping_of_subprocess(ip_dns):
-    logger.info("pint_of_subprocess")
-    p = subprocess.Popen(['ping.exe',ip_dns], stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-    res = p.stdout.readlines()
-    for line in res:
-        logger.info(" ine in res")
-        if 'TTL' in line.decode('gbk'):
-        # if 'TTL' in 'TTL1':
-            q_ips.put(ip_dns)
-            logger.info("队列添加元素 ip_dns = {}, 队列的现在元素个数{}".format(ip_dns, q_ips.qsize()))
-            # return True
-        # else:
-            # logger.info("ip_duns = {} is not ....".format(ip_dns))
-
-
-# 测试函数
-def ping_of_subprocess1(ip_dns):
-    # logger.info('res length: %s' % len(res))
-    time.sleep(1)
-    ips = ['192.168.43.3', '192.168.43.43' ,'192.168.43.253' , '192.168.43.3', '192.168.43.113']
-    if ip_dns in ips:
-        q_ips.put(ip_dns)
-        logger.info("队列添加元素 ip_dns = {}, 队列的现在元素个数{}".format(ip_dns, q_ips.qsize()))
-        return True
-
-
-
-def checking_ips():
-
+        self.signal_check_end.emit()
+        
+    
+    
+def create_ip_ths():
     ips = get_range_ips()
-    # logger.info("待检测的 ips = {}".format(ips))
-    ths = []
-
+    thread_objects = []
+    ping_objs = []
     for ip in ips:
-        th = threading.Thread(target=ping_of_subprocess,args=(ip,))
-        ths.append(th)
-        # th.setDaemon(True)
-        th.start()
+        ip_obj = Ping_Ip(ip)
+        th = QThread()
+        ip_obj.moveToThread(th)
+        th.started.connect(ip_obj.run)
+        thread_objects.append(th)
+        ping_objs.append(ip_obj)
+    return thread_objects, ping_objs
 
-    # for th in ths:
-        # th.join()
 
-    # q_ips.put('0')
+class ManageTheads(QObject):
 
-    logger.info("检查IP结束")
+    signal_all_thread_finished = pyqtSignal() 
+    signal_send_ip = pyqtSignal(str)   # ping 通IP时发送
+
+    num_finished_threads = 0
+
+    def __init__(self):
+
+        super(ManageTheads, self).__init__()
+
+        self.objs = [] 
+        self.ths = []
+        
+    
+    def get_ips_from_config(self):
+        return get_range_ips()
+
+    def create_threads(self):
+
+        ips = get_range_ips()
+        self.ths = []
+        self.objs = []
+
+        for ip in ips:
+            ip_obj = Ping_Ip(ip)
+            th = QThread()
+
+            ip_obj.moveToThread(th)
+            th.started.connect(ip_obj.run)
+
+            ip_obj.signal_check_end.connect(self.slot_finised_thread)
+            ip_obj.send_ip_signal.connect(self.signal_send_ip)
+
+            self.ths.append(th)
+            self.objs.append(ip_obj)
+
+        logger.info("创建的线程数量为:  {}".format(self.len_threads()))
+
+
+    def quit(self):
+        for th in self.ths:
+            th.quit()
+
+    def start(self):
+        
+        for th in self.ths:
+            th.start() 
+    
+
+    def len_threads(self):
+
+        return len(self.ths) 
+    
+
+    def slot_finised_thread(self):
+
+        self.num_finished_threads += 1
+
+        if self.num_finished_threads == self.len_threads():
+            self.signal_all_thread_finished.emit()
+            logger.info("全部线程已经运行完成,发射信号:singal_all_thread_finished")
+        
+
+
+
 
 def main():
-    checking_ips()
-    on_line_ips.append(0)
-    logger.info('End!')
-
+    pass

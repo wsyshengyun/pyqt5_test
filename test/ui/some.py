@@ -12,9 +12,9 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1115, 984)
-        self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setGeometry(QtCore.QRect(750, 160, 150, 46))
-        self.pushButton.setObjectName("pushButton")
+        self.pushButton_start = QtWidgets.QPushButton(Form)
+        self.pushButton_start.setGeometry(QtCore.QRect(750, 160, 150, 46))
+        self.pushButton_start.setObjectName("pushButton_start")
         self.listWidget = QtWidgets.QListWidget(Form)
         self.listWidget.setGeometry(QtCore.QRect(70, 40, 431, 391))
         self.listWidget.setObjectName("listWidget")
@@ -24,6 +24,9 @@ class Ui_Form(object):
         self.plainTextEdit = QtWidgets.QPlainTextEdit(Form)
         self.plainTextEdit.setGeometry(QtCore.QRect(640, 340, 401, 531))
         self.plainTextEdit.setObjectName("plainTextEdit")
+        self.pushButton_stop = QtWidgets.QPushButton(Form)
+        self.pushButton_stop.setGeometry(QtCore.QRect(760, 230, 150, 46))
+        self.pushButton_stop.setObjectName("pushButton_stop")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -31,5 +34,6 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton.setText(_translate("Form", "PushButton"))
+        self.pushButton_start.setText(_translate("Form", "start"))
+        self.pushButton_stop.setText(_translate("Form", "stop"))
 

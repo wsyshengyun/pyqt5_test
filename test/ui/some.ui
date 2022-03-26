@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="pushButton_start">
    <property name="geometry">
     <rect>
      <x>750</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>start</string>
    </property>
   </widget>
   <widget class="QListWidget" name="listWidget">
@@ -54,6 +54,19 @@
      <width>401</width>
      <height>531</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_stop">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>230</y>
+     <width>150</width>
+     <height>46</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>stop</string>
    </property>
   </widget>
  </widget>

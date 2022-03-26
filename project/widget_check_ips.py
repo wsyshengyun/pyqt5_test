@@ -5,70 +5,18 @@
 
 '''
 
-from PyQt5.QtWidgets import QWidget, QApplication, QLineEdit, QPushButton , \
-    QLabel, QGridLayout
+import time
+
 # import PyQt5.QtCore as PQC
-from PyQt5.QtCore import pyqtSignal, QThread, QObject
-from .pack.log import logger 
-from .ui.ip_online import Ui_Form
-from .pack.ping_ip import checking_ips, on_line_ips, q_ips
-import time 
+from PyQt5.QtCore import QObject, QThread, pyqtSignal
+from PyQt5.QtWidgets import (QApplication, QGridLayout, QLabel, QLineEdit,
+                             QPushButton, QWidget)
+
 from .pack import currency
+from .pack.log import logger
+from .pack.ping_ip import (Ping_Ip,  create_ip_ths , ManageTheads)
+from .ui.ip_online import Ui_Form
 
-
-class Notify(QThread):
-       
-    signal = pyqtSignal(str)
-
-    def __init__(self , signal=None):
-        super(Notify, self).__init__()
-        self.flg = True 
-        pass 
-
-    def stop(self):
-        self.flg = False
-    
-    def set_flg(self):
-        self.flg = True
-
-    # def start(self, *args, **kwargs):
-    #     self.flg = True
-    #     logger.info("线程开启")
-    #     super().start(*args, **kwargs)
-
-    def run(self):
-        while self.flg:
-            if not q_ips.empty():
-                ip = q_ips.get() 
-                logger.info("发射信号ip = {}".format(ip))
-                self.signal.emit(ip)
-            time.sleep(0.01) 
-        else:
-            logger.info("线程已经停止")
-            
-
-           
-class RunThread(QObject):
-
-    signal = pyqtSignal(str)
-    def __init__(self):
-        super(RunThread, self).__init__()
-        self.flg = True 
-        
-        pass        
-
-
-    def run(self):
-        logger.info("run()")
-        while self.flg:
-            if not q_ips.empty():
-                ip = q_ips.get() 
-                logger.info("发射信号ip = {}".format(ip))
-                self.signal.emit(ip)
-            time.sleep(0.01) 
-        else:
-            logger.info("线程已经停止")
-    
 
 class MyClass(Ui_Form, QWidget):
 
@@ -81,88 +29,53 @@ class MyClass(Ui_Form, QWidget):
         self.setupUi(self)
         self.initUI()
 
-        # self.thread = Notify(self.signal)
-        # self.signal[str].connect(self.on_receive_ip)
-
-        # self.thread = Notify()
-        # self.thread.signal[str].connect(self.on_receive_ip)
-
 
     def initUI(self):
 
-        self.pushCheckOneLine.clicked.connect(self.on_clicked_check)
-        # self.pushConfigIp.clicked.connect(self.on_clicked_modify)
-        self.btns = []
+        self.create_btns()
+
         self.onLineIps = []
+        self.init_lineEdit_text()   # 初始化两个输入LineEdit
+        self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
 
-        self.set_start_end_lineEdit()
-        self.pushConfigIp.clicked.connect(self.on_clicked_save)
+        self.pushCheckOneLine.clicked.connect(self.on_clicked_checking_ip)
         
-        # thread
-        self.myT = RunThread()
-        self.thread = QThread(self)
-        self.myT.moveToThread(self.thread)
+        # 生成线程
+        # self.ths, self.ping_objs = create_ip_ths()
+        # for ping_obj in self.ping_objs:
+        #     ping_obj.send_ip_signal[str].connect(self.on_receive_ip)
+        #     ping_obj.signal_check_end.connect(self.on_thread_end)
 
-        self._startThread.connect(self.myT.run)
-        self.myT.signal.connect(self.call_backing)
+        # self.finished_threads_num = 0
+        # self.create_threads()
         
 
+    def create_threads(self):
+
+        self.manage_threads = ManageTheads()
+        self.manage_threads.create_threads()
+        self.manage_threads.signal_all_thread_finished.connect(self.finished_all_ths)        
+        self.manage_threads.signal_send_ip.connect(self.on_receive_ip)
+        pass
+
+    def create_btns(self):
+        
         # grid 
-        ips = [str(i) for i in range(2, 255)]
-
+        btn_int = [i for i in range(255)]
         positions = [(i,j) for i in range(16) for j in range(16)]
 
+        len_ = len(btn_int)
+        self.btns = [None]*len_
 
-        for position, name in zip(positions, ips):
-            button = QPushButton(name, self)
-            button.clicked.connect(self.on_clicked_ips)
-            self.btns.append(button)
-            self.gridLayout.addWidget(button, *position)
-   
+        for position, i in zip(positions, btn_int):
+            self.btns[i] = QPushButton(str(i), self)
+            self.gridLayout.addWidget(self.btns[i], *position)
+            
 
 
-    def start(self):
-        if self.thread.isRunning():
-            return 
-        
-        logger.info("in function: self.start")
-        
-        # 先启动QThread的子线程
-        self.myT.flag = True
-        # self.thread.run() 
-        self.thread.start()
-    
-        logger.info("_startThread.emit()")
-        # 发送信号,启动线程处理函数 
-        # 不能直接调用,否则会导致线程处理函数和主线程在同一个线程,同样操作不了主界面.
-        self._startThread.emit()
-        
-    
-    
-    def stop(self):
-        if not self.thread.isRunning(): return 
-
-        logger.info("self.stop")
-
-        self.myT.flg = False
-        self.stop_thread()
-        self.pushCheckOneLine.setEnabled(True)
-        
-    
-    def stop_thread(self):
-        if not self.thread.isRunning():
-            return 
-        
-        self.thread.quit() 
-        self.thread.wait()
-        
-
-    def call_backing(self, rev_ip):
-        self.on_receive_ip(rev_ip)
-        pass
    
     
-    def set_start_end_lineEdit(self):
+    def init_lineEdit_text(self):
         if currency.is_exists_ini_path():
             start, end = currency.get_start_ip(), currency.get_end_ip()
             self.lIpStart.setText(start)
@@ -171,66 +84,58 @@ class MyClass(Ui_Form, QWidget):
     def on_receive_ip(self, ip):
         """ singal信号的槽 """
         logger.info(" 接收到ip = {}".format(ip))
-        if ip!= '0':
-            self.onLineIps.append(ip)
-            rection, tail = currency.get_ip_sec_tail(ip)
-            self.set_pushbutton_background(tail)
-        else:
-            # self.pushCheckOneLine.setEnabled(True)
-            # self.thread.stop()
-            self.stop()
-        pass
+
+        self.onLineIps.append(ip)
+        rection, tail = currency.get_ip_sec_tail(ip)
+        self.set_btn_background_from_ip_tail(tail)
+
         
 
-    def set_pushbutton_background(self, will_set_text, color = '#00ff00'):
+    def set_btn_background_from_ip_tail(self, will_set_text, color = '#00ff00'):
         """ 设置在线IP的按钮背景颜色 绿色 """
-        for pushbutton in self.btns:
-            if pushbutton.text()  ==  will_set_text:
-                logger.info("将要设置的btn:{}, 颜色值为{}".format(will_set_text ,color))
-                pushbutton.setStyleSheet("background-color: %s" % color) 
+        # for pushbutton in self.btns:
+            # if pushbutton.text()  ==  will_set_text:
+                # pushbutton.setStyleSheet("background-color: %s" % color) 
+
+        logger.info("将要设置的btn:{}, 颜色值为{}".format(will_set_text ,color))
+        btn_i = int(will_set_text)
+        self.btns[btn_i].setStyleSheet("background-color: %s" % color) 
     
 
-    def reset_some(self):
-        logger.info("-------------->reset_some")
-        q_ips.queue.clear()
-
-        for ip in self.onLineIps:
-            sec, tail = currency.get_ip_sec_tail(ip)
-            self.set_pushbutton_background(tail, color='#ff0000')
-        self.onLineIps.clear()
-
-
-    def on_clicked_check(self):
+    def on_clicked_checking_ip(self):
         """ 开始检查IP是否ping的通 """
-        logger.info("-------------------> on_clicked_check !")
+        logger.info("-------------------> on_clicked_checking_ip !")
         self.pushCheckOneLine.setEnabled(False)
-        checking_ips()
-        self.start()
+
+        self.create_threads()
         
+        self.manage_threads.start()
 
 
-        # self.reset_some()
+    def finished_all_ths(self):
 
-        # self.thread.set_flg()   # flg = True
-        # self.thread.start()
-        # logger.info("开始检测")
-        # checking_ips()
+        logger.info("收到信号,执行槽 finished_all_ths")
 
+        self.pushCheckOneLine.setEnabled(True)
+        self.finished_threads_num = 0
+
+        # 结束所有的th
+        self.manage_threads.quit()
     
-    # def on_clicked_modify(self):
-    #     """ modify enable ip range 0 - 255 or other """
-    #     logger.info("self.pushConfigIp is clicked")
-    #     pass
     
+    def on_thread_end(self):
 
-    def on_clicked_ips(self):
-        """ 254个button通用的槽函数 """
-        text = self.sender().text()
-        logger.info("text = {}".format(text))
-        pass
+        logger.info("on_thread_end")
+
+        self.finished_threads_num += 1
+        if self.finished_threads_num == len(self.ths):
+            self.finished_all_ths()
+            
+
 
     
     def on_clicked_save(self):
+        """ 保存起始IP和终止IP的数据 """
         start = self.lIpStart.text().strip()
         end = self.lIpEnd.text().strip()
         currency.set_start_ip(start)
@@ -239,6 +144,11 @@ class MyClass(Ui_Form, QWidget):
     
      
 
+    def on_clicked_ips(self):
+        """ 254个button通用的槽函数 """
+        text = self.sender().text()
+        logger.info("text = {}".format(text))
+        pass
 
     
 def main():
