@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\_python\xdkj_test\test\ui\some.ui'
+# Form implementation generated from reading ui file 'd:\_python\xdkj_test\dist\main\test\ui\some.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #

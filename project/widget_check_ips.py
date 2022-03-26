@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import (QApplication, QGridLayout, QLabel, QLineEdit,
 
 from .pack import currency
 from .pack.log import logger
-from .pack.ping_ip import (Ping_Ip,  create_ip_ths , ManageTheads)
+from .pack.ping_ip import (Ping_Ip , ManageTheads)
 from .ui.ip_online import Ui_Form
 
 
@@ -33,6 +33,8 @@ class MyClass(Ui_Form, QWidget):
     def initUI(self):
 
         self.create_btns()
+
+        self.clear_progressBar()
 
         self.onLineIps = []
         self.init_lineEdit_text()   # 初始化两个输入LineEdit
@@ -56,6 +58,7 @@ class MyClass(Ui_Form, QWidget):
         self.manage_threads.create_threads()
         self.manage_threads.signal_all_thread_finished.connect(self.finished_all_ths)        
         self.manage_threads.signal_send_ip.connect(self.on_receive_ip)
+        self.manage_threads.signal_thread_end[int, int].connect(self.slog_thread_end)
         pass
 
     def create_btns(self):
@@ -68,9 +71,18 @@ class MyClass(Ui_Form, QWidget):
         self.btns = [None]*len_
 
         for position, i in zip(positions, btn_int):
-            self.btns[i] = QPushButton(str(i), self)
-            self.gridLayout.addWidget(self.btns[i], *position)
+            btn = QPushButton(str(i), self)
+            btn.setMaximumHeight(20)
+            btn.setMaximumWidth(40)
+            self.gridLayout.addWidget(btn, *position)
+            self.btns[i] = btn
+
             
+    def clear_progressBar(self):
+        #self.progressBar.setma
+        self.progressBar.setValue(0)
+        
+        
 
 
    
@@ -107,6 +119,8 @@ class MyClass(Ui_Form, QWidget):
         logger.info("-------------------> on_clicked_checking_ip !")
         self.pushCheckOneLine.setEnabled(False)
 
+        self.clear_progressBar()
+
         self.create_threads()
         
         self.manage_threads.start()
@@ -131,6 +145,12 @@ class MyClass(Ui_Form, QWidget):
         if self.finished_threads_num == len(self.ths):
             self.finished_all_ths()
             
+
+    def slog_thread_end(self, end_ths, sum_ths):
+
+        value = int(100*end_ths/sum_ths)
+        self.progressBar.setValue(value)
+        pass
 
 
     

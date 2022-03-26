@@ -49,24 +49,25 @@ class Ping_Ip(QObject):
         
     
     
-def create_ip_ths():
-    ips = get_range_ips()
-    thread_objects = []
-    ping_objs = []
-    for ip in ips:
-        ip_obj = Ping_Ip(ip)
-        th = QThread()
-        ip_obj.moveToThread(th)
-        th.started.connect(ip_obj.run)
-        thread_objects.append(th)
-        ping_objs.append(ip_obj)
-    return thread_objects, ping_objs
+# def create_ip_ths():
+#     ips = get_range_ips()
+#     thread_objects = []
+#     ping_objs = []
+#     for ip in ips:
+#         ip_obj = Ping_Ip(ip)
+#         th = QThread()
+#         ip_obj.moveToThread(th)
+#         th.started.connect(ip_obj.run)
+#         thread_objects.append(th)
+#         ping_objs.append(ip_obj)
+#     return thread_objects, ping_objs
 
 
 class ManageTheads(QObject):
 
-    signal_all_thread_finished = pyqtSignal() 
+    signal_all_thread_finished = pyqtSignal()  # 所有线程结束时发送
     signal_send_ip = pyqtSignal(str)   # ping 通IP时发送
+    signal_thread_end = pyqtSignal(int, int)  # 当一个线程结束时产生, 发送当前已经结束的线程数和总的线程数
 
     num_finished_threads = 0
 
@@ -78,8 +79,6 @@ class ManageTheads(QObject):
         self.ths = []
         
     
-    def get_ips_from_config(self):
-        return get_range_ips()
 
     def create_threads(self):
 
@@ -95,6 +94,7 @@ class ManageTheads(QObject):
             th.started.connect(ip_obj.run)
 
             ip_obj.signal_check_end.connect(self.slot_finised_thread)
+            ip_obj.signal_check_end.connect(self.emit_signal)
             ip_obj.send_ip_signal.connect(self.signal_send_ip)
 
             self.ths.append(th)
@@ -102,7 +102,11 @@ class ManageTheads(QObject):
 
         logger.info("创建的线程数量为:  {}".format(self.len_threads()))
 
-
+    def emit_signal(self):
+        self.signal_thread_end.emit(self.num_finished_threads, self.len_threads())
+        
+        
+        pass
     def quit(self):
         for th in self.ths:
             th.quit()
