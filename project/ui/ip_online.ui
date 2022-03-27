@@ -151,16 +151,22 @@
     <item>
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
-       <number>12</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>12</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>12</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>12</number>
+       <number>0</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>0</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>2</number>
       </property>
      </layout>
     </item>

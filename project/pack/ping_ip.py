@@ -63,6 +63,7 @@ class Ping_Ip(QObject):
 #     return thread_objects, ping_objs
 
 
+
 class ManageTheads(QObject):
 
     signal_all_thread_finished = pyqtSignal()  # 所有线程结束时发送

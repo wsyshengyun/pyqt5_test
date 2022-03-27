@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\_python\xdkj_test\project\ui\ip_online.ui'
+# Form implementation generated from reading ui file 'd:\_python\xdkj_test\dist\main\project\ui\ip_online.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -72,7 +72,9 @@ class Ui_Form(object):
         self.progressBar.setObjectName("progressBar")
         self.verticalLayout.addWidget(self.progressBar)
         self.gridLayout = QtWidgets.QGridLayout()
-        self.gridLayout.setContentsMargins(12, 12, 12, 12)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setHorizontalSpacing(0)
+        self.gridLayout.setVerticalSpacing(2)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout.addLayout(self.gridLayout)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
