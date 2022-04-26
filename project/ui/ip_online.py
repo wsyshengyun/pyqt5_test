@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -84,4 +85,3 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "到"))
         self.pushConfigIp.setText(_translate("Form", "保存"))
         self.pushCheckOneLine.setText(_translate("Form", "检查"))
-
