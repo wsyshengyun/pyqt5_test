@@ -1,4 +1,5 @@
 # ignore virtual environment
+.idea
 venv/
 dist/
 build/
@@ -48,3 +49,4 @@ tmp/
 
 # ignore supervisor configure file
 supervisor.conf
+.idea/
