@@ -3,7 +3,7 @@
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
                              QApplication)
 from PyQt5.QtCore import  pyqtSignal
-from project.configIp.ui.widget import Ui_Form
+from project.Broadcast.ui.widget import Ui_Form
 
 
 class MyWidget(QWidget, Ui_Form):
