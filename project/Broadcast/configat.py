@@ -5,10 +5,11 @@ import socket
 import wmi
 import ctypes
 import subprocess
+from project.Broadcast.middle import OneIp
 
 order_str = "HEADER|Name|IPX|PORT|MASS|GATE|MDNS|PDNS|UART|Ver|MIP1|MPO1|MIP2|MPO2|MIP3|MPO3|UserSet"
 
-message_dict = {
+MESSAGE_DICT = {
     'HEADER': '535a5844000001011e5368656e5a68656e2058696e4469616e2c',  # # SZXD ... SHENZHEN XINGDIAN
     'Name': '535045414b53504f54312c',  # # SPEAKSPOT1
     'IPX': '3139322e3136382e3130302e3230302c',  # # 192.168.100.200
@@ -30,26 +31,26 @@ message_dict = {
 
 
 class Message(object):
-    def __init__(self, ip: str=None):
+    def __init__(self, ip: str = None):
         """ """
-        self.message_dict = message_dict.copy()
+        self.MESSAGE_DICT = MESSAGE_DICT.copy()
         self.handler = Handler()
         if ip:
-            self.set_ip(ip)
+            self.set_message_from_ip(ip)
 
-    def set_ip(self, ip: str):
+    def set_message_from_ip(self, ip: str):
         ip_message = self.handler.handler_ip(ip)
-        self.message_dict['IPX'] = ip_message
+        self.MESSAGE_DICT['IPX'] = ip_message
 
     def generate_message_string(self):
         key_list = self._key_list()
-        # message = ''.join([self.message_dict[key] for key in key_list])
+
         line_list = []
-        header = self.message_dict.get("HEADER")
-        tail = self.message_dict.get("UserSet")
+        header = self.MESSAGE_DICT.get("HEADER")
+        tail = self.MESSAGE_DICT.get("UserSet")
 
         for key in key_list[1:-1]:
-            tsr = self.handler.join_key_value(key, self.message_dict)
+            tsr = self.handler.join_key_value(key, self.MESSAGE_DICT)
             line_list.append(tsr)
 
         line_list.insert(0, header)
@@ -110,34 +111,32 @@ class Handler(object):
 class MySocket(object):
     def __init__(self):
         """ """
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         # socket.AF_INET    指定IPv4协议
         # socket.SOCK_DGRAM  指定UDP数据报式的协议
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket.settimeout(2)
+        self.purpose_one_ip: OneIp = None
 
-    def send(self, bstr, ip_, port):
-        """ """
-        self.socket.send(bstr, (ip_, port))
+    def set_purpose_ip(self, one_ip: OneIp):
+        self.purpose_one_ip = one_ip
 
-    def revect(self):
+    def send(self, msg):
         """ """
-        data, addr = self.socket.recv(1024)
-        data = data.decode('utf8')
+        self.socket.sendto(msg, (self.purpose_one_ip.get_ip(), self.purpose_one_ip.get_port()))
+        data, addr = self.socket.recvfrom(4096)
+        return data, addr
+
+    def send_ip_message(self):
+        send_ip = self.purpose_one_ip.get_ip()
+        msg = Message(send_ip).generate_message_string()
+        return self.send(msg)
 
     def close(self):
         self.socket.close()
 
-    def bind(self, ip, port):
-        self.bind((ip, port))
 
-    def wrap_ip(self, ip):
-        """
-        把一个IP包装成可以发送的字符串, 去设置功放;
-        """
-        tsr_ip = ""
-        return tsr_ip
-
-    def check_ip_on_line(self, ip):
-        pass
+def check_ip_on_line(self, ip):
+    pass
 
 
 def get_ip():
@@ -180,6 +179,6 @@ if __name__ == '__main__':
     # print(res)
     # print(net_list)
     obj = Message()
-    obj.set_ip('192.168.100.200')
+    obj.set_message_from_ip('192.168.100.200')
     print(obj.generate_message_string())
     pass
