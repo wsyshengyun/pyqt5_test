@@ -4,6 +4,11 @@ import re
 
 reg_check_ip = r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
 
+# todo 学习打包
+# todo class 的 set 和 get
+# todo 异常的传递 以及 UI的异常
+# todo git的复习 分支的练习 | 打标签 | 向一个库推送文件
+#     一个项目两个子项目打标签
 
 class OneIp(object):
     def __init__(self, ip=None, port=None):
