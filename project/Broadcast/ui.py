@@ -8,7 +8,7 @@
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
                              QApplication)
-from PyQt5.QtCore import pyqtSignal
+# from PyQt5.QtCore import pyqtSignal
 from project.Broadcast.ui.widget import Ui_Form
 from project.Broadcast.middle import OneIp
 from project.Broadcast.configat import MySocket
