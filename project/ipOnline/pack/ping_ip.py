@@ -9,8 +9,10 @@ import subprocess
 
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
-from .currency import get_range_ips
-from .log import logger
+# from .currency import get_range_ips
+from project.ipOnline.pack.currency import get_range_ips
+# from .log import logger
+from project.ipOnline.pack.log import logger
 
 
 # -----------------------------------------------------------
@@ -53,6 +55,7 @@ class Ping_Ip(QObject):
 
 class ManageTheads(QObject):
     signal_all_thread_finished = pyqtSignal()  # 所有线程结束时发送
+    # ping 通IP时发送
     signal_send_ip = pyqtSignal(str)  # ping 通IP时发送
     signal_thread_end = pyqtSignal(int, int)  # 当一个线程结束时产生, 发送当前已经结束的线程数和总的线程数
 
