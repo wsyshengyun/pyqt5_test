@@ -6,13 +6,15 @@
 '''
 
 # import PyQt5.QtCore as PQC
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QCoreApplication
 from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget)
+from PyQt5 import QtCore
 
 from .pack import currency
 from .pack.log import logger
 from .pack.ping_ip import (ManageTheads)
 from .ui.ip_online import Ui_Form
+
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
 # todo 界面button在不同的分辨率下正常的显示
@@ -69,8 +71,8 @@ class MyClass(Ui_Form, QWidget):
 
         for position, i in zip(positions, btn_int):
             btn = QPushButton(str(i), self)
-            btn.setMaximumHeight(20)
-            btn.setMaximumWidth(40)
+            # btn.setMaximumHeight(20)
+            # btn.setMaximumWidth(40)
             self.gridLayout.addWidget(btn, *position)
             self.btns[i] = btn
 
@@ -96,10 +98,6 @@ class MyClass(Ui_Form, QWidget):
 
     def set_btn_background_from_ip_tail(self, will_set_text, color='#00ff00'):
         """ 设置在线IP的按钮背景颜色 绿色 """
-        # for pushbutton in self.btns:
-        # if pushbutton.text()  ==  will_set_text:
-        # pushbutton.setStyleSheet("background-color: %s" % color)
-
         logger.info("将要设置的btn:{}, 颜色值为{}".format(will_set_text, color))
         btn_i = int(will_set_text)
         self.btns[btn_i].setStyleSheet("background-color: %s" % color)
@@ -155,6 +153,8 @@ class MyClass(Ui_Form, QWidget):
 
 
 def main():
+    # PyQt / Qt解决分辨率不同的设备显示问题
+    QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     import sys
     app = QApplication(sys.argv)
     win = MyClass()
