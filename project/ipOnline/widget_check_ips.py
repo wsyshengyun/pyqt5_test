@@ -31,7 +31,7 @@ class MyClass(Ui_Form, QWidget):
 
         self.clear_progressBar()
 
-        self.onLineIps = []
+        self.on_line_ips = []
         self.init_lineEdit_text()  # 初始化两个输入LineEdit
         self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
 
@@ -52,7 +52,7 @@ class MyClass(Ui_Form, QWidget):
         self.manage_threads.create_threads()
         self.manage_threads.signal_all_thread_finished.connect(self.finished_all_ths)
         self.manage_threads.signal_send_ip.connect(self.on_receive_ip)
-        self.manage_threads.signal_thread_end[int, int].connect(self.slog_thread_end)
+        self.manage_threads.signal_thread_end[int, int].connect(self.update_progressbar)
         pass
 
     def create_btns(self):
@@ -72,7 +72,6 @@ class MyClass(Ui_Form, QWidget):
             self.btns[i] = btn
 
     def clear_progressBar(self):
-        # self.progressBar.setma
         self.progressBar.setValue(0)
 
     def init_lineEdit_text(self):
@@ -82,11 +81,14 @@ class MyClass(Ui_Form, QWidget):
             self.lIpEnd.setText(end)
 
     def on_receive_ip(self, ip):
-        """ singal信号的槽 """
+        """
+        singal信号的槽
+        作用:设置一个在线IP 所对应的IP的 背景颜色
+        """
         logger.info(" 接收到ip = {}".format(ip))
 
-        self.onLineIps.append(ip)
-        rection, tail = currency.get_ip_sec_tail(ip)
+        self.on_line_ips.append(ip)
+        _, tail = currency.get_ip_sec_tail(ip)
         self.set_btn_background_from_ip_tail(tail)
 
     def set_btn_background_from_ip_tail(self, will_set_text, color='#00ff00'):
@@ -128,9 +130,9 @@ class MyClass(Ui_Form, QWidget):
         if self.finished_threads_num == len(self.ths):
             self.finished_all_ths()
 
-    def slog_thread_end(self, end_ths, sum_ths):
+    def update_progressbar(self, finished_ths, sum_ths):
 
-        value = int(100 * end_ths / sum_ths)
+        value = int(100 * finished_ths / sum_ths)
         self.progressBar.setValue(value)
         pass
 

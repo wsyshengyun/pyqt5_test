@@ -117,19 +117,35 @@ def get_range_ips():
 # -----------------------------------------------------------
 
 def split_ip(ip: str):
+    """
+    用.分割一个IP, 得到一个4个长度的列表,元素为ip的各个字段;
+
+    """
     return ip.split('.')
 
 
 def get_ip_sec_tail(ip: str):
+    """
+    获取IP的最后两段的一个元组,比如192.168.2.100,
+    返回的结果为 '2', '100'
+    """
     secs = split_ip(ip)
     return secs[-2], secs[-1]
 
 
 def get_ip_before(ip: str):
+    """
+    获取IP的前三段,用.连接的,例如192.168.100
+
+    """
     return '.'.join(split_ip(ip)[:3])
 
 
 def get_ip_tails(ip_list: list):
+    """
+    return : [str, str ...]
+    结果为[ip的最后一段的列表]
+    """
     return [get_ip_sec_tail(ip)[1] for ip in ip_list] if ip_list else []
 
 
