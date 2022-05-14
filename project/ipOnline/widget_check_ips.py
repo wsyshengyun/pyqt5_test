@@ -14,6 +14,9 @@ from .pack.log import logger
 from .pack.ping_ip import (ManageTheads)
 from .ui.ip_online import Ui_Form
 
+# todo 检查前先清除已经变颜色的Button和让进度条归0
+# todo 界面button在不同的分辨率下正常的显示
+# TODO 可同时检查两个字段的IP
 
 class MyClass(Ui_Form, QWidget):
     # signal = pyqtSignal(str)

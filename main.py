@@ -5,13 +5,13 @@
 
 '''
 
-from project.ipOnline.pack import logger
+from project.ipOnline.pack.log import logger
 # from project.pack.ping_ip import main
 # from project.pack.currency import main
 # from test.test import main
 # from project.widget_check_ips import main
 # from test.test import main
-from test.learn_signal_map import main
+from project.ipOnline.widget_check_ips import main
 
 logger.info('-' * 100)
 main()
