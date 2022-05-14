@@ -66,6 +66,7 @@ class ManageTheads(QObject):
         super(ManageTheads, self).__init__()
 
         self.objs = []
+        
         self.ths = []
 
     def create_threads(self):
