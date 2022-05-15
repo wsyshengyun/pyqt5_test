@@ -15,3 +15,4 @@ from test.learn_signal_map import main
 
 logger.info('-' * 100)
 main()
+print('hello')
