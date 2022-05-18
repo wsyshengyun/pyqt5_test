@@ -7,23 +7,38 @@
 # coding:utf8
 
 import psutil
+import socket
 import os
 import re
 from time import sleep
 from wmi import WMI
-from socket import AddressFamily
 
 
-local_addrs = []
-for name, info in psutil.net_if_addrs().items():
-    print('name is ', name)
-    for addr in info:
-        # 只放入IPV4的地址
-        if AddressFamily.AF_INET == addr.family:
-            print(addr.address)
-            local_addrs.append(addr.address)
-print(local_addrs)
+def method_name():
+    local_addrs = []
+    # name is 本地连接之类的名字 ,是不是网络适配器??
+    # info 一个list , 和name相配
+    # addr 一个 snicaddr对象; 又 family 和 address 属性
+    for name, info in psutil.net_if_addrs().items():
+        print('name is ', name)
+        for addr in info:
+            # 只放入IPV4的地址
+            if socket.AddressFamily.AF_INET == addr.family:
+                print(addr.address)
+                local_addrs.append(addr.address)
+    print(local_addrs)
 
+
+def get_ips(name_wang_ka):
+    ips = []
+    for name, info in psutil.net_if_addrs().items():
+        if name_wang_ka in name:
+            for addr in info:
+                if socket.AddressFamily.AF_INET == addr.family:
+                    ips.append(addr.address)
+        else:
+            continue
+    return ips if ips else None
 
 class UpdateIp(object):
     def __init__(self):
