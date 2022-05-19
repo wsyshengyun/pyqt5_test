@@ -13,6 +13,21 @@ import re
 from time import sleep
 from wmi import WMI
 
+import ctypes, sys
+
+
+# import sys
+# import win32com.shell.shell as shell
+# ASADMIN = 'asadmin'
+#
+# if sys.argv[-1] != ASADMIN:
+#     script = os.path.abspath(sys.argv[0])
+#     params = ' '.join([script] + sys.argv[1:] + [ASADMIN])
+#     shell.ShellExecuteEx(lpVerb='runas', lpFile=sys.executable, lpParameters=params)
+#     # sys.exit(0)
+
+
+
 
 def method_name():
     local_addrs = []
@@ -44,7 +59,7 @@ def get_ips(name_wang_ka):
 def get_wangka_info():
     w = WMI()
     data = {}
-    count  = 0
+    count = 0
     for nic in w.Win32_NetworkAdapterConfiguration():
         if nic.MACAddress is not None:
             count += 1
@@ -63,8 +78,22 @@ def get_wangka_info():
     return data
 
 
-class UpdateIp(object):
+def set_wangka_ip(ip, mask, index):
+    w = WMI()
+    # confs = w.Win32_NetworkAdapterCinfiguration(IPEnabled=True)
+    confs = w.Win32_NetworkAdapterConfiguration(IPEnabled=True)  # 获取到本地所有有网卡信息,list
+    print("confs 的长度位  {}".format(len(confs)))
+    if index <= len(confs):
+        conf = confs[index]
+        result = conf.EnableStatic(IPAddress=ip, SubnetMask=mask)
+        print(result)
+        if result[0] == 0 or result[0] == 1:
+            print("设置ip成功!")
+        else:
+            print("设置IP不成功~~")
 
+
+class UpdateIp(object):
     re_ip_str = r"\d+.\d+.\d+.\d+"
 
     def __init__(self):
@@ -122,13 +151,32 @@ class UpdateIp(object):
 
 
 if __name__ == '__main__':
+    #
+    def is_admin():
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin()
+        except:
+            return False
+
+
+    if is_admin():
+        # Code of your program here
+        pass
+        ip = ['192.168.0.155', '192.168.6.151']
+        mask = ['255.255.255.0', '255.255.255.0']
+        set_wangka_ip(ip, mask, 3)
+        input('...')
+    else:
+        # Re-run the program with admin rights
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+
 
     # print(get_wangka_info())
-    datas = get_wangka_info()
-    for data in datas:
-        print(data)
-        print(datas[data])
-        print(' - ' * 30)
+    # datas = get_wangka_info()
+    # for data in datas:
+    #     print(data)
+    #     print(datas[data])
+    #     print(' - ' * 30)
 
     # obj = UpdateIp()
     # print(obj.get_inter())
@@ -138,4 +186,3 @@ if __name__ == '__main__':
     # print(get_ips("本地连接* 1"))
     # print(method_name())
     # print(get_ips('bdlj'))
-

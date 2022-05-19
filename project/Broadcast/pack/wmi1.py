@@ -73,4 +73,4 @@ def get_wangka_info():
         sleep(6)
 
 
-method_name()
+get_wangka_info()
