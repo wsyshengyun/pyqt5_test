@@ -40,7 +40,33 @@ def get_ips(name_wang_ka):
             continue
     return ips if ips else None
 
+
+def get_wangka_info():
+    w = WMI()
+    data = {}
+    count  = 0
+    for nic in w.Win32_NetworkAdapterConfiguration():
+        if nic.MACAddress is not None:
+            count += 1
+            iter_data = {}
+            iter_data['macaddress'] = nic.MACAddress
+            iter_data['model'] = nic.Caption
+            iter_data['name'] = nic.Index
+
+            if nic.IPAddress is not None:
+                iter_data['ipaddress'] = nic.IPAddress[0]
+                iter_data['netmask'] = nic.IPSubnet
+            else:
+                iter_data['ipaddress'] = ''
+                iter_data['netmask'] = ''
+            data["nic%s" % count] = iter_data
+    return data
+
+
 class UpdateIp(object):
+
+    re_ip_str = r"\d+.\d+.\d+.\d+"
+
     def __init__(self):
         self.wmiservice = WMI()
         self.configs = self.wmiservice.Win32_NetworkAdapterConfiguration(
@@ -52,14 +78,16 @@ class UpdateIp(object):
         flag = 0
         # 遍历所有网卡，找到要修改的那个
         for con in self.configs:
-            ip = re.findall("\d+.\d+.\d+.\d+", con.IPAddress[0])
+            ip = re.findall(self.re_ip_str, con.IPAddress[0])
             if len(ip) > 0:
                 return 0
             else:
                 flag = flag + 1
+        return flag
 
-    def runset(self, ip, subnetmask, interway, dns):
+    def runset(self, ip, subnetmask, interway=None, dns=None):
         adapter = self.configs[self.get_inter()]
+
         # 开始执行修改ip、子网掩码、网关
         ipres = adapter.EnableStatic(IPAddress=ip, SubnetMask=subnetmask)
         if ipres[0] == 0:
@@ -70,20 +98,44 @@ class UpdateIp(object):
             else:
                 print('修改IP失败')
                 return False
+
         # 修改网关
-        wayres = adapter.SetGateways(DefaultIPGateway=interway, GatewayCostMetric=[1])
-        if wayres[0] == 0:
-            print('设置网关成功')
-        else:
-            print('修改网关失败')
-            return False
+        if interway:
+            wayres = adapter.SetGateways(DefaultIPGateway=interway, GatewayCostMetric=[1])
+            if wayres[0] == 0:
+                print('设置网关成功')
+            else:
+                print('修改网关失败')
+                return False
+
         # 修改dns
-        dnsres = adapter.SetDNSServerSearchOrder(DNSServerSearchOrder=dns)
-        if dnsres[0] == 0:
-            print('设置DNS成功,等待3秒刷新缓存')
-            sleep(3)
-            # 刷新DNS缓存使DNS生效
-            os.system('ipconfig /flushdns')
-        else:
-            print('修改DNS失败')
-            return False
+        if dns:
+            dnsres = adapter.SetDNSServerSearchOrder(DNSServerSearchOrder=dns)
+            if dnsres[0] == 0:
+                print('设置DNS成功,等待3秒刷新缓存')
+                sleep(3)
+                # 刷新DNS缓存使DNS生效
+                os.system('ipconfig /flushdns')
+            else:
+                print('修改DNS失败')
+                return False
+
+
+if __name__ == '__main__':
+
+    # print(get_wangka_info())
+    datas = get_wangka_info()
+    for data in datas:
+        print(data)
+        print(datas[data])
+        print(' - ' * 30)
+
+    # obj = UpdateIp()
+    # print(obj.get_inter())
+    # print(method_name())
+    # print(get_ips("本地连接* 1"))
+    # obj.runset("192.168.100.100", subnetmask="本地连接* 1")
+    # print(get_ips("本地连接* 1"))
+    # print(method_name())
+    # print(get_ips('bdlj'))
+
