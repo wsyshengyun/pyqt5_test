@@ -74,16 +74,17 @@ class Vlayout(object):
         if isinstance(h_box, HBoxlayout):
             key = h_box.get_key()
             ind = 0
+            # 遍历所有的 横向盒子
             for hbox in self.h_box_list:
+                # 如果要插入的盒子的key已经存在,说明次key的网段>10个
                 if key == hbox.get_key():
                     ind = self.h_box_list.index(hbox)
                     break
             else:
-                ind = -1
+                # 新的key; 次key的横向盒子之前没有
+                ind = 1
             self.h_box_list.insert(ind, h_box)
             self.v_box.insertLayout( ind, h_box.lay)
-            # h_box.lay.insertLayout(ind, self.v_box)
-            # self.v_box.insertItem(ind, h_box)
 
 
     def insert_ipobj(self, ipobj:IpState):

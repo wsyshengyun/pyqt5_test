@@ -39,22 +39,28 @@ class MyClass(Ui_Form, QWidget):
         self.initUI()
 
     def init_data(self):
-        """ """
-        self.compare_ip_list = CompareIpListAt()
-        self.compare_ip_list.set_flg_start_true()
         list_ip = [
             '192.168.1.5',
             '192.168.1.6',
+            '192.168.11.6',
             '192.168.3.5',
             '192.168.3.7',
             '192.168.2.5',
             '192.168.2.6',
             '192.168.2.7',
             '192.168.2.8',
+            '192.168.2.20',
             '192.168.2.9',
             '192.168.2.10',
             '192.168.2.15',
+            '192.168.2.17',
+            '192.168.2.16',
+            '192.168.2.18',
+            '192.168.2.19',
         ]
+        """ """
+        self.compare_ip_list = CompareIpListAt()
+        self.compare_ip_list.set_flg_start_true()
         for ip in list_ip:
             self.compare_ip_list.add_new(ip)
 

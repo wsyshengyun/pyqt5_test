@@ -366,15 +366,39 @@ class CompareIpListAt(CompareIPList):
     def add_new(self, ip_str):
         if self.flg_start:
             obj = None
+            # 遍历所有的ipobj
             for ipobj in self.ips:
+                # 要插入的ip已经存在
                 if ip_str == ipobj.get_ip():
                     obj = ipobj
                     break
             else:
-                obj = IpState(ip_str)
-                self.ips.append(obj)
+                # 新建一个ipobj
+                # obj = IpState(ip_str)
+                # self.ips.append(obj)
+                obj = self._inert_ip_from_sort(ip_str)
+
             obj.update_state()
             return obj
+
+    def _inert_ip_from_sort(self, ip_str):
+        obj = IpState(ip_str)
+        sec = obj.section()
+        tail = obj.tail()
+        will_insert_pos = 0
+        for obj_ in self.ips:
+            if obj_.section() == sec:
+                obj_pos = self.ips.index(obj_)
+                if will_insert_pos == -2:
+                    will_insert_pos = obj_pos
+                    continue
+                if obj_.tail() < tail:
+                    will_insert_pos = obj_pos
+        self.ips.insert(will_insert_pos, obj)
+        return obj
+
+
+
 
     def update_state_all(self):
         for ipobj in self.ips:
