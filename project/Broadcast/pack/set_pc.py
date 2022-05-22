@@ -188,6 +188,21 @@ class Card(object):
                 print('修改DNS失败')
                 return False
 
+import ctypes, sys
+
+
+# import sys
+# import win32com.shell.shell as shell
+# ASADMIN = 'asadmin'
+#
+# if sys.argv[-1] != ASADMIN:
+#     script = os.path.abspath(sys.argv[0])
+#     params = ' '.join([script] + sys.argv[1:] + [ASADMIN])
+#     shell.ShellExecuteEx(lpVerb='runas', lpFile=sys.executable, lpParameters=params)
+#     # sys.exit(0)
+
+
+
 
 def method_name():
     local_addrs = []
@@ -347,4 +362,3 @@ if __name__ == '__main__':
       # todo 网卡根据名字来差早;
       # todo 长传忽略文件
     pass
-
