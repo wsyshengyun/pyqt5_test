@@ -76,6 +76,9 @@ class _Table(object):
         return ips, masks
 
 
+    def clear(self):
+        # self.tw.clear()
+        self.tw.clearContents()
 
 
 

@@ -55,9 +55,47 @@ class UI_pc_ip(QWidget, Ui_Form):
 
         # 事件
         self.table.itemChanged[QTableWidgetItem].connect(self.itemChanged)
+        self.box_card.currentTextChanged[str].connect(self.box_current_text_changed)
 
         # btn 事件
         self.pushButton.clicked.connect(self.btn_clecked)
+        self.btn_del.clicked.connect(self.del_one_line)
+        self.btn_add.clicked.connect(self.add_one_line)
+
+    def add_one_line(self):
+        """ """
+        row_count = self.table.rowCount()
+        self.table.insertRow(row_count)
+        self.table.setItem(row_count, 0, QTableWidgetItem('192.168.0.151'))
+        self.table.setItem(row_count, 1, QTableWidgetItem('255.255.255.0'))
+
+    def del_one_line(self):
+        """ """
+        row_count = self.table.rowCount()
+        if row_count == 1:
+            # 剩余一行,不能删除
+            return
+        else:
+            item = self.table.currentItem()
+            row_num = item.row()
+            self.table.removeRow(row_num)
+            pass
+
+
+
+    def box_current_text_changed(self, text):
+        """ """
+        self.tb.clear()
+        card = self.network.get_card_from_name(text)
+        if card:
+            self.card = card
+            datas = list(self.card.ip_subnet_tuples())
+            if datas:
+                self.tb.insert_datas(datas)
+        else:
+            return
+
+
 
     def btn_clecked(self):
         """ """
@@ -67,11 +105,8 @@ class UI_pc_ip(QWidget, Ui_Form):
         if datas:
             # 修改IP
             print(*datas)
-            # inner()
-            # self.card.set_ip_and_mask(*datas)
             pc.set_ip_object = datas
             pc.write()
-            # pc.set_ips_and_masks()
             pc.get_admin_and_do(pc.set_ips_and_masks)
 
             # 禁止修改表格了

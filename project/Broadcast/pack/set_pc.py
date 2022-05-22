@@ -44,16 +44,13 @@ def read():
 
 
 
-def set_ips_and_masks(card, set_ip_object):
+def set_ips_and_masks():
     print("in set_ips_and_masks()....")
-
-
-
     if set_ip_object:
         ips, masks = set_ip_object
         print('in set_ips_and_masks(): {}'.format(ips, masks))
         # input('.......~~~~')
-        result = card.EnableStatic(IPAddress=ips, SubnetMask=masks)
+        result = card.card.EnableStatic(IPAddress=ips, SubnetMask=masks)
         print(result)
         if result[0] == 0 or result[0] == 1:
             print("设置ip成功!")
@@ -327,7 +324,7 @@ def get_admin_and_do(do_function, *args, **kwargs):
     if is_admin():
         # Code of your program here
         do_function(*args, **kwargs)
-        input('')
+        # input('')
     else:
         # Re-run the program with admin rights
         print("re-run the program with admin rights ")
@@ -337,44 +334,15 @@ def get_admin_and_do(do_function, *args, **kwargs):
 
 obj_network = NetWorkCard()
 card = obj_network.get_card_from_name()
-read()
-def update_card():
-    global card
-    card = obj_network.get_card_from_name()
+# def update_card():
+#     global card
+#     card = obj_network.get_card_from_name()
 
 if __name__ == '__main__':
-
-    obj_network = NetWorkCard()
-    card = obj_network.get_card_from_name()
     read()
-    print('read....')
-    print(set_ip_object)
-    print("card is {}".format(card))
-    get_admin_and_do(set_ips_and_masks, card.card, set_ip_object)
-    input('!........')
+    get_admin_and_do(set_ips_and_masks)
 
-    # print(set_ip_object)
-    # set_ip_object = [['192'], ['244']]
-    # write()
-    # set_ip_object = []
-    # print(set_ip_object)
-    # read()
-    # print(set_ip_object)
 
-    # import random
-    # tsr_tail = random.randint(2, 254)
-    # tsr_tail2 = random.randint(2, 254)
-    # ip1 = '192.168.11.' + str(tsr_tail)
-    # ip2 = '192.168.13.' + str(tsr_tail2)
-    # ip = [ip1, ip2]
-    # mask = ['255.255.255.0'] * 2
-    # obj = NetWorkCard()
-    # card = obj.get_card_from_name()
-    # print('原来的是 tuple is : ', list(card.ip_subnet_tuples()))
-    # print('要设置的是: ', ip, mask)
-    # get_admin_and_do(card.set_ip_and_mask, ip, mask)
-    # print('..............')
-    # input('.......')
       # todo 删除一些IP
       # todo 网卡根据名字来差早;
       # todo 长传忽略文件
