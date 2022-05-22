@@ -8,7 +8,7 @@ import os
 
 from configobj import ConfigObj
 
-from .log import logger
+from project.ipOnline.pack.log import logger
 
 
 # -----------------------------------------------------------
@@ -19,10 +19,8 @@ def get_path(filename):
     path = os.path.join(dirname, filename)
     return path
 
-
 path = get_path('app.ini')
 logger.info("path = {}".format(path))
-
 
 class MyConfigObj(object):
     def __init__(self, path, logger=None):
@@ -57,35 +55,24 @@ class MyConfigObj(object):
         self.conf.filename = path
         self.conf.write()
 
-
 def is_exists_ini_path():
     return os.path.exists(path)
-
 
 def set_start_ip(ip_start):
     MyConfigObj(path).add_section('ip', 'start', ip_start)
     pass
 
-
 def set_end_ip(ip_end):
     MyConfigObj(path).add_section('ip', 'end', ip_end)
     pass
-
 
 def get_start_ip():
     return MyConfigObj(path).get_value('ip', 'start')
     pass
 
-
 def get_end_ip():
     return MyConfigObj(path).get_value('ip', 'end')
     pass
-
-
-# -----------------------------------------------------------
-# 
-# -----------------------------------------------------------
-
 
 def get_range_ips():
     ip_start = get_start_ip()
@@ -123,7 +110,6 @@ def split_ip(ip: str):
     """
     return ip.split('.')
 
-
 def get_ip_sec_tail(ip: str):
     """
     获取IP的最后两段的一个元组,比如192.168.2.100,
@@ -132,7 +118,6 @@ def get_ip_sec_tail(ip: str):
     secs = split_ip(ip)
     return secs[-2], secs[-1]
 
-
 def get_ip_before(ip: str):
     """
     获取IP的前三段,用.连接的,例如192.168.100
@@ -140,14 +125,12 @@ def get_ip_before(ip: str):
     """
     return '.'.join(split_ip(ip)[:3])
 
-
 def get_ip_tails(ip_list: list):
     """
     return : [str, str ...]
     结果为[ip的最后一段的列表]
     """
     return [get_ip_sec_tail(ip)[1] for ip in ip_list] if ip_list else []
-
 
 def main():
     conobj = MyConfigObj(path, logger)

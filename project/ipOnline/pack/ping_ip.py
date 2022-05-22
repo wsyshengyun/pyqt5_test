@@ -38,21 +38,6 @@ class Ping_Ip(QObject):
 
         self.signal_check_end.emit()
 
-
-# def create_ip_ths():
-#     ips = get_range_ips()
-#     thread_objects = []
-#     ping_objs = []
-#     for ip in ips:
-#         ip_obj = Ping_Ip(ip)
-#         th = QThread()
-#         ip_obj.moveToThread(th)
-#         th.started.connect(ip_obj.run)
-#         thread_objects.append(th)
-#         ping_objs.append(ip_obj)
-#     return thread_objects, ping_objs
-
-
 class ManageTheads(QObject):
     signal_all_thread_finished = pyqtSignal()  # 所有线程结束时发送
     # ping 通IP时发送
@@ -117,6 +102,6 @@ class ManageTheads(QObject):
             self.signal_all_thread_finished.emit()
             logger.info("全部线程已经运行完成,发射信号:singal_all_thread_finished")
 
-
-def main():
+if __name__ == '__main__':
     pass
+

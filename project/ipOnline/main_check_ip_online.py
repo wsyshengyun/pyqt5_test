@@ -10,10 +10,10 @@ from PyQt5.QtCore import pyqtSignal, QCoreApplication
 from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget)
 from PyQt5 import QtCore
 
-from .pack import currency
-from .pack.log import logger
-from .pack.ping_ip import (ManageTheads)
-from .ui.ip_online import Ui_Form
+from project.ipOnline.pack import currency
+from project.ipOnline.pack.log import logger
+from project.ipOnline.pack.ping_ip import ManageTheads
+from project.ipOnline.ui.ip_online import Ui_Form
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
@@ -160,3 +160,6 @@ def main():
     win = MyClass()
     win.show()
     sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    main()
