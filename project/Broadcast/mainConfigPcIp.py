@@ -7,7 +7,9 @@
 # coding:utf8
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel, QTableWidget, QTableWidgetItem,
-                             QApplication)
+                             QLayout, QHBoxLayout, QVBoxLayout,QApplication,
+                            QMessageBox
+                             )
 from project.Broadcast.ui.pcip import Ui_Form
 from project.Broadcast.pack.set_pc import NetWorkCard
 import project.Broadcast.pack.set_pc as pc
@@ -19,7 +21,32 @@ class UI_pc_ip(QWidget, Ui_Form):
         super(UI_pc_ip, self).__init__()
         self.setupUi(self)
         self.init_data()
+        self.init_layout()
         self.init_ui()
+
+    def init_layout(self):
+        """
+        初始化布局
+        """
+        h_box_1 = QHBoxLayout()
+        h_box_2 = QHBoxLayout()
+        h_box_3 = QHBoxLayout()
+        v_box_1 = QVBoxLayout()
+        v_box = QVBoxLayout()
+        h_box_1.addWidget(self.label_card)
+        h_box_1.addWidget(self.box_card)
+        h_box_2.addWidget(self.label_grate_way)
+        h_box_2.addWidget(self.line_gateway)
+        h_box_3.addWidget(self.btn_del)
+        h_box_3.addWidget(self.btn_add)
+        h_box_3.addWidget(self.pushButton)
+        v_box_1.addWidget(self.table)
+        v_box_1.addWidget(self.label_info)
+        v_box.addLayout(h_box_1)
+        v_box.addLayout(h_box_2)
+        v_box.addLayout(h_box_3)
+        v_box.addLayout(v_box_1)
+        self.setLayout(v_box)
 
     def init_data(self):
         self.network = pc.obj_network
@@ -41,7 +68,8 @@ class UI_pc_ip(QWidget, Ui_Form):
         self.line_gateway.setText(self.card.gateway())
 
         # 初始化button
-        self.pushButton.setEnabled(True)
+        # self.pushButton.setEnabled(True)
+        self.pushbutton_false()
 
         # 初始化表格
         self.tb = _Table(self.table)
@@ -81,46 +109,49 @@ class UI_pc_ip(QWidget, Ui_Form):
             self.table.removeRow(row_num)
             pass
 
-
-
     def box_current_text_changed(self, text):
         """ """
         self.tb.clear()
         card = self.network.get_card_from_name(text)
         if card:
             self.card = card
+            pc.card = card
             datas = list(self.card.ip_subnet_tuples())
             if datas:
                 self.tb.insert_datas(datas)
         else:
             return
 
-
-
     def btn_clecked(self):
         """ """
 
         # print(self.tb.get_datas())
-        datas = self.tb.get_datas()
+        try:
+            datas = self.tb.get_datas()
+        except ValueError:
+            QMessageBox.information(self, "提示", "IP格式错误", QMessageBox.Yes)
+            self.pushbutton_false()
+            return
+
         if datas:
             # 修改IP
-            print(*datas)
+            # print(*datas)
             pc.set_ip_object = datas
             pc.write()
             pc.get_admin_and_do(pc.set_ips_and_masks)
 
             # 禁止修改表格了
-            self.btn_false()
+            self.pushbutton_false()
 
     def itemChanged(self, item: QTableWidgetItem):
         """ """
         # print(item.text())
-        self.btn_true()
+        self.pushbutton_true()
 
-    def btn_true(self):
+    def pushbutton_true(self):
         self.pushButton.setEnabled(True)
 
-    def btn_false(self):
+    def pushbutton_false(self):
         self.pushButton.setEnabled(False)
 
 
