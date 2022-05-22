@@ -7,10 +7,14 @@
 
 # import PyQt5.QtCore as PQC
 from PyQt5.QtCore import pyqtSignal, QCoreApplication
-from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget)
+from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget
+                            ,QVBoxLayout, QHBoxLayout, QMessageBox
+                            ,QSpacerItem, QSizePolicy
+                             )
 from PyQt5 import QtCore
 
 from project.ipOnline.pack import currency
+from project.ipOnline.pack.currency import IP, CompareIPList
 from project.ipOnline.pack.log import logger
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
@@ -28,11 +32,46 @@ class MyClass(Ui_Form, QWidget):
 
         super(MyClass, self).__init__()
         self.setupUi(self)
+        self.init_layout()
         self.initUI()
+        self.init_data()
+
+    def init_data(self):
+        """ """
+        self.compare_ip_list = CompareIPList()
+
+    def init_layout(self):
+        """ """
+        h_box_1 = QHBoxLayout()
+        h_box_2 = QHBoxLayout()
+        h_box_3 = QHBoxLayout()
+        v_box_1 = QVBoxLayout()
+        v_box = QVBoxLayout()
+
+        h_box_1.addWidget(self.lIpStart)
+        h_box_1.addWidget(self.label_zhi)
+        h_box_1.addWidget(self.lIpEnd)
+        h_box_1.addWidget(self.pushConfigIp)
+        spaceritem = QSpacerItem(20, 20, QSizePolicy.Expanding)
+        h_box_1.addSpacerItem(spaceritem)
+
+        h_box_2.addWidget(self.pushCheckOneLine)
+        h_box_2.addWidget(self.progressBar)
+        h_box_2.addSpacerItem(spaceritem)
+
+        v_box_1.addSpacerItem(spaceritem)
+        v_box_1.addStretch(1)
+        h_box_3.addLayout(v_box_1)
+
+        # layout
+        v_box.addLayout(h_box_1)
+        v_box.addLayout(h_box_2)
+        v_box.addLayout(h_box_3)
+        self.setLayout(v_box)
 
     def initUI(self):
 
-        self.create_btns()
+        # self.create_btns()
 
         self.clear_progressBar()
 
@@ -76,6 +115,10 @@ class MyClass(Ui_Form, QWidget):
             self.gridLayout.addWidget(btn, *position)
             self.btns[i] = btn
 
+    def _create_btns(self):
+
+        pass
+
     def clear_progressBar(self):
         self.progressBar.setValue(0)
 
@@ -93,6 +136,7 @@ class MyClass(Ui_Form, QWidget):
         logger.info(" 接收到ip = {}".format(ip))
 
         self.on_line_ips.append(ip)
+        self.compare_ip_list.add_new(ip)
         _, tail = currency.get_ip_sec_tail(ip)
         self.set_btn_background_from_ip_tail(tail)
 
