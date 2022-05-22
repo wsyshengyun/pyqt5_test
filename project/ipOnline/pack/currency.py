@@ -300,6 +300,9 @@ class CompareIPList(object):
     def set_flg_start_flase(self):
         self.flg_start = False
 
+    def set_flg_start_true(self):
+        self.flg_start = True
+
     @staticmethod
     def type_ips(ips: list):
         """ 把IP分类"""

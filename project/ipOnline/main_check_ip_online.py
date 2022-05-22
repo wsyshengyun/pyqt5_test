@@ -14,11 +14,11 @@ from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget
 from PyQt5 import QtCore
 
 from project.ipOnline.pack import currency
-from project.ipOnline.pack.currency import IP, CompareIPList
+from project.ipOnline.pack.currency import IP, CompareIpListAt
 from project.ipOnline.pack.log import logger
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
-from project.ipOnline.ui.btns import Buttons
+from project.ipOnline.ui.vlayout import Vlayout, HBoxlayout
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
@@ -39,13 +39,31 @@ class MyClass(Ui_Form, QWidget):
 
     def init_data(self):
         """ """
-        self.compare_ip_list = CompareIPList()
+        self.compare_ip_list = CompareIpListAt()
+        self.compare_ip_list.set_flg_start_true()
+        list_ip = [
+            '192.168.1.5',
+            '192.168.1.6',
+            '192.168.3.5',
+            '192.168.3.7',
+            '192.168.2.5',
+            '192.168.2.6',
+            '192.168.2.7',
+            '192.168.2.8',
+            '192.168.2.9',
+            '192.168.2.10',
+            '192.168.2.15',
+        ]
+        for ip in list_ip:
+            self.compare_ip_list.add_new(ip)
+
+
 
     def init_layout(self):
         """ """
         h_box_1 = QHBoxLayout()
         h_box_2 = QHBoxLayout()
-        h_box_3 = QHBoxLayout()
+        v_box_3 = Vlayout(self, self.compare_ip_list)
         v_box_1 = QVBoxLayout()
         v_box = QVBoxLayout()
 
@@ -55,19 +73,23 @@ class MyClass(Ui_Form, QWidget):
         h_box_1.addWidget(self.pushConfigIp)
         spaceritem = QSpacerItem(20, 20, QSizePolicy.Expanding)
         h_box_1.addSpacerItem(spaceritem)
+        v_box.addLayout(h_box_1)
 
         h_box_2.addWidget(self.pushCheckOneLine)
         h_box_2.addWidget(self.progressBar)
         h_box_2.addSpacerItem(spaceritem)
+        v_box.addLayout(h_box_2)
 
-        v_box_1.addSpacerItem(spaceritem)
-        v_box_1.addStretch(1)
-        h_box_3.addLayout(v_box_1)
+        # v_box_3.insert_comiplist_at()
+        # v_box.addLayout(v_box_3.v_box)
+
+        # h_box_4 = QHBoxLayout()
+        # v_box_1.addSpacerItem(spaceritem)
+        # v_box_1.addStretch(1)
+        # h_box_4.addLayout(v_box_1)
+        # v_box.addLayout(h_box_4)
 
         # layout
-        v_box.addLayout(h_box_1)
-        v_box.addLayout(h_box_2)
-        v_box.addLayout(h_box_3)
         self.setLayout(v_box)
 
     def initUI(self):
