@@ -154,6 +154,9 @@ class IP(object):
 
         self.ip = ip
 
+    def get_ip(self):
+        return self.ip
+
     @staticmethod
     def check_ip_formatter(ip: str):
         import re
@@ -234,6 +237,34 @@ class IP(object):
         for num in range(2, 255):
             yield self.replace_tail(num)
 
+STATE_UN_KNOW = 0
+STATE_FINDED = 1
+STATE_ON_LINE = 2
+STATE_NEW_ADD = 3
+class IpState(IP):
+    def __init__(self, ip):
+        """ """
+        super(IpState, self).__init__(ip)
+        # value in [0, 1, 2, 3]
+        # 0 : 未知状态
+        # 1 : 查找过的
+        # 2 : 查找过的 并且 在线的
+        # 3 : 查找过的 新加入的
+
+        self.state = STATE_UN_KNOW
+
+    def update_state(self):
+        if self.state == STATE_UN_KNOW:
+            self.state = STATE_NEW_ADD
+        elif self.state == STATE_FINDED:
+            self.state = STATE_ON_LINE
+        elif self.state == STATE_ON_LINE:
+            self.state = STATE_FINDED
+        elif self.state == STATE_NEW_ADD:
+            self.state = STATE_FINDED
+
+    def set_unknow(self):
+        self.state = STATE_UN_KNOW
 
 
 class CompareIPList(object):
