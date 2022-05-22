@@ -16,3 +16,4 @@ from project.ipOnline.widget_check_ips import main
 logger.info('-' * 100)
 main()
 print('hello')
+print('my is xdkj')
