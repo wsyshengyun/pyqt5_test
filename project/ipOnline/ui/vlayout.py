@@ -6,9 +6,13 @@
 
 # coding:utf8
 
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QLabel
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QBoxLayout
 from project.ipOnline.pack.currency import CompareIpListAt
 from project.ipOnline.pack.currency import IpState
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt
+
+
 
 
 class HBoxlayout(object):
@@ -16,7 +20,10 @@ class HBoxlayout(object):
         """ """
         self.widget = widget
         self.key = key
-        self.lay = QHBoxLayout(self.widget)
+        # self.lay = QHBoxLayout(self.widget)
+        self.lay = QHBoxLayout()
+        self.lay.setAlignment(Qt.AlignLeft)
+        # self.lay.setAlignment()
         self.num = 0
         if self.key:
             self.add_label(key)
@@ -38,6 +45,7 @@ class HBoxlayout(object):
 
         if isinstance(tail, str) and tail != "":
             btn = QPushButton(tail, self.widget)
+            btn.setMaximumWidth(70)
             self.lay.addWidget(btn)
             self.num += 1
             return True
@@ -51,9 +59,13 @@ class Vlayout(object):
     def __init__(self, widget, comiplistat: CompareIpListAt):
         self.widget = widget
         self.comiplistat = comiplistat
-        self.v_box = QVBoxLayout(self.widget)
+        # self.v_box = QtWidgets.QVBoxLayout(self.widget)
+        self.v_box = QtWidgets.QVBoxLayout()
         self.h_box_list = []
         pass
+
+    def get_box(self):
+        return self.v_box
 
     def get_main_v_box(self):
         return self.v_box

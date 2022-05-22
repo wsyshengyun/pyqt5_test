@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget
                             ,QVBoxLayout, QHBoxLayout, QMessageBox
                             ,QSpacerItem, QSizePolicy
                              )
+
 from PyQt5 import QtCore
 
 from project.ipOnline.pack import currency
@@ -63,7 +64,6 @@ class MyClass(Ui_Form, QWidget):
         """ """
         h_box_1 = QHBoxLayout()
         h_box_2 = QHBoxLayout()
-        v_box_3 = Vlayout(self, self.compare_ip_list)
         v_box_1 = QVBoxLayout()
         v_box = QVBoxLayout()
 
@@ -73,23 +73,23 @@ class MyClass(Ui_Form, QWidget):
         h_box_1.addWidget(self.pushConfigIp)
         spaceritem = QSpacerItem(20, 20, QSizePolicy.Expanding)
         h_box_1.addSpacerItem(spaceritem)
-        v_box.addLayout(h_box_1)
 
         h_box_2.addWidget(self.pushCheckOneLine)
         h_box_2.addWidget(self.progressBar)
         h_box_2.addSpacerItem(spaceritem)
+
+        v_box_3 = Vlayout(self, self.compare_ip_list)
+        v_box_3.insert_comiplist_at()
+
+        v_box_1.addSpacerItem(spaceritem)
+        v_box_1.addStretch(1)
+
+
+        v_box.addLayout(h_box_1)
         v_box.addLayout(h_box_2)
+        v_box.addLayout(v_box_3.get_box())
+        v_box.addLayout(v_box_1)
 
-        # v_box_3.insert_comiplist_at()
-        # v_box.addLayout(v_box_3.v_box)
-
-        # h_box_4 = QHBoxLayout()
-        # v_box_1.addSpacerItem(spaceritem)
-        # v_box_1.addStretch(1)
-        # h_box_4.addLayout(v_box_1)
-        # v_box.addLayout(h_box_4)
-
-        # layout
         self.setLayout(v_box)
 
     def initUI(self):
