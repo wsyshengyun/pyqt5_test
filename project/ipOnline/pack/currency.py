@@ -266,6 +266,8 @@ class IpState(IP):
     def set_unknow(self):
         self.state = STATE_UN_KNOW
 
+    def set_new(self):
+        self.state = STATE_NEW_ADD
 
 class CompareIPList(object):
     def __init__(self):
@@ -351,6 +353,45 @@ class CompareIPList(object):
             # 新的字段
             dit['lose'] = []
         return dit
+
+
+class CompareIpListAt(CompareIPList):
+    def __init__(self):
+        super(CompareIpListAt, self).__init__()
+        self.ips = []
+
+    def add_new(self, ip_str):
+        if self.flg_start:
+            obj = None
+            for ipobj in self.ips:
+                if ip_str == ipobj.get_ip():
+                    obj = ipobj
+                    break
+            else:
+                obj = IpState(ip_str)
+                self.ips.append(obj)
+            obj.update_state()
+            return obj
+
+    def update_state_all(self):
+        for ipobj in self.ips:
+            ipobj.update_state()
+
+
+    def type_ips(self):
+        """ 把IP分类"""
+        dit = {}
+        for ipobj in self.ips:
+            sec = ipobj.section()
+            if sec in dit:
+                dit[sec].append(ipobj)
+            else:
+                dit[sec] = [ipobj]
+        return dit
+
+
+
+
 
 
 def main():

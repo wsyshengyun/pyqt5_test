@@ -18,6 +18,7 @@ from project.ipOnline.pack.currency import IP, CompareIPList
 from project.ipOnline.pack.log import logger
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
+from project.ipOnline.ui.btns import Buttons
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
@@ -32,9 +33,9 @@ class MyClass(Ui_Form, QWidget):
 
         super(MyClass, self).__init__()
         self.setupUi(self)
+        self.init_data()
         self.init_layout()
         self.initUI()
-        self.init_data()
 
     def init_data(self):
         """ """
@@ -72,6 +73,7 @@ class MyClass(Ui_Form, QWidget):
     def initUI(self):
 
         # self.create_btns()
+
 
         self.clear_progressBar()
 
