@@ -50,7 +50,7 @@ class UI_pc_ip(QWidget, Ui_Form):
 
     def init_data(self):
         self.network = pc.obj_network
-        self.card = pc.card
+        self.card = self.network.get_card_from_name()
 
     def init_ui(self):
         # 初始化列表框
@@ -133,15 +133,22 @@ class UI_pc_ip(QWidget, Ui_Form):
             self.pushbutton_false()
             return
 
+        print('...sdfsdfsdf...')
         if datas:
             # 修改IP
-            # print(*datas)
-            pc.set_ip_object = datas
+            pc.set_ip_object = list(datas)
+            text = self._box_card_text()
+            pc.set_ip_object.append(text)
+            print(pc.set_ip_object)
             pc.write()
             pc.get_admin_and_do(pc.set_ips_and_masks)
 
             # 禁止修改表格了
             self.pushbutton_false()
+
+    def _box_card_text(self):
+        text = self.box_card.currentText()
+        return text
 
     def itemChanged(self, item: QTableWidgetItem):
         """ """

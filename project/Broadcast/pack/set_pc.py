@@ -47,9 +47,10 @@ def read():
 def set_ips_and_masks():
     print("in set_ips_and_masks()....")
     if set_ip_object:
-        ips, masks = set_ip_object
+        ips, masks, card_text = set_ip_object
         print('in set_ips_and_masks(): {}'.format(ips, masks))
         # input('.......~~~~')
+        card = obj_network.get_card_from_name(card_text)
         result = card.card.EnableStatic(IPAddress=ips, SubnetMask=masks)
         print(result)
         if result[0] == 0 or result[0] == 1:
