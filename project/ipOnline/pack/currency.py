@@ -252,6 +252,11 @@ class IpState(IP):
         # 3 : 查找过的 新加入的
 
         self.state = STATE_UN_KNOW
+        self.name = ""  # IP 对应的拥有者
+
+    def get_name(self):
+        # todo 关于一个类的变量描述符的应用, 可以去掉get_, 直接使用name代替
+        return self.name
 
     def update_state(self):
         if self.state == STATE_UN_KNOW:
@@ -362,6 +367,10 @@ class CompareIpListAt(CompareIPList):
     def __init__(self):
         super(CompareIpListAt, self).__init__()
         self.ips = []
+        self.current_section = None  # 当前IP段
+
+    def set_current_section(self, current_section):
+        self.current_section = current_section
 
     def add_new(self, ip_str):
         if self.flg_start:
