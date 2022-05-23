@@ -130,6 +130,16 @@
     <string>保存</string>
    </property>
   </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>200</y>
+     <width>731</width>
+     <height>331</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -20,12 +20,15 @@ from project.ipOnline.pack.log import logger
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
 from project.ipOnline.ui.vlayout import Vlayout, HBoxlayout
+from project.ipOnline.ui import mtab
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
 # todo 界面button在不同的分辨率下正常的显示
 # TODO 可同时检查两个字段的IP
 # TODO  IP显示改用表格显示
+
+# todo Git 如何将一个文件之前的版本应用到本地,仅仅是之前版本的一个文件
 
 class MyClass(Ui_Form, QWidget):
     # signal = pyqtSignal(str)
@@ -65,15 +68,16 @@ class MyClass(Ui_Form, QWidget):
         for ip in list_ip:
             self.compare_ip_list.add_new(ip)
 
-
-
     def init_layout(self):
         """ """
         h_box_1 = QHBoxLayout()
         h_box_2 = QHBoxLayout()
-        v_box_1 = QVBoxLayout()
-        v_box = QVBoxLayout()
+        h_box_3 = QHBoxLayout()
+        # v_box_1 = QVBoxLayout()
+        global_box = QVBoxLayout()
 
+
+        # 第一横向Box IP范围控件
         h_box_1.addWidget(self.lIpStart)
         h_box_1.addWidget(self.label_zhi)
         h_box_1.addWidget(self.lIpEnd)
@@ -81,45 +85,41 @@ class MyClass(Ui_Form, QWidget):
         spaceritem = QSpacerItem(20, 20, QSizePolicy.Expanding)
         h_box_1.addSpacerItem(spaceritem)
 
+        # 第二横向Box 进度条
         h_box_2.addWidget(self.pushCheckOneLine)
         h_box_2.addWidget(self.progressBar)
         h_box_2.addSpacerItem(spaceritem)
 
-        v_box_3 = Vlayout(self, self.compare_ip_list)
-        v_box_3.insert_comiplist_at()
+        # 第三层 横向Box 表格
+        h_box_3.addWidget(self.tableWidget)
+        # v_box_3 = Vlayout(self, self.compare_ip_list)
+        # v_box_3.insert_comiplist_at()
 
-        v_box_1.addSpacerItem(spaceritem)
-        v_box_1.addStretch(1)
 
+        # 第四层 竖向Box 弹性空间
+        # v_box_1.addSpacerItem(spaceritem)
+        # v_box_1.addStretch(1)
 
-        v_box.addLayout(h_box_1)
-        v_box.addLayout(h_box_2)
-        v_box.addLayout(v_box_3.get_box())
-        v_box.addLayout(v_box_1)
+        # 总Box开始添加各个层
+        global_box.addLayout(h_box_1)
+        global_box.addLayout(h_box_2)
+        global_box.addLayout(h_box_3)
+        # global_box.addLayout(v_box_1)
 
-        self.setLayout(v_box)
+        # 设置总Box
+        self.setLayout(global_box)
 
     def initUI(self):
 
+        # 设置表格
+        mtab.set_header(self.tableWidget)
         # self.create_btns()
-
-
         self.clear_progressBar()
-
         self.on_line_ips = []
         self.init_lineEdit_text()  # 初始化两个输入LineEdit
         self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
-
         self.pushCheckOneLine.clicked.connect(self.on_clicked_checking_ip)
 
-        # 生成线程
-        # self.ths, self.ping_objs = create_ip_ths()
-        # for ping_obj in self.ping_objs:
-        #     ping_obj.send_ip_signal[str].connect(self.on_receive_ip)
-        #     ping_obj.signal_check_end.connect(self.on_thread_end)
-
-        # self.finished_threads_num = 0
-        # self.create_threads()
 
     def create_threads(self):
 
@@ -145,10 +145,6 @@ class MyClass(Ui_Form, QWidget):
             # btn.setMaximumWidth(40)
             self.gridLayout.addWidget(btn, *position)
             self.btns[i] = btn
-
-    def _create_btns(self):
-
-        pass
 
     def clear_progressBar(self):
         self.progressBar.setValue(0)
