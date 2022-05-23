@@ -107,6 +107,7 @@ class UI_pc_ip(QWidget, Ui_Form):
             item = self.table.currentItem()
             row_num = item.row()
             self.table.removeRow(row_num)
+            self.pushbutton_true()
             pass
 
     def box_current_text_changed(self, text):
