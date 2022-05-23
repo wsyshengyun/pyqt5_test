@@ -368,7 +368,7 @@ class CompareIpListAt(CompareIPList):
             obj = None
             # 遍历所有的ipobj
             for ipobj in self.ips:
-                # 要插入的ip已经存在
+                # 要插入的ip已经存在; 什么也不做
                 if ip_str == ipobj.get_ip():
                     obj = ipobj
                     break
@@ -376,6 +376,10 @@ class CompareIpListAt(CompareIPList):
                 # 新建一个ipobj
                 # obj = IpState(ip_str)
                 # self.ips.append(obj)
+
+                # 如果是新的IP要找到它的插入位置
+                # 首先与相同字段的IP放在一起, 没有则按字段从小到大排列
+                # 如果有想同的字段,则根据尾部排序,从小到大
                 obj = self._inert_ip_from_sort(ip_str)
 
             obj.update_state()
@@ -387,12 +391,13 @@ class CompareIpListAt(CompareIPList):
         tail = obj.tail()
         will_insert_pos = 0
         for obj_ in self.ips:
+            # IP的字段相同
             if obj_.section() == sec:
                 obj_pos = self.ips.index(obj_)
                 if will_insert_pos == -2:
                     will_insert_pos = obj_pos
                     continue
-                if obj_.tail() < tail:
+                if obj_.tail() > tail:
                     will_insert_pos = obj_pos
         self.ips.insert(will_insert_pos, obj)
         return obj
@@ -456,31 +461,58 @@ if __name__ == '__main__':
     #
     # get_ip_before('192.168.2.3:7')
 
-    obj_ip = IP('192.168.11.151')
-    print(obj_ip.tail())
-    print(obj_ip.header_3())
-    print(obj_ip.section())
-    print(obj_ip.replace_section('23'))
-    print(obj_ip.hope_grateway())
-    print(obj_ip.replace_tail(222))
-    obj_some = CompareIPList()
-    obj_some.finded_ips = [
-        '192.168.1.11',
-        '192.168.1.12',
-        '192.168.1.13',
-        '192.168.1.14',
-        '192.168.2.11',
-        '192.168.3.11',
-        '192.168.4.11',
-        '192.168.4.18',
-        '192.168.4.10',
-    ]
-    obj_some.new_find_ips = [
-        '192.168.5.38',
-        '192.168.5.19',
-        '192.168.5.18',
-        '192.168.5.10',
-    ]
+    # obj_ip = IP('192.168.11.151')
+    # print(obj_ip.tail())
+    # print(obj_ip.header_3())
+    # print(obj_ip.section())
+    # print(obj_ip.replace_section('23'))
+    # print(obj_ip.hope_grateway())
+    # print(obj_ip.replace_tail(222))
+    # obj_some = CompareIPList()
+    # obj_some.finded_ips = [
+    #     '192.168.1.11',
+    #     '192.168.1.12',
+    #     '192.168.1.13',
+    #     '192.168.1.14',
+    #     '192.168.2.11',
+    #     '192.168.3.11',
+    #     '192.168.4.11',
+    #     '192.168.4.18',
+    #     '192.168.4.10',
+    # ]
+    # obj_some.new_find_ips = [
+    #     '192.168.5.38',
+    #     '192.168.5.19',
+    #     '192.168.5.18',
+    #     '192.168.5.10',
+    # ]
 
-    print(obj_some.types_section_finded_ips())
-    print(obj_some.compare_list('5'))
+    # print(obj_some.types_section_finded_ips())
+    # print(obj_some.compare_list('5'))
+
+
+    ips = [
+        '192.168.1.13',
+        '192.168.1.12',
+        '192.168.1.14',
+
+        '192.168.12.14',
+        '192.168.12.24',
+        '192.168.1.11',
+        '192.168.12.64',
+
+        '192.168.2.13',
+        '192.168.2.12',
+        '192.168.12.13',
+        '192.168.2.11',
+        '192.168.2.14',
+    ]
+    # CompareIpListAt
+    obj = CompareIpListAt()
+    obj.set_flg_start_true()
+    for ip in ips:
+        obj.add_new(ip)
+    print(obj.ips)
+    for obj in obj.ips:
+        print(obj.ip)
+

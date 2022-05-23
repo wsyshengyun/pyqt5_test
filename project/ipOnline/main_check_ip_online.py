@@ -25,6 +25,7 @@ from project.ipOnline.ui.vlayout import Vlayout, HBoxlayout
 # todo 检查前先清除已经变颜色的Button和让进度条归0
 # todo 界面button在不同的分辨率下正常的显示
 # TODO 可同时检查两个字段的IP
+# TODO  IP显示改用表格显示
 
 class MyClass(Ui_Form, QWidget):
     # signal = pyqtSignal(str)
