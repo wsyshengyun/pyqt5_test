@@ -16,6 +16,14 @@ import project.Broadcast.pack.set_pc as pc
 from project.Broadcast.ui._table import _Table
 
 
+# todo 增加修改网关的功能, 和修改DNS的功能
+# todo 界面适当的修改
+# todo 添加IP的尾部默认值
+# todo 启动界面慢的解决
+# todo 增加配置文件
+# todo 快捷设置IP
+
+
 class UI_pc_ip(QWidget, Ui_Form):
     def __init__(self):
         super(UI_pc_ip, self).__init__()
