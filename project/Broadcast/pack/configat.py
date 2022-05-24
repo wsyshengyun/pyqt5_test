@@ -6,6 +6,12 @@
 #  Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
 #  Vestibulum commodo. Ut rhoncus gravida arcu.
 
+"""
+配置功放顶板,发送的数据
+
+"""
+
+
 import socket
 
 import wmi
