@@ -7,7 +7,7 @@
 
 # import PyQt5.QtCore as PQC
 from PyQt5.QtCore import pyqtSignal, QCoreApplication
-from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget
+from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget, QTableWidgetItem
                             ,QVBoxLayout, QHBoxLayout, QMessageBox
                             ,QSpacerItem, QSizePolicy
                              )
@@ -21,6 +21,7 @@ from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
 from project.ipOnline.ui.vlayout import Vlayout, HBoxlayout
 from project.ipOnline.ui import mtab
+from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
@@ -63,10 +64,17 @@ class MyClass(Ui_Form, QWidget):
             '192.168.2.19',
         ]
         """ """
-        self.compare_ip_list = CompareIpListAt()
-        self.compare_ip_list.set_flg_start_true()
-        for ip in list_ip:
-            self.compare_ip_list.add_new(ip)
+        # self.compare_ip_list = CompareIpListAt()
+        # self.compare_ip_list.set_flg_start_true()
+        # for ip in list_ip:
+        #     self.compare_ip_list.add_new(ip)
+
+        self.containat_obj = ContainerAt()
+        # self.containat_obj = set_init_containat()
+        self.containat_obj.current_section = '43'
+
+    def _get_current_section(self):
+        return ""
 
     def init_layout(self):
         """ """
@@ -115,10 +123,10 @@ class MyClass(Ui_Form, QWidget):
         mtab.set_header(self.tableWidget)
         # self.create_btns()
         self.clear_progressBar()
-        self.on_line_ips = []
         self.init_lineEdit_text()  # 初始化两个输入LineEdit
         self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
         self.pushCheckOneLine.clicked.connect(self.on_clicked_checking_ip)
+        self.pushCheckOneLine.clicked.connect(self.table_display)
 
 
     def create_threads(self):
@@ -126,25 +134,9 @@ class MyClass(Ui_Form, QWidget):
         self.manage_threads = ManageTheads()
         self.manage_threads.create_threads()
         self.manage_threads.signal_all_thread_finished.connect(self.finished_all_ths)
-        self.manage_threads.signal_send_ip.connect(self.on_receive_ip)
-        self.manage_threads.signal_thread_end[int, int].connect(self.update_progressbar)
+        self.manage_threads.signal_ip_on_line.connect(self.on_receive_ip)
+        self.manage_threads.signal_one_thread_end[int, int].connect(self.update_progressbar)
         pass
-
-    def create_btns(self):
-
-        # grid 
-        btn_int = [i for i in range(255)]
-        positions = [(i, j) for i in range(16) for j in range(16)]
-
-        len_ = len(btn_int)
-        self.btns = [None] * len_
-
-        for position, i in zip(positions, btn_int):
-            btn = QPushButton(str(i), self)
-            # btn.setMaximumHeight(20)
-            # btn.setMaximumWidth(40)
-            self.gridLayout.addWidget(btn, *position)
-            self.btns[i] = btn
 
     def clear_progressBar(self):
         self.progressBar.setValue(0)
@@ -160,22 +152,35 @@ class MyClass(Ui_Form, QWidget):
         singal信号的槽
         作用:设置一个在线IP 所对应的IP的 背景颜色
         """
-        logger.info(" 接收到ip = {}".format(ip))
+        print(" 接收到ip = {}".format(ip))
 
-        self.on_line_ips.append(ip)
-        self.compare_ip_list.add_new(ip)
-        _, tail = currency.get_ip_sec_tail(ip)
-        self.set_btn_background_from_ip_tail(tail)
+        # self.on_line_ips.append(ip)
+        # self.compare_ip_list.add_new(ip)
+        # _, tail = currency.get_ip_sec_tail(ip)
+        # self.set_btn_background_from_ip_tail(tail)
+        self.containat_obj.add_ipo(ip)
+        self.table_display()
 
-    def set_btn_background_from_ip_tail(self, will_set_text, color='#00ff00'):
-        """ 设置在线IP的按钮背景颜色 绿色 """
-        logger.info("将要设置的btn:{}, 颜色值为{}".format(will_set_text, color))
-        btn_i = int(will_set_text)
-        self.btns[btn_i].setStyleSheet("background-color: %s" % color)
+
+    def table_display(self):
+        # self.tableWidget.clearContents()
+        row = len(self.containat_obj.list)
+        self.tableWidget.setRowCount(row)
+        for row, co in self.containat_obj:
+            lit_co = list(co)
+            for col in range(10):
+                if col < len(lit_co):
+                    val = lit_co[col]
+                else:
+                    val = ""
+                item = QTableWidgetItem(val)
+                self.tableWidget.setItem(row, col, item)
+            pass
+
 
     def on_clicked_checking_ip(self):
         """ 开始检查IP是否ping的通 """
-        logger.info("-------------------> on_clicked_checking_ip !")
+        print("-------------------> on_clicked_checking_ip !")
         self.pushCheckOneLine.setEnabled(False)
 
         self.clear_progressBar()
@@ -186,7 +191,7 @@ class MyClass(Ui_Form, QWidget):
 
     def finished_all_ths(self):
 
-        logger.info("收到信号,执行槽 finished_all_ths")
+        print("收到信号,执行槽 finished_all_ths")
 
         self.pushCheckOneLine.setEnabled(True)
         self.finished_threads_num = 0
@@ -196,7 +201,7 @@ class MyClass(Ui_Form, QWidget):
 
     def on_thread_end(self):
 
-        logger.info("on_thread_end")
+        print("on_thread_end")
 
         self.finished_threads_num += 1
         if self.finished_threads_num == len(self.ths):
@@ -216,11 +221,11 @@ class MyClass(Ui_Form, QWidget):
         currency.set_end_ip(end)
         pass
 
-    def on_clicked_ips(self):
-        """ 254个button通用的槽函数 """
-        text = self.sender().text()
-        logger.info("text = {}".format(text))
-        pass
+    # def on_clicked_ips(self):
+    #     """ 254个button通用的槽函数 """
+    #     text = self.sender().text()
+    #     logger.info("text = {}".format(text))
+    #     pass
 
 
 def main():
