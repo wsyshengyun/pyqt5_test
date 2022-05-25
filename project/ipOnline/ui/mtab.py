@@ -8,7 +8,8 @@
 
 from PyQt5.QtWidgets import  QTableWidget, QTableWidgetItem
 
-HeaderLabels = ["字段", "IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
+# HeaderLabels = ["字段", "IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
+HeaderLabels = ["IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
 table_column_count = 11
 
 

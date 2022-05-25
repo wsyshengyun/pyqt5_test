@@ -13,7 +13,10 @@ from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from project.ipOnline.pack.currency import get_range_ips
 # from .log import logger
 from project.ipOnline.pack.log import logger
+from project.ipOnline.pack.test_generate_ip import iplist, generator_ip
+import time
 
+g = generator_ip()
 
 # -----------------------------------------------------------
 # 重构  用QThread实现
@@ -38,11 +41,17 @@ class Ping_Ip(QObject):
 
         self.signal_check_end.emit()
 
+    # def run(self):
+    #     val = next(g)
+    #     self.send_ip_signal.emit(self.ip)
+    #     self.signal_check_end.emit()
+
+
 class ManageTheads(QObject):
     signal_all_thread_finished = pyqtSignal()  # 所有线程结束时发送
     # ping 通IP时发送
-    signal_send_ip = pyqtSignal(str)  # ping 通IP时发送
-    signal_thread_end = pyqtSignal(int, int)  # 当一个线程结束时产生, 发送当前已经结束的线程数和总的线程数
+    signal_ip_on_line = pyqtSignal(str)  # ping 通IP时发送
+    signal_one_thread_end = pyqtSignal(int, int)  # 当一个线程结束时产生, 发送当前已经结束的线程数和总的线程数
 
     num_finished_threads = 0
 
@@ -69,7 +78,7 @@ class ManageTheads(QObject):
 
             ip_obj.signal_check_end.connect(self.slot_finised_thread)
             ip_obj.signal_check_end.connect(self.emit_signal)
-            ip_obj.send_ip_signal.connect(self.signal_send_ip)
+            ip_obj.send_ip_signal.connect(self.signal_ip_on_line)
 
             self.ths.append(th)
             self.objs.append(ip_obj)
@@ -77,7 +86,7 @@ class ManageTheads(QObject):
         logger.info("创建的线程数量为:  {}".format(self.len_threads()))
 
     def emit_signal(self):
-        self.signal_thread_end.emit(self.num_finished_threads, self.len_threads())
+        self.signal_one_thread_end.emit(self.num_finished_threads, self.len_threads())
 
         pass
 

@@ -13,6 +13,7 @@ from project.ipOnline.pack.currency import IpState
 from project.ipOnline.pack.currency import CompareIpListAt
 from typing import List
 
+
 class Container(object):
     """
     横向容器 容纳10个对象
@@ -23,6 +24,7 @@ class Container(object):
         self.size_max = 10
         self.section = ""
         self.list: List[IpState] = []  # 里面是相同的字段的IP
+        self.iter_position = 0
 
     def add(self, ipoat: IpState):
         """
@@ -57,10 +59,12 @@ class Container(object):
             if tail <= tail_:  # 如果要插入的尾部 <= 现在的对象尾部, 立即插入到现在对象的前面,否则
                 index_ = self.list.index(ipo_)
                 self.list.insert(index_, ipoat)
-                return self.list.index(ipoat)  # todo 可以修改更简单的方法
+                # return self.list.index(ipoat)  # todo 可以修改更简单的方法
+                return index_
             else:
                 continue
         self.list.append(ipoat)
+        return len(self.list) - 1
 
     def isfull(self):
         return True if len(self.list) == self.size_max else False
@@ -75,6 +79,19 @@ class Container(object):
         eles = ','.join([ipo.get_ip() for ipo in self.list])
         tsr = "<Container> [{}]".format(eles)
         return tsr
+
+    def __iter__(self):
+        return self
+        pass
+
+    def __next__(self):
+        if self.iter_position < len(self.list):
+            item =  self.iter_position, self.list[self.iter_position]
+            self.iter_position += 1
+            return self.iter_position, item
+        else:
+            self.iter_position = 0
+            raise StopIteration
 
     def __lt__(self, other):
         this = int(self.section)
@@ -95,50 +112,57 @@ class Container(object):
         pass
 
 
-
 class ContainerAt(object):
     """
     纵向容器, 容纳横向容器
     """
 
-    def __init__(self, current_section):
+    def __init__(self, current_section=None):
         """ """
         self.list: List[Container] = []
         self.current_section = current_section  # 当前的字段
+        self.iter_position = 0
 
     def add_ipo(self, ipoat: IpState):
         """
          添加一个ipoat对象
         """
+        if isinstance(ipoat, str):
+            ipoat = IpState(ipoat)
+
+        insert_x, insert_y = None, None
         # 根据ipoat对象的字段找到一个co对象
         for co_ in self.list:
             if co_.section == ipoat.section() and not co_.isfull():
-                co_.add(ipoat)
-                break
+                y = co_.add(ipoat)
+                x = self.list.index(co_)
+                # y = co_.list.index(ipoat)
+                return x, y
         else:
             new_co = Container()
             new_co.set_section(ipoat.section())
             new_co.add(ipoat)
-            self.add_co(new_co)
+            x = self.add_co(new_co)
+            return x, 0
 
     def add_co(self, co: Container):
         # 如果list为空,直接插入
         if self.is_empty():
             self.list.append(co)
-            return
+            return 0
 
             # 判断是否为当前的字段容器
         # 如果是则放在第一位
         if co.section == self.current_section:
             self.list.insert(0, co)
-            return
+            return 0
         else:
             # 不是当前的字段容器
             # 找到相同字段的容器,放在它的前面
             b, pos = self.is_container_section(co.section)
             if b:
                 self.list.insert(pos, co)
-                return
+                return pos
             else:
                 # 列表里面没有相同字段的容器
                 # 放比它小的容器前面
@@ -148,7 +172,7 @@ class ContainerAt(object):
                     else:
                         if co <= obj_:
                             index_ = self.list.index(obj_)
-                            self.list.index(index_, co)
+                            self.list.insert(index_, co)
                             return index_
                 else:
                     # 没有知道比它小的,放在最后
@@ -180,6 +204,19 @@ class ContainerAt(object):
                 return True, self.list.index(co)
         return False, False
 
+    def __iter__(self):
+        return self
+        pass
+
+    def __next__(self):
+        if self.iter_position < len(self.list):
+            item =  self.iter_position, self.list[self.iter_position]
+            self.iter_position += 1
+            return self.iter_position, item
+        else:
+            self.iter_position = 0
+            raise StopIteration
+
 
     def __str__(self):
         str_list = []
@@ -187,6 +224,15 @@ class ContainerAt(object):
             str_list.append(str(obj))
         tsr_all = '\r\n'.join(str_list)
         return tsr_all
+
+def set_init_containat():
+    from project.ipOnline.pack.test_generate_ip import iplist
+    objAt = ContainerAt('43')
+    for ip in iplist:
+        ipoat = IpState(ip)
+        x, y = objAt.add_ipo(ipoat)
+    return objAt
+
 
 
 if __name__ == '__main__':
@@ -209,8 +255,7 @@ if __name__ == '__main__':
     objAt = ContainerAt('12')
     for ip in iplist:
         ipoat = IpState(ip)
-        objAt.add_ipo(ipoat)
+        x, y = objAt.add_ipo(ipoat)
+        print(x, y)
 
     print(objAt)
-
-
