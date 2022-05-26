@@ -164,18 +164,21 @@ class MyClass(Ui_Form, QWidget):
 
     def table_display(self):
         # self.tableWidget.clearContents()
+        self.tableWidget.clearContents()
         row = len(self.containat_obj.list)
         self.tableWidget.setRowCount(row)
         for row, co in self.containat_obj:
             lit_co = list(co)
             for col in range(10):
                 if col < len(lit_co):
-                    val = lit_co[col]
+                    ipoat = lit_co[col][1]
+                    val = ipoat.get_ip()
                 else:
                     val = ""
                 item = QTableWidgetItem(val)
                 self.tableWidget.setItem(row, col, item)
             pass
+
 
 
     def on_clicked_checking_ip(self):

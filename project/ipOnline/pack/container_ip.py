@@ -86,12 +86,14 @@ class Container(object):
 
     def __next__(self):
         if self.iter_position < len(self.list):
-            item =  self.iter_position, self.list[self.iter_position]
+            index = self.iter_position
+            result = index, self.list[self.iter_position]
             self.iter_position += 1
-            return self.iter_position, item
+            return result
         else:
             self.iter_position = 0
             raise StopIteration
+
 
     def __lt__(self, other):
         this = int(self.section)
@@ -210,9 +212,10 @@ class ContainerAt(object):
 
     def __next__(self):
         if self.iter_position < len(self.list):
-            item =  self.iter_position, self.list[self.iter_position]
+            index = self.iter_position
+            result = index, self.list[self.iter_position]
             self.iter_position += 1
-            return self.iter_position, item
+            return result
         else:
             self.iter_position = 0
             raise StopIteration
