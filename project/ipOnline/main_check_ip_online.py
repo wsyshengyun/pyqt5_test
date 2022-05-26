@@ -21,7 +21,7 @@ from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
 from project.ipOnline.ui.vlayout import Vlayout, HBoxlayout
 from project.ipOnline.ui import mtab
-from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat
+from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat, IpState
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
@@ -74,6 +74,10 @@ class MyClass(Ui_Form, QWidget):
         self.containat_obj.current_section = '43'
 
     def _get_current_section(self):
+        iptt = self.lIpStart.text()
+        if iptt:
+            sec = IpState(iptt).section()
+            self.containat_obj.current_section = sec
         return ""
 
     def init_layout(self):
