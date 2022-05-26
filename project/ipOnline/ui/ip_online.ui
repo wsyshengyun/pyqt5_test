@@ -130,13 +130,13 @@
     <string>保存</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
+  <widget class="QTableView" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>30</x>
      <y>200</y>
-     <width>731</width>
-     <height>331</height>
+     <width>701</width>
+     <height>371</height>
     </rect>
    </property>
   </widget>

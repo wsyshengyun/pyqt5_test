@@ -7,7 +7,7 @@
 
 # import PyQt5.QtCore as PQC
 from PyQt5.QtCore import pyqtSignal, QCoreApplication
-from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget, QTableWidgetItem, QTableWidget
                             ,QVBoxLayout, QHBoxLayout, QMessageBox
                             ,QSpacerItem, QSizePolicy
                              )
@@ -68,10 +68,13 @@ class MyClass(Ui_Form, QWidget):
         # self.compare_ip_list.set_flg_start_true()
         # for ip in list_ip:
         #     self.compare_ip_list.add_new(ip)
-
-        self.containat_obj = ContainerAt()
+        from project.ipOnline.pack.standard_model import factory_container_model_obj
+        self.model = factory_container_model_obj()
+        self.tableWidget.setModel(self.model)
+        # self.containat_obj = ContainerAt()
         # self.containat_obj = set_init_containat()
-        self.containat_obj.current_section = '43'
+        # self.containat_obj.current_section = '43'
+        self.model.current_section = 12
 
     def _get_current_section(self):
         iptt = self.lIpStart.text()
@@ -124,7 +127,10 @@ class MyClass(Ui_Form, QWidget):
     def initUI(self):
 
         # 设置表格
-        mtab.set_header(self.tableWidget)
+        if isinstance(self.tableWidget, QTableWidget):
+            mtab.set_header(self.tableWidget)
+        mtab.set_header(self.model)
+
         # self.create_btns()
         self.clear_progressBar()
         self.init_lineEdit_text()  # 初始化两个输入LineEdit

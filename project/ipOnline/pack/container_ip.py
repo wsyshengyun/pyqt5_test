@@ -113,6 +113,10 @@ class Container(object):
         return False if this <= int(other.section) else True
         pass
 
+    def __contains__(self, item):
+        pass
+
+
 
 class ContainerAt(object):
     """
@@ -128,6 +132,10 @@ class ContainerAt(object):
     def add_ipo(self, ipoat: IpState):
         """
          添加一个ipoat对象
+         return : x, y, obj
+         x : self.list 的对象的索引, 也对应一行的位置
+         y: 对应元素在横向容器的位置
+         obj: 返回横向元素, 也就是x索引对应的元素(Container)
         """
         if isinstance(ipoat, str):
             ipoat = IpState(ipoat)
@@ -139,13 +147,13 @@ class ContainerAt(object):
                 y = co_.add(ipoat)
                 x = self.list.index(co_)
                 # y = co_.list.index(ipoat)
-                return x, y
+                return x, y, co_
         else:
             new_co = Container()
             new_co.set_section(ipoat.section())
             new_co.add(ipoat)
             x = self.add_co(new_co)
-            return x, 0
+            return x, 0, new_co   # 如果返回的元祖第二个元素的值为0 则说明 又新加了一行
 
     def add_co(self, co: Container):
         # 如果list为空,直接插入

@@ -8,15 +8,16 @@
 
 from PyQt5.QtWidgets import  QTableWidget, QTableWidgetItem
 
-# HeaderLabels = ["字段", "IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
-HeaderLabels = ["IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
+HeaderLabels = ["字段", "IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
+# HeaderLabels = ["IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
 table_column_count = 11
 
 
 def set_header(table: QTableWidget):
     # todo 表格只显示了一半,怎么设置显示合适的宽度,把表头的IP显示完
-    table.verticalHeader().setVisible(False)
-    table.horizontalHeader().setVisible(True)
+    if isinstance(table, QTableWidget):
+        table.verticalHeader().setVisible(False)
+        table.horizontalHeader().setVisible(True)
+        table.setRowCount(2)
     table.setColumnCount(len(HeaderLabels))
     table.setHorizontalHeaderLabels(HeaderLabels)
-    table.setRowCount(2)

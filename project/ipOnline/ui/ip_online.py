@@ -58,11 +58,9 @@ class Ui_Form(object):
         font.setPointSize(11)
         self.pushConfigIp.setFont(font)
         self.pushConfigIp.setObjectName("pushConfigIp")
-        self.tableWidget = QtWidgets.QTableWidget(Form)
-        self.tableWidget.setGeometry(QtCore.QRect(40, 200, 731, 331))
+        self.tableWidget = QtWidgets.QTableView(Form)
+        self.tableWidget.setGeometry(QtCore.QRect(30, 200, 701, 371))
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(0)
-        self.tableWidget.setRowCount(0)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
