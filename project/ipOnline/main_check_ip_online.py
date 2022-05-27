@@ -15,11 +15,8 @@ from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget, QTableWidgetIte
 from PyQt5 import QtCore
 
 from project.ipOnline.pack import currency
-from project.ipOnline.pack.currency import IP, CompareIpListAt
-from project.ipOnline.pack.log import logger
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
-from project.ipOnline.ui.vlayout import Vlayout, HBoxlayout
 from project.ipOnline.ui import mtab
 from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat, IpState
 from project.ipOnline.pack.standard_model import ContainerRow, ContainerAtModel
@@ -46,8 +43,6 @@ class MyClass(Ui_Form, QWidget):
 
     def init_data(self):
         """ """
-        from project.ipOnline.pack.standard_model import factory_container_model_obj
-        # self.model = factory_container_model_obj()
         self.model = ContainerAtModel()
         self.tableWidget.setModel(self.model)
         # self.model.current_section = 12
@@ -72,7 +67,9 @@ class MyClass(Ui_Form, QWidget):
         h_box_1.addWidget(self.lIpStart)
         h_box_1.addWidget(self.label_zhi)
         h_box_1.addWidget(self.lIpEnd)
+        h_box_1.addWidget(self.comboBox_switch_ip)
         h_box_1.addWidget(self.pushConfigIp)
+        h_box_1.addWidget(self.push_test)
         spaceritem = QSpacerItem(20, 20, QSizePolicy.Expanding)
         h_box_1.addSpacerItem(spaceritem)
 
@@ -83,13 +80,6 @@ class MyClass(Ui_Form, QWidget):
 
         # 第三层 横向Box 表格
         h_box_3.addWidget(self.tableWidget)
-        # v_box_3 = Vlayout(self, self.compare_ip_list)
-        # v_box_3.insert_comiplist_at()
-
-
-        # 第四层 竖向Box 弹性空间
-        # v_box_1.addSpacerItem(spaceritem)
-        # v_box_1.addStretch(1)
 
         # 总Box开始添加各个层
         global_box.addLayout(h_box_1)
@@ -107,12 +97,18 @@ class MyClass(Ui_Form, QWidget):
             mtab.set_header(self.tableWidget)
         mtab.set_header(self.model)
 
-        # self.create_btns()
         self.clear_progressBar()
         self.init_lineEdit_text()  # 初始化两个输入LineEdit
         self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
         self.pushCheckOneLine.clicked.connect(self.on_clicked_checking_ip)
-        # self.pushCheckOneLine.clicked.connect(self.table_display)
+        # test button
+        self.push_test.clicked.connect(self.on_test)
+
+    def on_test(self):
+        """
+
+        """
+
 
 
     def create_threads(self):
@@ -143,22 +139,7 @@ class MyClass(Ui_Form, QWidget):
         # self.table_display()
 
 
-    # def table_display(self):
-    #     # self.tableWidget.clearContents()
-    #     self.tableWidget.clearContents()
-    #     row = len(self.containat_obj.list)
-    #     self.tableWidget.setRowCount(row)
-    #     for row, co in self.containat_obj:
-    #         lit_co = list(co)
-    #         for col in range(10):
-    #             if col < len(lit_co):
-    #                 ipoat = lit_co[col][1]
-    #                 val = ipoat.get_ip()
-    #             else:
-    #                 val = ""
-    #             item = QTableWidgetItem(val)
-    #             self.tableWidget.setItem(row, col, item)
-    #         pass
+
 
 
 
@@ -207,11 +188,7 @@ class MyClass(Ui_Form, QWidget):
         currency.set_end_ip(end)
         pass
 
-    # def on_clicked_ips(self):
-    #     """ 254个button通用的槽函数 """
-    #     text = self.sender().text()
-    #     logger.info("text = {}".format(text))
-    #     pass
+
 
 
 def main():

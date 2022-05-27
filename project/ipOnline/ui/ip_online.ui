@@ -31,7 +31,7 @@
     <rect>
      <x>34</x>
      <y>45</y>
-     <width>269</width>
+     <width>161</width>
      <height>46</height>
     </rect>
    </property>
@@ -45,8 +45,8 @@
   <widget class="QLabel" name="label_zhi">
    <property name="geometry">
     <rect>
-     <x>313</x>
-     <y>44</y>
+     <x>220</x>
+     <y>50</y>
      <width>29</width>
      <height>35</height>
     </rect>
@@ -80,9 +80,9 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>352</x>
-     <y>45</y>
-     <width>269</width>
+     <x>260</x>
+     <y>40</y>
+     <width>121</width>
      <height>46</height>
     </rect>
    </property>
@@ -114,8 +114,8 @@
   <widget class="QPushButton" name="pushConfigIp">
    <property name="geometry">
     <rect>
-     <x>631</x>
-     <y>44</y>
+     <x>530</x>
+     <y>40</y>
      <width>150</width>
      <height>49</height>
     </rect>
@@ -137,6 +137,35 @@
      <y>200</y>
      <width>701</width>
      <height>371</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="push_test">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>120</y>
+     <width>150</width>
+     <height>49</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>test</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_switch_ip">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>40</y>
+     <width>124</width>
+     <height>41</height>
     </rect>
    </property>
   </widget>

@@ -1,9 +1,6 @@
 # coding:utf8
 
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QFont, QColor
-from PyQt5.QtCore import Qt
-
-# from .container_ip import ContainerAt, Container, IpState
 from project.ipOnline.pack.container_ip import ContainerAt, Container, IpState
 from project.ipOnline.pack.test_generate_ip import iplist
 

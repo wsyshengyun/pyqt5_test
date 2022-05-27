@@ -35,11 +35,9 @@ iplist = [
     '192.168.12.82',
 ]
 
-import time
 
 def generator_ip():
     for ip in iplist:
-        # time.sleep(0.2)
         yield ip
 
 
