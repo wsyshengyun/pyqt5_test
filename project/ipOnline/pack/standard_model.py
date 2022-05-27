@@ -1,6 +1,8 @@
 # coding:utf8
 
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QFont, QColor
+from PyQt5.QtCore import Qt
+
 # from .container_ip import ContainerAt, Container, IpState
 from project.ipOnline.pack.container_ip import ContainerAt, Container, IpState
 from project.ipOnline.pack.test_generate_ip import iplist
@@ -18,6 +20,10 @@ class ContainerRow(object):
             ip_str = ipo.get_ip()
             item = QStandardItem(ip_str)
             # item.setBackground()
+            color = ipo.get_color()
+            print("color is : {}".format(color))
+            if color:
+                item.setBackground(color)
 
             items.append(item)
         return items

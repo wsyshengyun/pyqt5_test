@@ -9,6 +9,7 @@ import os
 from configobj import ConfigObj
 
 from project.ipOnline.pack.log import logger
+from PyQt5.QtGui import QColor
 
 
 # -----------------------------------------------------------
@@ -257,6 +258,18 @@ class IpState(IP):
     def get_name(self):
         # todo 关于一个类的变量描述符的应用, 可以去掉get_, 直接使用name代替
         return self.name
+
+    def get_color(self):
+        if self.state == STATE_UN_KNOW:
+            return QColor(125,125,0)
+            return
+        elif self.state == STATE_FINDED:
+            return QColor(125,0,125)
+            return
+        elif self.state == STATE_ON_LINE:
+            return QColor(125,125,125)
+        elif self.state == STATE_NEW_ADD:
+            return QColor(0,255,255)
 
     def update_state(self):
         if self.state == STATE_UN_KNOW:

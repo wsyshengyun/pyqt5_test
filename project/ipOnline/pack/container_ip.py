@@ -137,8 +137,8 @@ class ContainerAt(object):
          y: 对应元素在横向容器的位置
          obj: 返回横向元素, 也就是x索引对应的元素(Container)
         """
-        if isinstance(ipoat, str):
-            ipoat = IpState(ipoat)
+        # if isinstance(ipoat, str):
+        #     ipoat = IpState(ipoat)
 
         insert_x, insert_y = None, None
         # 根据ipoat对象的字段找到一个co对象
