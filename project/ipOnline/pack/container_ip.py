@@ -10,7 +10,6 @@
 
 """
 from project.ipOnline.pack.currency import IpState
-from project.ipOnline.pack.currency import CompareIpListAt
 from typing import List
 
 
@@ -259,9 +258,6 @@ def set_init_containat():
 if __name__ == '__main__':
     from project.ipOnline.pack.test_generate_ip import iplist
 
-    # obj = Container()
-    # for ip in iplist:
-    #     obj.add(IpState(ip))
 
     # print(obj)
     obj2 = Container()
@@ -269,9 +265,6 @@ if __name__ == '__main__':
     for ip in iplist:
         obj2.add(IpState(ip))
 
-    # print(obj2)
-    # print("obj>obj2: {}".format(obj > obj2))
-    # print("obj<obj2: {}".format(obj < obj2))
 
     objAt = ContainerAt('12')
     for ip in iplist:
