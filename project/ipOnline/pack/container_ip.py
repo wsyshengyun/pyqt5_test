@@ -140,6 +140,16 @@ class ContainerAt(object):
         # if isinstance(ipoat, str):
         #     ipoat = IpState(ipoat)
 
+        if isinstance(ipoat, str):
+            if self.is_ip_exists(ipoat):
+                # 先找出来,而不是创建一个新的
+                # ipoat.update_state()
+                self.get_ipoat(ipoat).update_state()
+                return None
+            else:
+                ipoat = IpState(ipoat)
+        self.add_ip_str(ipoat)
+
         insert_x, insert_y = None, None
         # 根据ipoat对象的字段找到一个co对象
         for co_ in self.list:
