@@ -23,7 +23,7 @@ class Container(object):
         self.size_max = 10
         self.section = ""
         self.list: List[IpState] = []  # 里面是相同的字段的IP
-        self.iter_position = 0
+        self.pos = 0
 
     def add(self, ipoat: IpState):
         """
@@ -84,13 +84,13 @@ class Container(object):
         pass
 
     def __next__(self):
-        if self.iter_position < len(self.list):
-            index = self.iter_position
-            result = index, self.list[self.iter_position]
-            self.iter_position += 1
+        if self.pos < len(self.list):
+            index = self.pos
+            result = index, self.list[self.pos]
+            self.pos += 1
             return result
         else:
-            self.iter_position = 0
+            self.pos = 0
             raise StopIteration
 
 
@@ -113,7 +113,14 @@ class Container(object):
         pass
 
     def __contains__(self, item):
+        return item in self.list
         pass
+
+# todo IpDict
+# class IpDict(dict):
+#     def __init__(self, **kwargs):
+#         """ """
+#         super(IpDict, self).__init__(kwargs)
 
 
 
@@ -126,9 +133,15 @@ class ContainerAt(object):
         """ """
         self.list: List[Container] = []
         self.current_section = current_section  # 当前的字段
-        self.iter_position = 0
+        self.pos = 0
+        self.ip_dict = {}
 
-    def add_ipo(self, ipoat: IpState):
+
+    def is_exist(self, ip):
+        return ip in self.ip_dict
+
+
+    def add_ip(self, ip: str):
         """
          添加一个ipoat对象
          return : x, y, obj
@@ -136,31 +149,34 @@ class ContainerAt(object):
          y: 对应元素在横向容器的位置
          obj: 返回横向元素, 也就是x索引对应的元素(Container)
         """
-        # if isinstance(ipoat, str):
-        #     ipoat = IpState(ipoat)
 
-        if isinstance(ipoat, str):
-            if self.is_ip_exists(ipoat):
-                # 先找出来,而不是创建一个新的
-                # ipoat.update_state()
-                self.get_ipoat(ipoat).update_state()
-                return None
-            else:
-                ipoat = IpState(ipoat)
-        self.add_ip_str(ipoat)
+        if not isinstance(ip, str):
+            return None
+
+        if self.is_exist(ip):
+            # 先找出来,而不是创建一个新的
+            # ipoat.update_state()
+            # self.get_ipoat(ip).update_state()
+            self.ip_dict.get(ip).update_state()
+            return None
+        else:
+            ipoat = IpState(ip)
+
+        # 加入字典
+        self.ip_dict[ip] = ipoat
 
         insert_x, insert_y = None, None
         # 根据ipoat对象的字段找到一个co对象
-        for co_ in self.list:
-            if co_.section == ipoat.section() and not co_.isfull():
+        for index, co_ in self:
+            if co_.section == ip.section() and not co_.isfull():
                 y = co_.add(ipoat)
                 x = self.list.index(co_)
                 # y = co_.list.index(ipoat)
                 return x, y, co_
         else:
             new_co = Container()
-            new_co.set_section(ipoat.section())
-            new_co.add(ipoat)
+            new_co.set_section(ip.section())
+            new_co.add(ip)
             x = self.add_co(new_co)
             return x, 0, new_co   # 如果返回的元祖第二个元素的值为0 则说明 又新加了一行
 
@@ -228,15 +244,14 @@ class ContainerAt(object):
         pass
 
     def __next__(self):
-        if self.iter_position < len(self.list):
-            index = self.iter_position
-            result = index, self.list[self.iter_position]
-            self.iter_position += 1
+        if self.pos < len(self.list):
+            index = self.pos
+            result = index, self.list[self.pos]
+            self.pos += 1
             return result
         else:
-            self.iter_position = 0
+            self.pos = 0
             raise StopIteration
-
 
     def __str__(self):
         str_list = []
@@ -250,7 +265,7 @@ def set_init_containat():
     objAt = ContainerAt('43')
     for ip in iplist:
         ipoat = IpState(ip)
-        x, y = objAt.add_ipo(ipoat)
+        x, y = objAt.add_ip(ipoat)
     return objAt
 
 
@@ -269,7 +284,7 @@ if __name__ == '__main__':
     objAt = ContainerAt('12')
     for ip in iplist:
         ipoat = IpState(ip)
-        x, y = objAt.add_ipo(ipoat)
+        x, y = objAt.add_ip(ipoat)
         print(x, y)
 
     print(objAt)

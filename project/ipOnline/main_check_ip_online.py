@@ -45,7 +45,6 @@ class MyClass(Ui_Form, QWidget):
         """ """
         self.model = ContainerAtModel()
         self.tableWidget.setModel(self.model)
-        # self.model.current_section = 12
 
     def _get_current_section(self):
         iptt = self.lIpStart.text()
@@ -108,6 +107,9 @@ class MyClass(Ui_Form, QWidget):
         """
 
         """
+        print('on_test')
+        from project.ipOnline.pack.standard_model import factory_container_model_obj
+        factory_container_model_obj(self.model)
 
 
 

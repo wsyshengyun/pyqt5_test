@@ -41,7 +41,42 @@ def generator_ip():
         yield ip
 
 
+class A:
+    def __init__(self):
+        """ """
+        self.list = [1,2,3,4,11]
+        self.pos = 0
+
+    def __iter__(self):
+        return self
+        pass
+
+    def __next__(self):
+        if self.pos < len(self.list):
+            item = self.list[self.pos]
+            self.pos += 1
+            return item
+            pass
+        else:
+            self.pos = 0
+            raise StopIteration
+
+    def __contains__(self, item):
+        return item in self.list
+
+    def foo(self):
+        for  val in self:
+            print(val)
+
+
 if __name__ == '__main__':
-    g = generator_ip()
-    for i in range(len(iplist)):
-        print(next(g))
+    # g = generator_ip()
+    # for i in range(len(iplist)):
+    #     print(next(g))
+
+    obj = A()
+    obj.foo()
+    obj.list.append('a')
+    print(obj.list)
+    print("a in self.list : {}".format('a' in obj.list))
+

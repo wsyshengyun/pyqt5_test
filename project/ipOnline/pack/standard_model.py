@@ -2,7 +2,6 @@
 
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QFont, QColor
 from project.ipOnline.pack.container_ip import ContainerAt, Container, IpState
-from project.ipOnline.pack.test_generate_ip import iplist
 
 
 class ContainerRow(object):
@@ -16,11 +15,11 @@ class ContainerRow(object):
         for index, ipo in self.co:
             ip_str = ipo.get_ip()
             item = QStandardItem(ip_str)
-            # item.setBackground()
-            color = ipo.get_color()
-            print("color is : {}".format(color))
-            if color:
-                item.setBackground(color)
+            # # item.setBackground()
+            # color = ipo.get_color()
+            # print("color is : {}".format(color))
+            # if color:
+            #     item.setBackground(color)
 
             items.append(item)
         return items
@@ -35,8 +34,8 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
         super(ContainerAtModel, self).__init__()
 
 
-    def add_ipo(self, ipoat: IpState):
-        row, col, obj = super().add_ipo(ipoat)
+    def add_ip(self, ip: IpState):
+        row, col, obj = super().add_ip(ip)
 
         if col == 0:
             # 新的横向容器
@@ -50,7 +49,8 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
 
     def add_ipoa_update_all_model(self, ipoat: IpState):
         self.clear()
-        super().add_ipo(ipoat)
+        super().add_ip(ipoat)
+        a = 1
         for row, co in self:
             # for col, ipoat_ in co:
             #     item = QStandardItem(ipoat_.get_ip())
@@ -65,9 +65,13 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
 
 
 
-def factory_container_model_obj():
+def factory_container_model_obj(model = None):
     """ """
-    obj = ContainerAtModel()
+    from project.ipOnline.pack.test_generate_ip import iplist
+    if model:
+        obj = model
+    else:
+        obj = ContainerAtModel()
     for ip in iplist:
         # obj.add_ipo(ip)
         obj.add_ipoa_update_all_model(ip)
