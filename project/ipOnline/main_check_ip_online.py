@@ -22,6 +22,7 @@ from project.ipOnline.ui.ip_online import Ui_Form
 from project.ipOnline.ui.vlayout import Vlayout, HBoxlayout
 from project.ipOnline.ui import mtab
 from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat, IpState
+from project.ipOnline.pack.standard_model import ContainerRow, ContainerAtModel
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
@@ -44,43 +45,18 @@ class MyClass(Ui_Form, QWidget):
         self.initUI()
 
     def init_data(self):
-        list_ip = [
-            '192.168.1.5',
-            '192.168.1.6',
-            '192.168.11.6',
-            '192.168.3.5',
-            '192.168.3.7',
-            '192.168.2.5',
-            '192.168.2.6',
-            '192.168.2.7',
-            '192.168.2.8',
-            '192.168.2.20',
-            '192.168.2.9',
-            '192.168.2.10',
-            '192.168.2.15',
-            '192.168.2.17',
-            '192.168.2.16',
-            '192.168.2.18',
-            '192.168.2.19',
-        ]
         """ """
-        # self.compare_ip_list = CompareIpListAt()
-        # self.compare_ip_list.set_flg_start_true()
-        # for ip in list_ip:
-        #     self.compare_ip_list.add_new(ip)
         from project.ipOnline.pack.standard_model import factory_container_model_obj
-        self.model = factory_container_model_obj()
+        # self.model = factory_container_model_obj()
+        self.model = ContainerAtModel()
         self.tableWidget.setModel(self.model)
-        # self.containat_obj = ContainerAt()
-        # self.containat_obj = set_init_containat()
-        # self.containat_obj.current_section = '43'
-        self.model.current_section = 12
+        # self.model.current_section = 12
 
     def _get_current_section(self):
         iptt = self.lIpStart.text()
         if iptt:
             sec = IpState(iptt).section()
-            self.containat_obj.current_section = sec
+            self.model.current_section = sec
         return ""
 
     def init_layout(self):
@@ -136,7 +112,7 @@ class MyClass(Ui_Form, QWidget):
         self.init_lineEdit_text()  # 初始化两个输入LineEdit
         self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
         self.pushCheckOneLine.clicked.connect(self.on_clicked_checking_ip)
-        self.pushCheckOneLine.clicked.connect(self.table_display)
+        # self.pushCheckOneLine.clicked.connect(self.table_display)
 
 
     def create_threads(self):
@@ -163,37 +139,34 @@ class MyClass(Ui_Form, QWidget):
         作用:设置一个在线IP 所对应的IP的 背景颜色
         """
         print(" 接收到ip = {}".format(ip))
-
-        # self.on_line_ips.append(ip)
-        # self.compare_ip_list.add_new(ip)
-        # _, tail = currency.get_ip_sec_tail(ip)
-        # self.set_btn_background_from_ip_tail(tail)
-        self.containat_obj.add_ipo(ip)
-        self.table_display()
+        self.model.add_ipoa_update_all_model(ip)
+        # self.table_display()
 
 
-    def table_display(self):
-        # self.tableWidget.clearContents()
-        self.tableWidget.clearContents()
-        row = len(self.containat_obj.list)
-        self.tableWidget.setRowCount(row)
-        for row, co in self.containat_obj:
-            lit_co = list(co)
-            for col in range(10):
-                if col < len(lit_co):
-                    ipoat = lit_co[col][1]
-                    val = ipoat.get_ip()
-                else:
-                    val = ""
-                item = QTableWidgetItem(val)
-                self.tableWidget.setItem(row, col, item)
-            pass
+    # def table_display(self):
+    #     # self.tableWidget.clearContents()
+    #     self.tableWidget.clearContents()
+    #     row = len(self.containat_obj.list)
+    #     self.tableWidget.setRowCount(row)
+    #     for row, co in self.containat_obj:
+    #         lit_co = list(co)
+    #         for col in range(10):
+    #             if col < len(lit_co):
+    #                 ipoat = lit_co[col][1]
+    #                 val = ipoat.get_ip()
+    #             else:
+    #                 val = ""
+    #             item = QTableWidgetItem(val)
+    #             self.tableWidget.setItem(row, col, item)
+    #         pass
 
 
 
     def on_clicked_checking_ip(self):
         """ 开始检查IP是否ping的通 """
         print("-------------------> on_clicked_checking_ip !")
+        self._get_current_section()
+
         self.pushCheckOneLine.setEnabled(False)
 
         self.clear_progressBar()
