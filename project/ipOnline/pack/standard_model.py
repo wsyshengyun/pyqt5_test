@@ -15,11 +15,11 @@ class ContainerRow(object):
         for index, ipo in self.co:
             ip_str = ipo.get_ip()
             item = QStandardItem(ip_str)
-            # # item.setBackground()
-            # color = ipo.get_color()
-            # print("color is : {}".format(color))
-            # if color:
-            #     item.setBackground(color)
+            # item.setBackground()
+            color = ipo.get_color()
+            print("color is : {}".format(color))
+            if color:
+                item.setBackground(color)
 
             items.append(item)
         return items
@@ -50,11 +50,12 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
     def add_ipoa_update_all_model(self, ipoat: IpState):
         self.clear()
         super().add_ip(ipoat)
-        a = 1
-        for row, co in self:
+        row = -1
+        for co in self.list:
             # for col, ipoat_ in co:
             #     item = QStandardItem(ipoat_.get_ip())
             #     self.setItem(row, col, item)
+            row += 1
             obj = ContainerRow(co)
             items = obj.to_row_items()
             self.insertRow(row, items)

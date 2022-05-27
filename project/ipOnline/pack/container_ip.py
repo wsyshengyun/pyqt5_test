@@ -167,16 +167,17 @@ class ContainerAt(object):
 
         insert_x, insert_y = None, None
         # 根据ipoat对象的字段找到一个co对象
-        for index, co_ in self:
-            if co_.section == ip.section() and not co_.isfull():
+        # index = 0
+        for co_ in self.list:
+            if co_.section == ipoat.section() and not co_.isfull():
                 y = co_.add(ipoat)
                 x = self.list.index(co_)
                 # y = co_.list.index(ipoat)
                 return x, y, co_
         else:
             new_co = Container()
-            new_co.set_section(ip.section())
-            new_co.add(ip)
+            new_co.set_section(ipoat.section())
+            new_co.add(ipoat)
             x = self.add_co(new_co)
             return x, 0, new_co   # 如果返回的元祖第二个元素的值为0 则说明 又新加了一行
 
