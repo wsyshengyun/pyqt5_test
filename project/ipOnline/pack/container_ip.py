@@ -133,12 +133,63 @@ class ContainerAt(object):
         """ """
         self.list: List[Container] = []
         self.current_section = current_section  # 当前的字段
-        self.pos = 0
-        self.ip_dict = {}
+        self._pos = 0
+        self.ip_dict = {}  # {'ip': ipoat}
+        self.curr_sec_cos = []
 
 
-    def is_exist(self, ip):
+    def is_ip_exist(self, ip):
         return ip in self.ip_dict
+
+    def _is_section_exist(self, section: str):
+        ip_list = self.ip_dict.keys()
+        for ip in ip_list:
+            if IpState(ip).section() == section:
+                return True
+        return False
+
+    def _get_section_cos(self, section):
+        s_cos = []
+        for co in self.list:
+            if co.section == section:
+                s_cos.append(co)
+        return s_cos
+
+
+    def switch_section(self, section: str):
+        # 与当前section相同,啥也不做
+        if section == self.current_section:
+            return
+
+        if self._is_section_exist(section):
+            # del_cos = []
+            # for co in self.list:
+            #     if co.section in [self.current_section, last_section]:
+            #         del_cos.append(co)
+            #
+            # for co_ in del_cos:
+            #     self.list.remove(co_ )
+            #
+            # for co_ in del_cos:
+            #     self.add_co(co_)
+
+            # 更新方法
+            will_cos = self._get_section_cos(section)
+            for co in self.current_section:
+                for ipoat in co:
+                    ipoat.update_state()
+                self.list.remove(co)
+
+            for co in will_cos:
+                self.list.remove(co)
+
+            new_cos = will_cos.extend(self.curr_sec_cos)
+            for co in new_cos:
+                self.add_co(co)
+
+            last_section, self.current_section = self.current_section, section
+            self.curr_sec_cos = will_cos
+
 
 
     def add_ip(self, ip: str):
@@ -191,6 +242,7 @@ class ContainerAt(object):
         # 如果是则放在第一位
         if co.section == self.current_section:
             self.list.insert(0, co)
+            self.curr_sec_cos.append(co)
             return 0
         else:
             # 不是当前的字段容器
@@ -245,13 +297,13 @@ class ContainerAt(object):
         pass
 
     def __next__(self):
-        if self.pos < len(self.list):
-            index = self.pos
-            result = index, self.list[self.pos]
-            self.pos += 1
+        if self._pos < len(self.list):
+            index = self._pos
+            result = index, self.list[self._pos]
+            self._pos += 1
             return result
         else:
-            self.pos = 0
+            self._pos = 0
             raise StopIteration
 
     def __str__(self):

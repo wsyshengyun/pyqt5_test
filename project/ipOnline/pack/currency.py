@@ -261,15 +261,15 @@ class IpState(IP):
 
     def get_color(self):
         if self.state == STATE_UN_KNOW:
-            return QColor(125,125,0)
+            return QColor(255,255,255)
             return
         elif self.state == STATE_FINDED:
-            return QColor(125,0,125)
+            return QColor(170,170,170)
             return
         elif self.state == STATE_ON_LINE:
-            return QColor(125,125,125)
+            return QColor(22,150,209)
         elif self.state == STATE_NEW_ADD:
-            return QColor(0,255,255)
+            return QColor(29,140,29)
 
     def update_state(self):
         if self.state == STATE_UN_KNOW:
@@ -283,6 +283,9 @@ class IpState(IP):
 
     def set_unknow(self):
         self.state = STATE_UN_KNOW
+
+    def set_online(self):
+        self.state = STATE_ON_LINE
 
     def set_new(self):
         self.state = STATE_NEW_ADD
