@@ -14,7 +14,8 @@ class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.start = '192.168.2.2'
         self.end = '192.168.2.20'
-        self.ip_other = '192.168.3.111'
+        self.ip_other = '192.168.3.18'
+        print('ip....')
         pass
 
     def tearDown(self) -> None:
@@ -26,15 +27,26 @@ class MyTestCase(unittest.TestCase):
 
     def test_is_equal_section(self):
         obj1 = ip.IP(self.start)
-        self.assertTrue(obj1.is_equal_section(self.end))
-        self.assertFalse(obj1.is_equal_section(self.ip_other))
+        # self.assertTrue(obj1.is_equal_section(self.end))
+        # self.assertFalse(obj1.is_equal_section(self.ip_other))
 
         pass
 
-    def test_3(self):
+    def test_lt(self):
+        ip1 = ip.IP(self.start)
+        ip2 = ip.IP(self.end)
+        other = ip.IP(self.ip_other)
+        self.assertTrue(ip1<ip2)
+        self.assertTrue(ip2<other)
+        # self.assertTrue(other<ip2)
+
         pass
 
-    def test_4(self):
+    def test_init(self):
+        obja = ip.IP(self.start)
+        print("obja is {}".format(obja))
+        obj = ip.IP(obja)
+        print("obj is {}".format(obj))
         pass
 
     def test_5(self):

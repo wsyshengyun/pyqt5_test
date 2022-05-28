@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QProgressBar" name="progressBar">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>120</y>
+     <x>50</x>
+     <y>180</y>
      <width>281</width>
      <height>32</height>
     </rect>
@@ -26,11 +26,11 @@
     <number>24</number>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lIpStart">
+  <widget class="QLineEdit" name="line_start1">
    <property name="geometry">
     <rect>
-     <x>34</x>
-     <y>45</y>
+     <x>44</x>
+     <y>35</y>
      <width>161</width>
      <height>46</height>
     </rect>
@@ -45,8 +45,8 @@
   <widget class="QLabel" name="label_zhi">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>50</y>
+     <x>230</x>
+     <y>40</y>
      <width>29</width>
      <height>35</height>
     </rect>
@@ -61,27 +61,27 @@
     <string>至</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushCheckOneLine">
+  <widget class="QPushButton" name="btn_search1">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>120</y>
+     <x>440</x>
+     <y>30</y>
      <width>150</width>
      <height>46</height>
     </rect>
    </property>
    <property name="text">
-    <string>检查</string>
+    <string>搜索</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lIpEnd">
+  <widget class="QLineEdit" name="line_end1">
    <property name="enabled">
     <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>40</y>
+     <x>270</x>
+     <y>30</y>
      <width>121</width>
      <height>46</height>
     </rect>
@@ -111,40 +111,21 @@
     </font>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushConfigIp">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>40</y>
-     <width>150</width>
-     <height>49</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Adobe Arabic</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>保存</string>
-   </property>
-  </widget>
-  <widget class="QTableView" name="tableWidget">
+  <widget class="QTableView" name="tableview">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>200</y>
+     <y>250</y>
      <width>701</width>
-     <height>371</height>
+     <height>221</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="push_test">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>120</y>
+     <x>380</x>
+     <y>170</y>
      <width>150</width>
      <height>49</height>
     </rect>
@@ -159,14 +140,89 @@
     <string>test</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_switch_ip">
+  <widget class="QPushButton" name="btn_search2">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>40</y>
-     <width>124</width>
-     <height>41</height>
+     <x>440</x>
+     <y>100</y>
+     <width>150</width>
+     <height>46</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>搜索</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_zhi_2">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>110</y>
+     <width>29</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>至</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="line_start2">
+   <property name="geometry">
+    <rect>
+     <x>44</x>
+     <y>105</y>
+     <width>161</width>
+     <height>46</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="line_end2">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>100</y>
+     <width>121</width>
+     <height>46</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="sizeIncrement">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adobe Arabic</family>
+     <pointsize>14</pointsize>
+    </font>
    </property>
   </widget>
  </widget>

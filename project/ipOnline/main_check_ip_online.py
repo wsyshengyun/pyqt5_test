@@ -18,9 +18,9 @@ from project.ipOnline.pack import _currency
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
 from project.ipOnline.ui import mtab
-from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat
 from project.ipOnline.pack.ip import IpState
 from project.ipOnline.pack.standard_model import ContainerRow, ContainerAtModel
+from project.ipOnline.pack.middle import GlobalDataUi
 
 
 # todo 检查前先清除已经变颜色的Button和让进度条归0
@@ -40,16 +40,19 @@ class MyClass(Ui_Form, QWidget):
         self.setupUi(self)
         self.init_data()
         self.init_layout()
-        self.initUI()
+        self.init_ui()
 
     def init_data(self):
         """ """
         self.model = ContainerAtModel()
-        self.tableWidget.setModel(self.model)
+        self.tableview.setModel(self.model)
+        self.gdata = GlobalDataUi()
+        self.num = 0
 
     def init_layout(self):
         """ """
         h_box_1 = QHBoxLayout()
+        h_box_11 = QHBoxLayout()
         h_box_2 = QHBoxLayout()
         h_box_3 = QHBoxLayout()
         # v_box_1 = QVBoxLayout()
@@ -57,25 +60,31 @@ class MyClass(Ui_Form, QWidget):
 
 
         # 第一横向Box IP范围控件
-        h_box_1.addWidget(self.lIpStart)
+        h_box_1.addWidget(self.line_start1)
         h_box_1.addWidget(self.label_zhi)
-        h_box_1.addWidget(self.lIpEnd)
-        h_box_1.addWidget(self.comboBox_switch_ip)
-        h_box_1.addWidget(self.pushConfigIp)
-        h_box_1.addWidget(self.push_test)
+        h_box_1.addWidget(self.line_end1)
+        h_box_1.addWidget(self.btn_search1)
         spaceritem = QSpacerItem(20, 20, QSizePolicy.Expanding)
         h_box_1.addSpacerItem(spaceritem)
 
+        # 第二横向Box IP范围控件
+        h_box_11.addWidget(self.line_start2)
+        h_box_11.addWidget(self.label_zhi_2)
+        h_box_11.addWidget(self.line_end2)
+        h_box_11.addWidget(self.btn_search2)
+        h_box_11.addSpacerItem(spaceritem)
+
         # 第二横向Box 进度条
-        h_box_2.addWidget(self.pushCheckOneLine)
         h_box_2.addWidget(self.progressBar)
+        h_box_2.addWidget(self.push_test)
         h_box_2.addSpacerItem(spaceritem)
 
         # 第三层 横向Box 表格
-        h_box_3.addWidget(self.tableWidget)
+        h_box_3.addWidget(self.tableview)
 
         # 总Box开始添加各个层
         global_box.addLayout(h_box_1)
+        global_box.addLayout(h_box_11)
         global_box.addLayout(h_box_2)
         global_box.addLayout(h_box_3)
         # global_box.addLayout(v_box_1)
@@ -83,61 +92,49 @@ class MyClass(Ui_Form, QWidget):
         # 设置总Box
         self.setLayout(global_box)
 
-    def initUI(self):
+    def init_ui(self):
 
         # 设置表格
-        if isinstance(self.tableWidget, QTableWidget):
-            mtab.set_header(self.tableWidget)
         mtab.set_header(self.model)
 
+        # 进度条
         self.clear_progressBar()
+        # LineEdit
         self.init_lineEdit_text()  # 初始化两个输入LineEdit
-
-        self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
-        self.pushCheckOneLine.clicked.connect(self.on_check_on_line)
-        # test button
+        # 搜索按键1, 2
+        self.btn_search1.clicked.connect(self.on_check_on_line)
+        self.btn_search2.clicked.connect(self.on_check_on_line)
         self.push_test.clicked.connect(self.on_test)
 
-        # LineEdit
-        # self.lIpStart.editingFinished.connect(self.lineedit_finished)
-        # self.lIpStart.textChanged.connect(self.lineedit_changed)
+    def _enable_btn(self, able: bool=True):
+        print("able is : {}".format(able))
+        self.btn_search1.setEnabled(able)
+        self.btn_search2.setEnabled(able)
 
-    # def lineedit_finished(self):
-    #     """
-    #
-    #     """
-    #
-    # def lineedit_changed(self):
-    #     """
-    #
-    #     """
-
-
-
-
-
-
-    def _get_current_section(self):
-        iptt = self.lIpStart.text()
-        if iptt:
-            sec = IpState(iptt).section()
-            self.model.current_section = sec
-        return ""
-
+    def _set_current_section(self, ip):
+        sec = IpState(ip).section()
+        print("sec is {}".format(sec))
+        self.model.switch_section(sec)
     def on_test(self):
         """
 
         """
         print('on_test')
-        from project.ipOnline.pack.standard_model import factory_container_model_obj
-        factory_container_model_obj(self.model)
+        if self.num == 1:
+            start, end = self._get_start_end_ip(self.btn_search1)
+            self._set_current_section(start)
+            self.model.flush()
 
+        if self.num == 0:
+            self.model.current_section = '8'
+            from project.ipOnline.pack.standard_model import factory_container_model_obj
+            factory_container_model_obj(self.model)
+            self.num += 1
 
-
-    def init_ping_ip(self):
+    def init_ping_ip(self, start, end):
 
         self.manage_threads = ManageTheads()
-        self.manage_threads.create_threads()
+        self.manage_threads.create_threads(start, end)
         self.manage_threads.signal_all_thread_finished.connect(self.finished_all_ths)
         self.manage_threads.signal_ip_on_line.connect(self.on_receive_ip)
         self.manage_threads.signal_one_thread_end[int, int].connect(self.update_progressbar)
@@ -147,10 +144,10 @@ class MyClass(Ui_Form, QWidget):
         self.progressBar.setValue(0)
 
     def init_lineEdit_text(self):
-        if _currency.is_exists_ini_path():
-            start, end = _currency.get_start_ip(), _currency.get_end_ip()
-            self.lIpStart.setText(start)
-            self.lIpEnd.setText(end)
+        self.line_start1.setText(self.gdata.start1)
+        self.line_start2.setText(self.gdata.start2)
+        self.line_end1.setText(self.gdata.end1)
+        self.line_end2.setText(self.gdata.end2)
 
     def on_receive_ip(self, ip):
         """
@@ -161,24 +158,37 @@ class MyClass(Ui_Form, QWidget):
         self.model.add_ip_update_all_model(ip)
         # self.table_display()
 
+    def _get_start_end_ip(self, btn):
+        if btn == self.btn_search1:
+            return self.line_start1.text(), self.line_end1.text()
+        else:
+            return self.line_start2.text(), self.line_end2.text()
 
+    def _set_start_end_ip(self, btn, start, end):
+        if btn == self.btn_search1:
+            self.gdata.set_start_end1(start, end)
+        else:
+            self.gdata.set_start_end2(start, end)
 
     def on_check_on_line(self):
         """ 开始检查IP是否ping的通 """
         print("-------------------> on_clicked_checking_ip !")
-        self._get_current_section()
-
-        self.pushCheckOneLine.setEnabled(False)
+        self._enable_btn(False)
         self.clear_progressBar()
+        sender = self.sender()
+        start, end = self._get_start_end_ip(sender)
+        self._set_start_end_ip(sender, start, end)
+        self._set_current_section(start)
+        self.model.flush()
+        self.init_ping_ip(start, end)
 
-        self.init_ping_ip()
         self.manage_threads.start()
 
     def finished_all_ths(self):
 
         print("收到信号,执行槽 finished_all_ths")
 
-        self.pushCheckOneLine.setEnabled(True)
+        self._enable_btn(True)
         self.finished_threads_num = 0
 
         # 结束所有的th
@@ -198,13 +208,9 @@ class MyClass(Ui_Form, QWidget):
         self.progressBar.setValue(value)
         pass
 
-    def on_clicked_save(self):
-        """ 保存起始IP和终止IP的数据 """
-        start = self.lIpStart.text().strip()
-        end = self.lIpEnd.text().strip()
-        _currency.set_start_ip(start)
-        _currency.set_end_ip(end)
-        pass
+
+    def closeEvent(self, a0) -> None:
+        self.gdata.save_cfg()
 
 
 

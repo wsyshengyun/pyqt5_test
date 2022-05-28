@@ -158,36 +158,31 @@ class ContainerAt(object):
 
     def switch_section(self, section: str):
         # 与当前section相同,啥也不做
-        if section == self.current_section:
+        if self.current_section is None:
+            self.current_section = section
+            return
+
+        if int(section) == int(self.current_section):
             return
 
         if self._is_section_exist(section):
-            # del_cos = []
-            # for co in self.list:
-            #     if co.section in [self.current_section, last_section]:
-            #         del_cos.append(co)
-            #
-            # for co_ in del_cos:
-            #     self.list.remove(co_ )
-            #
-            # for co_ in del_cos:
-            #     self.add_co(co_)
-
             # 更新方法
             will_cos = self._get_section_cos(section)
-            for co in self.current_section:
-                for ipoat in co:
-                    ipoat.update_state()
+            for co in self.curr_sec_cos:
+                for _, ipoat in co:
+                    # ipoat.update_state()
+                    ipoat.set_finded()
                 self.list.remove(co)
 
             for co in will_cos:
                 self.list.remove(co)
 
-            new_cos = will_cos.extend(self.curr_sec_cos)
-            for co in new_cos:
+            # new_cos = will_cos.extend(self.curr_sec_cos)
+            list_ = will_cos + self.curr_sec_cos
+            last_section, self.current_section = self.current_section, section
+            for co in list_:
                 self.add_co(co)
 
-            last_section, self.current_section = self.current_section, section
             self.curr_sec_cos = will_cos
 
 
@@ -204,26 +199,23 @@ class ContainerAt(object):
         if not isinstance(ip, str):
             return None
 
-        if self.is_exist(ip):
+        if self.is_ip_exist(ip):
             # 先找出来,而不是创建一个新的
-            # ipoat.update_state()
-            # self.get_ipoat(ip).update_state()
-            self.ip_dict.get(ip).update_state()
+            ipoat: IpState = self.ip_dict.get(ip)
+            ipoat.set_online()
             return None
         else:
             ipoat = IpState(ip)
+            ipoat.set_new()
 
         # 加入字典
         self.ip_dict[ip] = ipoat
 
-        insert_x, insert_y = None, None
         # 根据ipoat对象的字段找到一个co对象
-        # index = 0
         for co_ in self.list:
             if co_.section == ipoat.section() and not co_.isfull():
                 y = co_.add(ipoat)
                 x = self.list.index(co_)
-                # y = co_.list.index(ipoat)
                 return x, y, co_
         else:
             new_co = Container()
@@ -314,7 +306,7 @@ class ContainerAt(object):
         return tsr_all
 
 def set_init_containat():
-    from project.ipOnline.pack.test_generate_ip import iplist
+    from project.ipOnline.test.test_generate_ip import iplist
     objAt = ContainerAt('43')
     for ip in iplist:
         ipoat = IpState(ip)

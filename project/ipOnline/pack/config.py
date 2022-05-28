@@ -20,15 +20,13 @@ path = get_path('app.ini')
 
 
 class MyConfigObj(object):
-    def __init__(self, path, logger=None):
-        if logger:
-            self.logger = logger
+    def __init__(self, pth=None):
+        global path
+        if pth:
+            self.path = pth
         else:
-            self.logger = print
-
-        self.path = path
+            self.path = path
         self.conf = ConfigObj(self.path, encoding='utf8')
-        # self.conf.filename = self.path
 
     def add_section(self, sec, option=None, value=None):
         if sec not in self.conf:

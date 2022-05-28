@@ -19,12 +19,15 @@ def _get_range_ips(start: str, end: str):
 class IP(object):
     def __init__(self, ip):
         """ """
-        try:
-            self.check_ip_formatter(ip)
-        except TypeError as e:
-            return e
+        if isinstance(ip, IP):
+            self.__dict__ = ip.__dict__
+        else:
+            try:
+                self.check_ip_formatter(ip)
+            except TypeError as e:
+                return e
+            self.ip = ip
 
-        self.ip = ip
 
     def get_ip(self):
         return self.ip
@@ -110,8 +113,26 @@ class IP(object):
             yield self.replace_tail(num)
 
     def is_equal_section(self, ip):
-        return self(ip).section() == self.section()
+        return IP(ip).section() == self.section()
 
+    def __lt__(self, other):
+        """
+        <
+        """
+        if self.is_equal_section(other):
+            # 字段相同
+            return int(self.tail()) < int(other.tail())
+        else:
+            # 比较字段
+            return int(self.section()) < int(other.section())
+
+    def __str__(self):
+        return f"<IP: {self.ip}>"
+
+STATE_UN_KNOW = 0
+STATE_FINDED = 1
+STATE_ON_LINE = 2
+STATE_NEW_ADD = 3
 
 class IpState(IP):
     def __init__(self, ip):
@@ -152,6 +173,7 @@ class IpState(IP):
         elif self.state == STATE_NEW_ADD:
             self.state = STATE_FINDED
 
+
     def set_unknow(self):
         self.state = STATE_UN_KNOW
 
@@ -161,8 +183,9 @@ class IpState(IP):
     def set_new(self):
         self.state = STATE_NEW_ADD
 
+    def set_finded(self):
+        self.state = STATE_FINDED
 
-STATE_UN_KNOW = 0
-STATE_FINDED = 1
-STATE_ON_LINE = 2
-STATE_NEW_ADD = 3
+
+    def __str__(self):
+        return f"<IpState: {self.ip}"

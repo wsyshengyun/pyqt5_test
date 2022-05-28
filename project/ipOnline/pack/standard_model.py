@@ -26,13 +26,9 @@ class ContainerRow(object):
 
 
 
-
-
-
 class ContainerAtModel(QStandardItemModel, ContainerAt):
     def __init__(self):
         super(ContainerAtModel, self).__init__()
-
 
     def add_ip_update_all_model(self, ip: str):
         self.clear()
@@ -45,13 +41,19 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
             self.insertRow(row, items)
         pass
 
-
+    def flush(self):
+        self.clear()
+        for co in self.list:
+            obj = ContainerRow(co)
+            items = obj.to_row_items()
+            self.appendRow(items)
 
 
 
 def factory_container_model_obj(model = None):
     """ """
-    from project.ipOnline.pack.test_generate_ip import iplist
+    # from project.ipOnline.pack.test_generate_ip import iplist
+    from project.ipOnline.test.test_generate_ip import iplist
     if model:
         obj = model
     else:
