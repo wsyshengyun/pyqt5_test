@@ -2,6 +2,19 @@
 
 from project.ipOnline.pack.standard_model import ContainerAtModel
 
+class GlobalDataUi(object):
+    def __init__(self):
+        """ """
+        self.start_ip = ""
+        self.end_ip = ""
+
+    def set_sart_end_ip(self, start, end):
+        self.start_ip = start
+        self.end_ip = end
+
+
+
+
 class ListSelectIp(object):
     def __init__(self):
         """ """

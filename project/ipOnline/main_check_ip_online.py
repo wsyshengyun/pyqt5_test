@@ -14,11 +14,12 @@ from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget, QTableWidgetIte
 
 from PyQt5 import QtCore
 
-from project.ipOnline.pack import currency
+from project.ipOnline.pack import _currency
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.ui.ip_online import Ui_Form
 from project.ipOnline.ui import mtab
-from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat, IpState
+from project.ipOnline.pack.container_ip import ContainerAt, Container, set_init_containat
+from project.ipOnline.pack.ip import IpState
 from project.ipOnline.pack.standard_model import ContainerRow, ContainerAtModel
 
 
@@ -45,13 +46,6 @@ class MyClass(Ui_Form, QWidget):
         """ """
         self.model = ContainerAtModel()
         self.tableWidget.setModel(self.model)
-
-    def _get_current_section(self):
-        iptt = self.lIpStart.text()
-        if iptt:
-            sec = IpState(iptt).section()
-            self.model.current_section = sec
-        return ""
 
     def init_layout(self):
         """ """
@@ -98,10 +92,37 @@ class MyClass(Ui_Form, QWidget):
 
         self.clear_progressBar()
         self.init_lineEdit_text()  # 初始化两个输入LineEdit
+
         self.pushConfigIp.clicked.connect(self.on_clicked_save)  # LineEdit 数据保存到配置
-        self.pushCheckOneLine.clicked.connect(self.on_clicked_checking_ip)
+        self.pushCheckOneLine.clicked.connect(self.on_check_on_line)
         # test button
         self.push_test.clicked.connect(self.on_test)
+
+        # LineEdit
+        # self.lIpStart.editingFinished.connect(self.lineedit_finished)
+        # self.lIpStart.textChanged.connect(self.lineedit_changed)
+
+    # def lineedit_finished(self):
+    #     """
+    #
+    #     """
+    #
+    # def lineedit_changed(self):
+    #     """
+    #
+    #     """
+
+
+
+
+
+
+    def _get_current_section(self):
+        iptt = self.lIpStart.text()
+        if iptt:
+            sec = IpState(iptt).section()
+            self.model.current_section = sec
+        return ""
 
     def on_test(self):
         """
@@ -113,7 +134,7 @@ class MyClass(Ui_Form, QWidget):
 
 
 
-    def create_threads(self):
+    def init_ping_ip(self):
 
         self.manage_threads = ManageTheads()
         self.manage_threads.create_threads()
@@ -126,8 +147,8 @@ class MyClass(Ui_Form, QWidget):
         self.progressBar.setValue(0)
 
     def init_lineEdit_text(self):
-        if currency.is_exists_ini_path():
-            start, end = currency.get_start_ip(), currency.get_end_ip()
+        if _currency.is_exists_ini_path():
+            start, end = _currency.get_start_ip(), _currency.get_end_ip()
             self.lIpStart.setText(start)
             self.lIpEnd.setText(end)
 
@@ -142,17 +163,15 @@ class MyClass(Ui_Form, QWidget):
 
 
 
-    def on_clicked_checking_ip(self):
+    def on_check_on_line(self):
         """ 开始检查IP是否ping的通 """
         print("-------------------> on_clicked_checking_ip !")
         self._get_current_section()
 
         self.pushCheckOneLine.setEnabled(False)
-
         self.clear_progressBar()
 
-        self.create_threads()
-
+        self.init_ping_ip()
         self.manage_threads.start()
 
     def finished_all_ths(self):
@@ -183,8 +202,8 @@ class MyClass(Ui_Form, QWidget):
         """ 保存起始IP和终止IP的数据 """
         start = self.lIpStart.text().strip()
         end = self.lIpEnd.text().strip()
-        currency.set_start_ip(start)
-        currency.set_end_ip(end)
+        _currency.set_start_ip(start)
+        _currency.set_end_ip(end)
         pass
 
 

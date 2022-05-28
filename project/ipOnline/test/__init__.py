@@ -5,6 +5,3 @@
 #  Vestibulum commodo. Ut rhoncus gravida arcu.
 
 # coding:utf8
-
-from PyQt5.QtWidgets import QTableView
-from PyQt5.QtCore import Qt

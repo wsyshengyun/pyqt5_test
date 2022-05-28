@@ -1,7 +1,7 @@
 # coding:utf8
 
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QFont, QColor
-from project.ipOnline.pack.container_ip import ContainerAt, Container, IpState
+from project.ipOnline.pack.container_ip import ContainerAt, Container
 
 
 class ContainerRow(object):
@@ -34,27 +34,11 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
         super(ContainerAtModel, self).__init__()
 
 
-    # def add_ip(self, ip: IpState):
-    #     row, col, obj = super().add_ip(ip)
-    #
-    #     if col == 0:
-    #         # 新的横向容器
-    #         items = ContainerRow(obj).to_row_items()
-    #         self.insertRow(row, items)
-    #     else:
-    #         # 先删除一行, 在插入一行
-    #         self.removeRow(row)
-    #         items = ContainerRow(obj).to_row_items()
-    #         self.insertRow(row, items)
-
     def add_ip_update_all_model(self, ip: str):
         self.clear()
         super().add_ip(ip)
         row = -1
         for co in self.list:
-            # for col, ipoat_ in co:
-            #     item = QStandardItem(ipoat_.get_ip())
-            #     self.setItem(row, col, item)
             row += 1
             obj = ContainerRow(co)
             items = obj.to_row_items()

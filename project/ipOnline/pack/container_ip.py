@@ -9,7 +9,7 @@
 装集合的容器
 
 """
-from project.ipOnline.pack.currency import IpState
+from project.ipOnline.pack.ip import IpState
 from typing import List
 
 

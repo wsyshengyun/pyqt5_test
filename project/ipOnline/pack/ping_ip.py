@@ -8,25 +8,16 @@
 import subprocess
 
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
-
-# from .currency import get_range_ips
-from project.ipOnline.pack.currency import get_range_ips
-# from .log import logger
 from project.ipOnline.pack.log import logger
-from project.ipOnline.pack.test_generate_ip import iplist, generator_ip
-import time
+from project.ipOnline.pack.ip import _get_range_ips
 
-g = generator_ip()
 
-# -----------------------------------------------------------
-# 重构  用QThread实现
-# -----------------------------------------------------------
-class Ping_Ip(QObject):
+class PingIp(QObject):
     send_ip_signal = pyqtSignal(str)
     signal_check_end = pyqtSignal()
 
     def __init__(self, ip):
-        super(Ping_Ip, self).__init__()
+        super(PingIp, self).__init__()
         self.ip = ip
 
     def run(self):
@@ -38,18 +29,13 @@ class Ping_Ip(QObject):
                 logger.info("IP {} is online".format(self.ip))
                 self.send_ip_signal.emit(self.ip)
                 break
-
         self.signal_check_end.emit()
 
-    # def run(self):
-    #     val = next(g)
-    #     self.send_ip_signal.emit(self.ip)
-    #     self.signal_check_end.emit()
 
 
 class ManageTheads(QObject):
+
     signal_all_thread_finished = pyqtSignal()  # 所有线程结束时发送
-    # ping 通IP时发送
     signal_ip_on_line = pyqtSignal(str)  # ping 通IP时发送
     signal_one_thread_end = pyqtSignal(int, int)  # 当一个线程结束时产生, 发送当前已经结束的线程数和总的线程数
 
@@ -60,17 +46,17 @@ class ManageTheads(QObject):
         super(ManageTheads, self).__init__()
 
         self.objs = []
-        
         self.ths = []
 
-    def create_threads(self):
-
-        ips = get_range_ips()
+    def create_threads(self, start=None, end=None):
+          # todo
+        ips = _get_range_ips(start, end)
+        # ips = get_range_ips()
         self.ths = []
         self.objs = []
 
         for ip in ips:
-            ip_obj = Ping_Ip(ip)
+            ip_obj = PingIp(ip)
             th = QThread()
 
             ip_obj.moveToThread(th)
