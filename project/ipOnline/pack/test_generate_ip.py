@@ -40,6 +40,13 @@ def generator_ip():
     for ip in iplist:
         yield ip
 
+class B:
+    def __init__(self):
+        pass
+
+    def fun(self):
+        pass
+
 
 class A:
     def __init__(self):
@@ -67,6 +74,11 @@ class A:
     def foo(self):
         for  val in self:
             print(val)
+class C(A, B):
+    def __init__(self):
+        """ """
+        super(C, self).__init__()
+        pass
 
 
 if __name__ == '__main__':
@@ -74,9 +86,15 @@ if __name__ == '__main__':
     # for i in range(len(iplist)):
     #     print(next(g))
 
-    obj = A()
-    obj.foo()
-    obj.list.append('a')
-    print(obj.list)
-    print("a in self.list : {}".format('a' in obj.list))
+    # obj = A()
+    # obj.foo()
+    # obj.list.append('a')
+    # print(obj.list)
+    # print("a in self.list : {}".format('a' in obj.list))
+    # obj.foo()
+    # obj.foo()
+
+    objc = C()
+    objc.foo()
+    objc.foo()
 

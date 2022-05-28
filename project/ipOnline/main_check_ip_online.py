@@ -137,11 +137,8 @@ class MyClass(Ui_Form, QWidget):
         作用:设置一个在线IP 所对应的IP的 背景颜色
         """
         print(" 接收到ip = {}".format(ip))
-        self.model.add_ipoa_update_all_model(ip)
+        self.model.add_ip_update_all_model(ip)
         # self.table_display()
-
-
-
 
 
 

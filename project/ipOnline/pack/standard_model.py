@@ -34,22 +34,22 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
         super(ContainerAtModel, self).__init__()
 
 
-    def add_ip(self, ip: IpState):
-        row, col, obj = super().add_ip(ip)
+    # def add_ip(self, ip: IpState):
+    #     row, col, obj = super().add_ip(ip)
+    #
+    #     if col == 0:
+    #         # 新的横向容器
+    #         items = ContainerRow(obj).to_row_items()
+    #         self.insertRow(row, items)
+    #     else:
+    #         # 先删除一行, 在插入一行
+    #         self.removeRow(row)
+    #         items = ContainerRow(obj).to_row_items()
+    #         self.insertRow(row, items)
 
-        if col == 0:
-            # 新的横向容器
-            items = ContainerRow(obj).to_row_items()
-            self.insertRow(row, items)
-        else:
-            # 先删除一行, 在插入一行
-            self.removeRow(row)
-            items = ContainerRow(obj).to_row_items()
-            self.insertRow(row, items)
-
-    def add_ipoa_update_all_model(self, ipoat: IpState):
+    def add_ip_update_all_model(self, ip: str):
         self.clear()
-        super().add_ip(ipoat)
+        super().add_ip(ip)
         row = -1
         for co in self.list:
             # for col, ipoat_ in co:
@@ -65,7 +65,6 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
 
 
 
-
 def factory_container_model_obj(model = None):
     """ """
     from project.ipOnline.pack.test_generate_ip import iplist
@@ -75,7 +74,7 @@ def factory_container_model_obj(model = None):
         obj = ContainerAtModel()
     for ip in iplist:
         # obj.add_ipo(ip)
-        obj.add_ipoa_update_all_model(ip)
+        obj.add_ip_update_all_model(ip)
     print(obj)
     return obj
 
