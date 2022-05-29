@@ -10,6 +10,31 @@ import subprocess
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from project.ipOnline.pack.log import logger
 from project.ipOnline.pack.ip import _get_range_ips
+from ping3 import ping
+
+
+class PingBase(QObject):
+    signal_ping_send_ip = pyqtSignal(str)
+    signal_ping_check_end = pyqtSignal()
+
+    def __init__(self, ip):
+        """ """
+        self.ip = ip
+
+    def run(self):
+        pass
+
+class PingIp3(PingBase):
+    def __init__(self, ip):
+        """ """
+        super(PingIp3, self).__init__(ip)
+
+    def run(self):
+        code = ping(self.ip, timeout=0.5)
+        if code:
+            self.signal_ping_send_ip.emit(self.ip)
+        else:
+            self.signal_ping_check_end.emit()
 
 
 class PingIp(QObject):
@@ -22,7 +47,7 @@ class PingIp(QObject):
 
     def run(self):
         p = subprocess.Popen(['ping.exe', self.ip], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                             shell=True)
+                             shell=False)
         res = p.stdout.readlines()
         for line in res:
             if 'TTL' in line.decode('gbk'):
@@ -49,6 +74,7 @@ class ManageTheads(QObject):
         self.objs = []
 
         for ip in ips:
+            # ip_obj = PingIp3(ip)
             ip_obj = PingIp(ip)
             th = QThread()
 

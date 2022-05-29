@@ -7,19 +7,15 @@
 
 # import PyQt5.QtCore as PQC
 from PyQt5.QtCore import pyqtSignal, QCoreApplication
-from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget, QTableWidgetItem, QTableWidget
-                            ,QVBoxLayout, QHBoxLayout, QMessageBox
-                            ,QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import (QApplication
                              )
-
 from PyQt5 import QtCore
 
 from project.ipOnline.pack.ping_ip import ManageTheads
-from project.ipOnline.ui import mtab
 from project.ipOnline.pack.ip import IpState
-from project.ipOnline.pack.standard_model import ContainerRow, ContainerAtModel
+from project.ipOnline.pack.standard_model import  ContainerAtModel
 from project.ipOnline.pack.middle import GlobalDataUi
-
+from project.ipOnline.ui import mtab
 from project.ipOnline.ui.main_widget import MainWidget
 
 
