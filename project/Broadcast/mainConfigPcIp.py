@@ -16,6 +16,14 @@ import project.Broadcast.pack.set_pc as pc
 from project.Broadcast.ui._table import _Table
 
 
+# todo 增加修改网关的功能, 和修改DNS的功能
+# todo 界面适当的修改
+# todo 添加IP的尾部默认值
+# todo 启动界面慢的解决
+# todo 增加配置文件
+# todo 快捷设置IP
+
+
 class UI_pc_ip(QWidget, Ui_Form):
     def __init__(self):
         super(UI_pc_ip, self).__init__()
@@ -23,6 +31,22 @@ class UI_pc_ip(QWidget, Ui_Form):
         self.init_data()
         self.init_layout()
         self.init_ui()
+
+    def get_screen_h_w(self):
+        desktop = QApplication.desktop()
+        return desktop.height(), desktop.width()
+
+    def get_self_size(self):
+        s_height, s_width = self.get_screen_h_w()
+        if 0 < s_height <=1024:
+            return 400, 600
+        elif 1024 <= s_height < 1440:
+            return 500, 700
+        elif 1440 <= s_height < 1920:
+            return 800, 1000
+        elif 1920<= s_height <=2560:
+            return 1000, 1200
+
 
     def init_layout(self):
         """
@@ -53,6 +77,8 @@ class UI_pc_ip(QWidget, Ui_Form):
         self.card = self.network.get_card_from_name()
 
     def init_ui(self):
+        size = self.get_self_size()
+        self.setGeometry(0, 0, *size)
         # 初始化列表框
         default = self.card.get_name()
         names: list = list(self.network.get_card_names())
@@ -107,6 +133,7 @@ class UI_pc_ip(QWidget, Ui_Form):
             item = self.table.currentItem()
             row_num = item.row()
             self.table.removeRow(row_num)
+            self.pushbutton_true()
             pass
 
     def box_current_text_changed(self, text):
