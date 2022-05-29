@@ -13,7 +13,7 @@ from project.ipOnline.pack.ip import _get_range_ips
 
 
 class PingIp(QObject):
-    send_ip_signal = pyqtSignal(str)
+    signal_send_ip = pyqtSignal(str)
     signal_check_end = pyqtSignal()
 
     def __init__(self, ip):
@@ -27,10 +27,9 @@ class PingIp(QObject):
         for line in res:
             if 'TTL' in line.decode('gbk'):
                 logger.info("IP {} is online".format(self.ip))
-                self.send_ip_signal.emit(self.ip)
+                self.signal_send_ip.emit(self.ip)
                 break
         self.signal_check_end.emit()
-
 
 
 class ManageTheads(QObject):
@@ -44,14 +43,11 @@ class ManageTheads(QObject):
     def __init__(self):
 
         super(ManageTheads, self).__init__()
-
         self.objs = []
         self.ths = []
 
     def create_threads(self, start=None, end=None):
-          # todo
         ips = _get_range_ips(start, end)
-        # ips = get_range_ips()
         self.ths = []
         self.objs = []
 
@@ -64,7 +60,7 @@ class ManageTheads(QObject):
 
             ip_obj.signal_check_end.connect(self.slot_finised_thread)
             ip_obj.signal_check_end.connect(self.emit_signal)
-            ip_obj.send_ip_signal.connect(self.signal_ip_on_line)
+            ip_obj.signal_send_ip.connect(self.signal_ip_on_line)
 
             self.ths.append(th)
             self.objs.append(ip_obj)
@@ -74,25 +70,20 @@ class ManageTheads(QObject):
     def emit_signal(self):
         self.signal_one_thread_end.emit(self.num_finished_threads, self.len_threads())
 
-        pass
 
     def quit(self):
         for th in self.ths:
             th.quit()
 
     def start(self):
-
         for th in self.ths:
             th.start()
 
     def len_threads(self):
-
         return len(self.ths)
 
     def slot_finised_thread(self):
-
         self.num_finished_threads += 1
-
         if self.num_finished_threads == self.len_threads():
             self.signal_all_thread_finished.emit()
             logger.info("全部线程已经运行完成,发射信号:singal_all_thread_finished")
