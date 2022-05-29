@@ -24,13 +24,18 @@ class PingBase(QObject):
     def run(self):
         pass
 
-class PingIp3(PingBase):
+
+class PingIp3(QObject):
+    signal_ping_send_ip = pyqtSignal(str)
+    signal_ping_check_end = pyqtSignal()
+
     def __init__(self, ip):
         """ """
-        super(PingIp3, self).__init__(ip)
+        super(PingIp3, self).__init__()
+        self.ip = ip
 
     def run(self):
-        code = ping(self.ip, timeout=0.5)
+        code = ping(self.ip, timeout=2)
         if code:
             self.signal_ping_send_ip.emit(self.ip)
         else:
@@ -74,8 +79,8 @@ class ManageTheads(QObject):
         self.objs = []
 
         for ip in ips:
-            # ip_obj = PingIp3(ip)
-            ip_obj = PingIp(ip)
+            ip_obj = PingIp3(ip)
+            # ip_obj = PingIp(ip)
             th = QThread()
 
             ip_obj.moveToThread(th)
