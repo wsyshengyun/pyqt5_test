@@ -135,7 +135,8 @@ class ContainerAt(object):
         self.current_section = current_section  # 当前的字段
         self._pos = 0
         self.ip_dict = {}  # {'ip': ipoat}
-        self.curr_sec_cos = []
+        self.curr_sec_cos = []  # 当前字段的ip对象
+        self.second_sec_cos = []
 
 
     def is_ip_exist(self, ip):
@@ -155,14 +156,25 @@ class ContainerAt(object):
                 s_cos.append(co)
         return s_cos
 
+    def update_not_online(self):
+        set_second = set(self.second_sec_cos)
+        set_last = set()
+        for co in self.curr_sec_cos:
+            for _, ipoat in co:
+                set_last.add(ipoat)
+        set2 = set_last - set_second
+        if set2:
+            for ipoat in set2:
+                ipoat.set_finded()
 
     def switch_section(self, section: str):
-        # 与当前section相同,啥也不做
+        #
         if self.current_section is None:
             self.current_section = section
             return
 
         if int(section) == int(self.current_section):
+            self.second_sec_cos = []
             return
 
         if self._is_section_exist(section):
@@ -203,10 +215,13 @@ class ContainerAt(object):
             # 先找出来,而不是创建一个新的
             ipoat: IpState = self.ip_dict.get(ip)
             ipoat.set_online()
+            self.second_sec_cos.append(ipoat)
             return None
         else:
             ipoat = IpState(ip)
             ipoat.set_new()
+
+        self.second_sec_cos.append(ipoat)
 
         # 加入字典
         self.ip_dict[ip] = ipoat
@@ -228,6 +243,7 @@ class ContainerAt(object):
         # 如果list为空,直接插入
         if self.is_empty():
             self.list.append(co)
+            self.curr_sec_cos.append(co)
             return 0
 
             # 判断是否为当前的字段容器
