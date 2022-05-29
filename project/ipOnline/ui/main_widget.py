@@ -87,7 +87,6 @@ class MainWidget(Ui_Form, QWidget):
 
 
 def main():
-    # PyQt / Qt解决分辨率不同的设备显示问题
     import sys
     app = QApplication(sys.argv)
     win = MainWidget()

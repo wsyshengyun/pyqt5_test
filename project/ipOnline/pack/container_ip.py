@@ -93,7 +93,6 @@ class Container(object):
             self.pos = 0
             raise StopIteration
 
-
     def __lt__(self, other):
         this = int(self.section)
         return True if this < int(other.section) else False
@@ -115,13 +114,6 @@ class Container(object):
     def __contains__(self, item):
         return item in self.list
         pass
-
-# todo IpDict
-# class IpDict(dict):
-#     def __init__(self, **kwargs):
-#         """ """
-#         super(IpDict, self).__init__(kwargs)
-
 
 
 class ContainerAt(object):
