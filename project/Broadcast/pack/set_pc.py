@@ -47,9 +47,10 @@ def read():
 def set_ips_and_masks():
     print("in set_ips_and_masks()....")
     if set_ip_object:
-        ips, masks = set_ip_object
+        ips, masks, card_text = set_ip_object
         print('in set_ips_and_masks(): {}'.format(ips, masks))
         # input('.......~~~~')
+        card = obj_network.get_card_from_name(card_text)
         result = card.card.EnableStatic(IPAddress=ips, SubnetMask=masks)
         print(result)
         if result[0] == 0 or result[0] == 1:
@@ -83,9 +84,18 @@ class NetWorkCard(object):
             yield net.Description
 
     def get_card_from_name(self, name="环回"):
+        """
+        如果self.cards为空 则返回
+        如果根据名字没有找到相应的card,则返回第一个card
+        """
+        if not self.cards:
+            return
+
         for card in self.cards:
             if name in card.get_name():
                 return card
+        else:
+            return self.cards[0]
 
     def get_card_from_index(self, index):
         for card in self.cards:
@@ -106,16 +116,37 @@ class Card(object):
         pass
         return self.card.Index
 
+    @staticmethod
+    def check_ip(ip: str):
+        import re
+        match = re.match(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip)
+        if not match:
+            return None
+        ip_int_list = [int(d) for d in ip.split('.')]
+        for d in ip_int_list:
+            if not 0 <= d <= 255:
+                return None
+        return True
+
+
     def ips(self):
         """
         获得所有的IP
 
         """
-        ips = self.card.IPAddress
+        ips: set = self.card.IPAddress
+        return self._filter_ip(ips)
+
+
+    def _filter_ip(self, ips):
+        filter_ips = []
         if ips:
             ips = list(ips)
-            return ips[:-1]
-        pass
+            for ip in ips:
+                if self.check_ip(ip):
+                    filter_ips.append(ip)
+                pass
+        return filter_ips
 
     def gateway(self):
         """
@@ -142,16 +173,16 @@ class Card(object):
 
         """
         subnets = self.card.IPSubnet
-        if len(subnets)>0:
-            subnets = list(subnets)
-            return subnets[:-1]
-        pass
+        return self._filter_ip(subnets)
+
 
     def ip_subnet_tuples(self):
         ips = self.ips()
         subnets = self.ip_subnet()
         if len(ips) == len(subnets) and ips:
             return zip(ips, subnets)
+        else:
+            return []
 
     def set_ip_and_mask(self, ips: list, masks: list):
         print('ips: {}'.format(ips))
@@ -191,33 +222,6 @@ class Card(object):
 import ctypes, sys
 
 
-# import sys
-# import win32com.shell.shell as shell
-# ASADMIN = 'asadmin'
-#
-# if sys.argv[-1] != ASADMIN:
-#     script = os.path.abspath(sys.argv[0])
-#     params = ' '.join([script] + sys.argv[1:] + [ASADMIN])
-#     shell.ShellExecuteEx(lpVerb='runas', lpFile=sys.executable, lpParameters=params)
-#     # sys.exit(0)
-
-
-
-
-def method_name():
-    local_addrs = []
-    # name is 本地连接之类的名字 ,是不是网络适配器??
-    # info 一个list , 和name相配
-    # addr 一个 snicaddr对象; 又 family 和 address 属性
-    for name, info in psutil.net_if_addrs().items():
-        print('name is ', name)
-        for addr in info:
-            # 只放入IPV4的地址
-            if socket.AddressFamily.AF_INET == addr.family:
-                print(addr.address)
-                local_addrs.append(addr.address)
-    print(local_addrs)
-
 
 def get_ips(name_wang_ka):
     ips = []
@@ -252,8 +256,6 @@ def get_wangka_info():
             data["nic%s" % count] = iter_data
     return data
 
-
-
 def set_wangka_ip(ip, mask, index):
     w = WMI()
     # confs = w.Win32_NetworkAdapterCinfiguration(IPEnabled=True)
@@ -267,7 +269,6 @@ def set_wangka_ip(ip, mask, index):
             print("设置ip成功!")
         else:
             print("设置IP不成功~~")
-
 
 class UpdateIp(object):
     re_ip_str = r"\d+.\d+.\d+.\d+"
@@ -324,7 +325,6 @@ class UpdateIp(object):
             else:
                 print('修改DNS失败')
                 return False
-
 
 def get_admin_and_do(do_function, *args, **kwargs):
     """ """

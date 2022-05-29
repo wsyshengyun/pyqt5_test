@@ -9,6 +9,9 @@
 from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget , QApplication ,QPushButton \
      , QHBoxLayout
 
+from project.Broadcast.pack.set_pc import Card
+check_ip = Card.check_ip
+
 class _Table(object):
 
     def __init__(self, table: QTableWidget):
@@ -67,10 +70,14 @@ class _Table(object):
 
         for row in range(int_rows):
             data = self.tw.item(row, 0).text()
+            if not check_ip(data):
+                raise ValueError("IP格式不正确")
             ips.append(data)
 
         for row in range(int_rows):
             data = self.tw.item(row, 1).text()
+            if not check_ip(data):
+                raise ValueError("IP格式不正确")
             masks.append(data)
 
         return ips, masks
