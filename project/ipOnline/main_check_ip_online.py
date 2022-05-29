@@ -96,6 +96,7 @@ class MyClass(Ui_Form, QWidget):
 
         # 设置表格
         mtab.set_header(self.model)
+        self.tableview.setColumnWidth(0, 50)
 
         # 进度条
         self.clear_progressBar()
@@ -105,6 +106,8 @@ class MyClass(Ui_Form, QWidget):
         self.btn_search1.clicked.connect(self.on_check_on_line)
         self.btn_search2.clicked.connect(self.on_check_on_line)
         self.push_test.clicked.connect(self.on_test)
+        # 隐藏test button
+        # self.push_test.hide()
 
     def _enable_btn(self, able: bool=True):
         print("able is : {}".format(able))

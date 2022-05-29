@@ -31,7 +31,9 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
         super(ContainerAtModel, self).__init__()
 
     def add_ip_update_all_model(self, ip: str):
-        self.clear()
+        self.removeRows(0, self.rowCount())
+        # self.clear()
+        # self.set_header()
         super().add_ip(ip)
         row = -1
         for co in self.list:
@@ -42,12 +44,19 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
         pass
 
     def flush(self):
-        self.clear()
+        # self.clear()
+        self.removeRows(0, self.rowCount())
+        # self.set_header()
         for co in self.list:
             obj = ContainerRow(co)
             items = obj.to_row_items()
             self.appendRow(items)
 
+
+    def set_header(self):
+        HeaderLabels = ["字段", "IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
+        self.setColumnCount(len(HeaderLabels))
+        self.setHorizontalHeaderLabels(HeaderLabels)
 
 
 def factory_container_model_obj(model = None):

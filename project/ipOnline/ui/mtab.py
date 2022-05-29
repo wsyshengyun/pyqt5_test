@@ -15,9 +15,6 @@ table_column_count = 11
 
 def set_header(table: QTableWidget):
     # todo 表格只显示了一半,怎么设置显示合适的宽度,把表头的IP显示完
-    if isinstance(table, QTableWidget):
-        table.verticalHeader().setVisible(False)
-        table.horizontalHeader().setVisible(True)
-        table.setRowCount(2)
     table.setColumnCount(len(HeaderLabels))
     table.setHorizontalHeaderLabels(HeaderLabels)
+    # table.verticalHeader().setVisible(False)
