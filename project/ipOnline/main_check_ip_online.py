@@ -41,10 +41,10 @@ class MyClass(MainWidget):
         mtab.set_header(self.model)
 
         # LineEdit
-        self.init_lineEdit_text()  # 初始化两个输入LineEdit
+        self.init_lineedit()  # 初始化两个输入LineEdit
         # 搜索按键1, 2
-        self.btn_search1.clicked.connect(self.on_check_on_line)
-        self.btn_search2.clicked.connect(self.on_check_on_line)
+        self.btn_search1.clicked.connect(self.on_checkip_start)
+        self.btn_search2.clicked.connect(self.on_checkip_start)
         self.push_test.clicked.connect(self.on_test)
 
 
@@ -67,30 +67,25 @@ class MyClass(MainWidget):
         factory_container_model_obj(self.model)
 
     def init_ping_ip(self, start, end):
-
         self.manage_threads = ManageTheads()
         self.manage_threads.create_threads(start, end)
-        self.manage_threads.signal_all_thread_finished.connect(self.finished_all_ths)
-        self.manage_threads.signal_ip_on_line.connect(self.on_receive_ip)
-        self.manage_threads.signal_one_thread_end[int, int].connect(self.update_progressbar)
-        pass
+        self.manage_threads.manage_signal_finishedall.connect(self.slot_finished_all_thread)
+        self.manage_threads.manage_signal_send_onlineip.connect(self.slot_receive_ip)
+        self.manage_threads.manage_signal_oneth_end[int, int].connect(self.update_progressbar)
 
-        self.progressBar.setValue(0)
-
-    def init_lineEdit_text(self):
+    def init_lineedit(self) -> object:
         self.line_start1.setText(self.gdata.start1)
         self.line_start2.setText(self.gdata.start2)
         self.line_end1.setText(self.gdata.end1)
         self.line_end2.setText(self.gdata.end2)
 
-    def on_receive_ip(self, ip):
+    def slot_receive_ip(self, ip):
         """
         singal信号的槽
         作用:设置一个在线IP 所对应的IP的 背景颜色
         """
         print(" 接收到ip = {}".format(ip))
         self.model.add_ip_update_all_model(ip)
-        # self.table_display()
 
     def _get_start_end_ip(self, btn):
         if btn == self.btn_search1:
@@ -104,7 +99,7 @@ class MyClass(MainWidget):
         else:
             self.gdata.set_start_end2(start, end)
 
-    def on_check_on_line(self):
+    def on_checkip_start(self):
         """ 开始检查IP是否ping的通 """
         print("-------------------> on_clicked_checking_ip !")
         self._enable_btn(False)
@@ -117,17 +112,16 @@ class MyClass(MainWidget):
         self.init_ping_ip(start, end)
         self.manage_threads.start()
 
-    def finished_all_ths(self):
+    def slot_finished_all_thread(self):
         print("收到信号,执行槽 finished_all_ths")
         self._enable_btn(True)
         # 结束所有的th
         self.manage_threads.quit()
-
+        self.progressBar.setVisible(100)
 
     def update_progressbar(self, finished_ths, sum_ths):
         value = int(100 * finished_ths / sum_ths)
         self.progressBar.setValue(value)
-        pass
 
     def closeEvent(self, a0) -> None:
         self.gdata.save_cfg()
