@@ -10,6 +10,7 @@ import subprocess
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from project.ipOnline.pack.log import logger
 from project.ipOnline.pack.ip import _get_range_ips
+import encodings.idna
 from ping3 import ping
 
 
