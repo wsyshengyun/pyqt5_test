@@ -1,12 +1,8 @@
 # coding:utf8
 
 
-from selenium import webdriver
 from selenium.webdriver import Edge, EdgeOptions
-from selenium.webdriver.support.ui import Select
-# from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.edge.service import Service
-from selenium.webdriver.common.by import By
 import time
 import os
 
@@ -21,7 +17,8 @@ class BaseDriver(object):
         self.driver = Edge(service=s, options=options)
         # self.driver = Edge(executable_path=path, options=options)
 
-    def get_url(self, ip):
+    @staticmethod
+    def get_url(ip):
         return 'http://' + str(ip)
 
     def max_windows(self):
@@ -44,33 +41,7 @@ class BaseDriver(object):
         # 无窗口运行
         options.add_argument("headless")
 
-    def run(self, ip=None, url=None):
-        if url:
-            url = url
-        else:
-            url = self.get_url(ip)
-        print(url)
-        self.driver.get(url)
-        self.driver.implicitly_wait(1)
-        self.login()
 
-    def login(self):
-        # self.driver.find_element_by_id("username").send_keys("admin")
-        self.driver.find_element(By.ID, "username").send_keys('admin')
-        self.driver.find_element(By.ID, "password").send_keys('admin')
-        # langue
-        langue_obj = self.driver.find_element(By.ID, "langSelect")
-        Select(langue_obj).select_by_index(1)    # 索引从0开始
-        time.sleep(2)
-        self.driver.find_element(By.ID, "logonButton").click()
-        self.driver.implicitly_wait(10)
-        time.sleep(3)
-        print('wait end')
-
-        upbtn = "top_curTitle"
-        self.driver.find_element(By.ID, upbtn).click()
-
-        pass
 
 
 
