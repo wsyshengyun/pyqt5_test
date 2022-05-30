@@ -13,17 +13,20 @@ from selenium.webdriver.common.by import By
 import time
 
 
-class DriverOption(BaseOption, BaseDriver):
-    def login(self, ip=None, url=None):
-        if url:
-            url = url
-        else:
-            url = self.get_url(ip)
+class DriverOption(BaseDriver, BaseOption):
 
-        self.driver.get(url)
+    def __init__(self, path=None):
+        """ """
+        super(DriverOption, self).__init__(path)
+        self.url = None
+
+    def input_url(self, ip):
+        self.url = self.get_url(ip)
+        print(self.url)
+
+    def login(self):
+        self.driver.get(self.url)
         self.driver.implicitly_wait(1)
-
-
         # self.driver.find_element_by_id("username").send_keys("admin")
         self.driver.find_element(By.ID, "username").send_keys('admin')
         self.driver.find_element(By.ID, "password").send_keys('admin')
@@ -58,8 +61,11 @@ class SubFlow(SipFlow):
 
 def main():
     """ """
+    ip = "192.168.0.246"
+    obj = DriverOption(path="D:\wsy\project\pyqt5_test\edgedriver\msedgedriver.exe")
+    obj.input_url(ip)
     subflow = SubFlow()
-    subflow.run()
+    subflow.run(obj)
 
 
 if __name__ == '__main__':
