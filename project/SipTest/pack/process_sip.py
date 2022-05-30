@@ -5,12 +5,20 @@
 #  Vestibulum commodo. Ut rhoncus gravida arcu.
 
 # coding:utf8
+"""
+1, 解决页面等待问题
+2, 解决弹出窗口,输入路径问题
+
+"""
 
 
 class BaseOption(object):
     def __init__(self):
         """ """
         super(BaseOption, self).__init__()
+
+    def input_url(self, ip):
+        pass
 
     def login(self):
         # 判断页面是否为登陆界面
@@ -39,6 +47,7 @@ class BaseOption(object):
 
 class SipFlow(object):
     def run(self, option: BaseOption):
+        option.input_url(ip=None)
         option.login()
         option.update()
         option.config()

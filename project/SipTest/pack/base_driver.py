@@ -3,6 +3,7 @@
 
 from selenium.webdriver import Edge, EdgeOptions
 from selenium.webdriver.edge.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
 import time
 import os
 
@@ -42,9 +43,45 @@ class BaseDriver(object):
         options.add_argument("headless")
 
 
+class BasePage(BaseDriver):
+    # def __init__(self, driver):
+    #     """ """
+    #     self.drver = driver
 
+    def find_element(self, loc):
+        try:
+            WebDriverWait(self.drver, 15).until(lambda driver: driver.find_element(*loc).is_display())
+            return self.drver.find_element(*loc)
+        except:
+            print("没有找到元素")
+            return None
 
+    def clear_key(self, loc):
+        """
+        重写清空文本框
+        """
+        time.sleep(3)
+        self.find_element(loc).clear()
 
+    def send_keys(self, loc, value):
+        """
+        loc: (id, "name")
+        """
+
+        self.clear_key(loc)
+        self.find_element(loc).send_keys(value)
+
+    def click_button(self, loc):
+        """
+        点击按钮
+        """
+        self.find_element(loc).click()
+
+    def switch_to_frame(self, value):
+        """
+        进入iframe页面
+        """
+        self.driver.switch_to.frame(value)
 
 
 def main():

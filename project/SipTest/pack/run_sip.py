@@ -14,16 +14,14 @@ import time
 
 
 class DriverOption(BaseOption, BaseDriver):
-    def login(self, ip=None, url=None):
-        if url:
-            url = url
-        else:
-            url = self.get_url(ip)
+
+    def input_url(self, ip):
+        url = self.get_url(ip)
 
         self.driver.get(url)
         self.driver.implicitly_wait(1)
 
-
+    def login(self):
         # self.driver.find_element_by_id("username").send_keys("admin")
         self.driver.find_element(By.ID, "username").send_keys('admin')
         self.driver.find_element(By.ID, "password").send_keys('admin')
