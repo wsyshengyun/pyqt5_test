@@ -47,7 +47,7 @@ class BaseOption(object):
 
 class SipFlow(object):
     def run(self, option: BaseOption):
-        option.input_url(ip=None)
+        # option.input_url(ip=None)
         option.login()
         option.update()
         option.config()
