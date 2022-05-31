@@ -17,3 +17,9 @@ class MainPageLocators(object):
 
 class LoginPageLocators(object):
     password = (By.ID, '')
+
+
+class BaiduPageLocators(object):
+    input = (By.ID, 'kw')
+    logo = (By.ID, 's_mp')
+    news_lab = (By.CLASS_NAME, 'mnav c-font-normal c-color-t')

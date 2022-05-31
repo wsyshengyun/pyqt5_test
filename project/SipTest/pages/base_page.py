@@ -22,8 +22,11 @@ class BasePage(object):
     def find_element(self, *locator):
         return self.driver.find_element(*locator)
 
-    def open(self, url):
+    def open(self, url=None):
+        if url is None:
+            url = ''
         url = self.base_url + url
+        print(url)
         self.driver.get(url)
 
     def get_title(self):
@@ -39,7 +42,13 @@ class BasePage(object):
 
     def wait_element(self, *locator):
         try:
+            print(*locator)
+            import time
+            t1 = time.time()
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(locator))
+
         except TimeoutException:
             print('\n * element not found within given time! --> %s' %  (locator[1]))
+            t2 = time.time()
+            print("Wait 10: {}".format(t2 - t1))
             self.driver.quit()
