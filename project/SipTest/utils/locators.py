@@ -11,7 +11,6 @@ from selenium.webdriver.common.by import By
 
 class MainPageLocators(object):
     LOGO = (By.ID, 'nav-logo')
-    LOGO = (By.ID, 'nav-logo')
     SEARCH_LIST = (By.CSS_SELECTOR, 'div[data-component-type="s-search-result"]')
 
 
@@ -20,6 +19,9 @@ class LoginPageLocators(object):
 
 
 class BaiduPageLocators(object):
-    input = (By.ID, 'kw')
+    # input = (By.ID, 'kw')
     logo = (By.ID, 's_mp')
     news_lab = (By.CLASS_NAME, 'mnav c-font-normal c-color-t')
+    btn_baidu = (By.ID, "s_btn_wr")
+    input = (By.CLASS_NAME, "s_ipt")
+    some = (By.NAME, "tj_briicon")
