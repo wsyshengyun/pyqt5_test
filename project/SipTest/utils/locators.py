@@ -17,6 +17,27 @@ class MainPageLocators(object):
 class LoginPageLocators(object):
     password = (By.ID, '')
 
+class SipMainLocators(object):
+    update_page = (By.LINK_TEXT, '升级')
+    select_btn = (By.CLASS_NAME, 'btninput_l lit_btninput')
+    update_btn = (By.CLASS_NAME, 'WebUpdate')
+
+    system_page = (By.LINK_TEXT, '系统配置')
+    daoru_btn_system = (By.XPATH, '//*[@id="ImportBody"]/table/tbody/tr/td[5]/input')
+    select_btn_system = (By.XPATH, '//*[@id="System"]')
+
+    djsz_page = (By.ID, 'XSTR_HLP_SETTING_PHONE')  # 对讲设置
+    djsz_page_meiti = (By.LINK_TEXT, '媒体设置')
+    djsz_page_xiangji = (By.LINK_TEXT, '相机设置')
+
+    m1 = (By.ID, 'XSTR_LBL_GEN_MEDIA')  # 媒体设置>>
+
+    m1 = (By.ID, 'Native_Camera_Connect_Mode_RW')  # xiang ji waijie  box
+    m1 = (By.XPATH, '//*[@id="ipcMode"]/div[2]/input[2]')  # tijiao btn
+
+
+
+
 
 class BaiduPageLocators(object):
     # input = (By.ID, 'kw')
