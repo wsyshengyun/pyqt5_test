@@ -24,6 +24,14 @@ class BasePage(object):
     def find_element(self, locator):  # locator为一个元组类型
         return self.driver.find_element(*locator)  # *locator 解包
 
+    def until_find_element(self, locator):
+        try:
+            WebDriverWait(self.driver, 15).until(lambda driver: driver.find_element(locator).is_display())
+            return self.driver.find_element(locator)
+        except:
+            print("没有找到元素")
+            return None
+
     def open(self, url=None):
         if url is None:
             url = ''
