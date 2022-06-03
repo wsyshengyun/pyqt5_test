@@ -11,6 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import time
+from selenium.webdriver.support.ui import Select
 
 
 class BasePage(object):
@@ -61,6 +62,10 @@ class BasePage(object):
 
         self.clear_key(locator)
         self.find_element(locator).send_keys(value)
+
+    def select_combox_index(self, locator, index):
+        element = self.find_element(locator)
+        Select(element).select_by_index(index)  # 索引从0开始
 
     def click_button(self, locator):
         """
