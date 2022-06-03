@@ -20,8 +20,8 @@ class BasePage(object):
         self.driver = driver
         self.timeout = 30
 
-    def find_element(self, locator):
-        return self.driver.find_element(*locator)
+    def find_element(self, locator):  # locator为一个元组类型
+        return self.driver.find_element(*locator)  # *locator 解包
 
     def open(self, url=None):
         if url is None:

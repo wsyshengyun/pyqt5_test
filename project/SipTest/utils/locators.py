@@ -14,8 +14,11 @@ class MainPageLocators(object):
     SEARCH_LIST = (By.CSS_SELECTOR, 'div[data-component-type="s-search-result"]')
 
 
-class LoginPageLocators(object):
+class SipLoginLocators(object):
+    # todo 补全login locators
+    username = (By.ID, '')
     password = (By.ID, '')
+    submit = (By.ID, '')
 
 
 class SipMainLocators(object):
@@ -35,9 +38,6 @@ class SipMainLocators(object):
 
     camera_outer_box = (By.ID, 'Native_Camera_Connect_Mode_RW')  # 相机设置 外接 ComBox
     camera_btn_submit = (By.XPATH, '//*[@id="ipcMode"]/div[2]/input[2]')  # 相机设置 外接 提交
-
-
-
 
 
 class BaiduPageLocators(object):
