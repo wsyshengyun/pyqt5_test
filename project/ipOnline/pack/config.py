@@ -19,14 +19,15 @@ def get_path(filename):
 path = get_path('app.ini')
 print(path)
 
+
 class MyConfigObj(object):
     def __init__(self, pth=None):
         global path
         if pth:
-            if not os.path.exists(path):
-                path = 'app.ini'
+            if not os.path.exists(pth):
+                self.path = 'app.ini'
             else:
-                path = pth
+                self.path = pth
         else:
             self.path = path
         self.conf = ConfigObj(self.path, encoding='utf8')
