@@ -2,7 +2,7 @@
 
 <NET CONFIG MODULE>
 WAN TYPE           :0
-WAN IP             :192.168.9.099
+WAN IP             :192.168.9.109
 WAN Subnet Mask    :255.255.255.0		
 WAN Gateway        :192.168.9.1			
 Domain Name        :
@@ -38,10 +38,10 @@ Net Priority       :201
 
 <SIP CONFIG MODULE>
 --SIP Line List--  :
-SIP1 Phone Number       :8099
-SIP1 Display Name       :8099			
+SIP1 Phone Number       :8109
+SIP1 Display Name       :8109			
 SIP1 Register Addr      :192.168.9.240		 
-SIP1 Register User      :8099	
+SIP1 Register User      :8109	
 SIP1 Register Pswd      :123456			
 SIP1 NoAnswerTime       :2			
 SIP1 Enable Reg         :1			
