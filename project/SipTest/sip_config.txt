@@ -1,0 +1,89 @@
+<<VOIP CONFIG FILE>>Version:2.0000000000                      
+
+<NET CONFIG MODULE>
+WAN TYPE           :0
+WAN IP             :192.168.9.099
+WAN Subnet Mask    :255.255.255.0		
+WAN Gateway        :192.168.9.1			
+Domain Name        :
+Primary DNS        :8.8.8.8
+Secondary DNS      :202.96.134.33
+Enable DHCP        :0
+DHCP Auto DNS      :1
+DHCP Auto Time     :0
+DHCP Option 100-101:1
+Use Vendor Class ID:0
+Vendor Class ID    :VoIP IP Paging Gateway
+Enable PPPoE       :0
+PPPoE User         :user123
+PPPoE Password     :password
+ARP Cache Life     :2
+MTU                :1500
+WAN6 IP             :
+WAN6 IP PREFIX      :
+WAN6 Gateway        :
+Domain6 Name        :
+Primary DNS6        :
+Secondary DNS6      :
+Enable DHCP6        :1
+DHCP6 Auto DNS      :1
+DHCP6 Auto Time     :0
+Use Vendor6 Class ID:0
+Vendor6 Class ID    :
+--Mobile Config--  :
+Mobile Enable      :1
+--Net Global--     :
+Net Priority       :201
+
+
+<SIP CONFIG MODULE>
+--SIP Line List--  :
+SIP1 Phone Number       :8099
+SIP1 Display Name       :8099			
+SIP1 Register Addr      :192.168.9.240		 
+SIP1 Register User      :8099	
+SIP1 Register Pswd      :123456			
+SIP1 NoAnswerTime       :2			
+SIP1 Enable Reg         :1			
+<CALL FEATURE MODULE>
+--Port Config--    :
+P1 Default Ans Mode   :1
+P1 Default Dial Mode  :1
+--CALL IM CONFIG-- :
+Enable Lineout     :1
+Lineout State      :Talking(Intercom),Talking(Mcast),		
+Enable Internal Speaker:0
+
+<PHONE FEATURE MODULE>
+--Voice Volume--   :
+HandFree Vol       :8				 
+HandFree Mic Vol   :3			
+HandFree Ring Vol  :8			
+HandFree Tone Vol  :8			
+--Softkey Config-- :
+Call    Click      :dss1;dss2;voldown;volup;none;	
+
+<MCAST CFG MODULE>
+Intercom Priority  :1				
+
+<DSSKEY CONFIG MODULE>
+--SoftDss Config-- :
+Fkey1 Type               :1
+Fkey1 Value              :8000|192.168.4.10@1/f		
+Fkey1 Title              :
+Fkey1 ICON               :Green
+Fkey2 Type               :0
+Fkey2 Value              :
+Fkey2 Title              :
+Fkey2 ICON               :Green
+
+<PRODUCT CONFIG MODULE>
+SPK Type          :0
+
+
+<VSOT FEATURE MODULE>
+-- Led List--      :
+Led1 Idle Ctl           :0			
+
+
+<<END OF FILE>>
