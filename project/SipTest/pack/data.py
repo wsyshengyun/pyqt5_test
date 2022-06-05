@@ -18,10 +18,10 @@ from project.ipOnline.pack.config import MyConfigObj
 
 config_dict ={
     'path_config': "",
-    "sip_service" : "",
-    "ip_section" : "",
-    "ip_start" : "",
-    "ip_step" : ""
+    "sip_service": "",
+    "ip_section": "",
+    "ip_start": "",
+    "ip_step": ""
 }
 
 
@@ -38,6 +38,12 @@ def set_config():
     for key in config_dict:
         value = config_dict.get(key)
         obj.add_section('set', key, value)
+
+
+# todo 启动时的数据
+class AllData(object):
+    def __init__(self):
+        """ """
 
 
 if __name__ == '__main__':
