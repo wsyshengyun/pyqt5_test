@@ -11,6 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import time
+from selenium.webdriver.support.ui import Select
 
 
 class BasePage(object):
@@ -20,8 +21,16 @@ class BasePage(object):
         self.driver = driver
         self.timeout = 30
 
-    def find_element(self, locator):
-        return self.driver.find_element(*locator)
+    def find_element(self, locator):  # locator为一个元组类型
+        return self.driver.find_element(*locator)  # *locator 解包
+
+    def until_find_element(self, locator):
+        try:
+            WebDriverWait(self.driver, 15).until(lambda driver: driver.find_element(locator).is_display())
+            return self.driver.find_element(locator)
+        except:
+            print("没有找到元素")
+            return None
 
     def open(self, url=None):
         if url is None:
@@ -61,6 +70,10 @@ class BasePage(object):
 
         self.clear_key(locator)
         self.find_element(locator).send_keys(value)
+
+    def select_combox_index(self, locator, index):
+        element = self.find_element(locator)
+        Select(element).select_by_index(index)  # 索引从0开始
 
     def click_button(self, locator):
         """

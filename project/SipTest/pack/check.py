@@ -5,3 +5,8 @@
 #  Vestibulum commodo. Ut rhoncus gravida arcu.
 
 # coding:utf8
+"""
+检查本机PC的ip字段,是否含有要配置的IP字段
+如果没有,添加一个字段
+
+"""
