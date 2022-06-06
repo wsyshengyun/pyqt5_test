@@ -33,6 +33,9 @@ class Ui_Form(object):
         self.label_info = QtWidgets.QLabel(Form)
         self.label_info.setGeometry(QtCore.QRect(690, 90, 191, 21))
         self.label_info.setObjectName("label_info")
+        self.btn_set = QtWidgets.QPushButton(Form)
+        self.btn_set.setGeometry(QtCore.QRect(710, 10, 131, 40))
+        self.btn_set.setObjectName("btn_set")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -45,3 +48,4 @@ class Ui_Form(object):
         self.btn_next.setText(_translate("Form", "下一个"))
         self.btn_save_config.setText(_translate("Form", "保存到配置文件"))
         self.label_info.setText(_translate("Form", "--"))
+        self.btn_set.setText(_translate("Form", "设置"))

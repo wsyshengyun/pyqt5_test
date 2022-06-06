@@ -44,6 +44,21 @@ def set_config():
 class AllData(object):
     def __init__(self):
         """ """
+        self.config_dict ={
+            'path_config': "",
+            "sip_service": "",
+            "ip_section": "",
+            "ip_start": "",
+            "ip_step": ""
+        }
+
+        self.start = None   # 配置的IP开始的末段数；
+        self.sep = None     # 配置IP时，自动跳过的步长，默认为1
+        self.section = None  # 配置的IP字段
+        self.sip_server = None  # SIP服务器地址
+        self.path_config_file = ""   # SIP导入的配置文件路径
+
+
 
 
 if __name__ == '__main__':

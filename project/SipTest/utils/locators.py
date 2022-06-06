@@ -15,7 +15,6 @@ class MainPageLocators(object):
 
 
 class SipLoginLocators(object):
-    # todo 补全login locators
     username = (By.ID, 'username')
     password = (By.ID, 'password')
     selectbox = (By.ID, 'langSelect')

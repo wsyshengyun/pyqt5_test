@@ -52,14 +52,14 @@ class IP(object):
         list_secs.pop()
         return '.'.join(list_secs)
 
-    def next_ip(self):
-        int_tail = int(self.tail()) + 1
+    def next_ip(self, n=1):
+        int_tail = int(self.tail()) + n
         if int_tail > 255:
             raise ValueError("IP值超过范围")
         return self.replace_tail(int_tail)
 
-    def last_ip(self):
-        int_tail = int(self.tail()) - 1
+    def last_ip(self, n=1):
+        int_tail = int(self.tail()) - n
         if int_tail <= 0:
             raise ValueError("IP值超过范围")
         return self.replace_tail(int_tail)

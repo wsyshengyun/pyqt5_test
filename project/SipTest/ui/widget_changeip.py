@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QFileDialog, QMes
 from project.SipTest.ui.ui_changeip import Ui_Form
 from project.ipOnline.pack._currency import IpState
 from project.SipTest.pack.modify_sip_config import ManageConfigFile
+from project.SipTest.ui.widget_set import WidgetSet
 
 
 class WidgetChangeIp(QWidget, Ui_Form):
@@ -26,11 +27,21 @@ class WidgetChangeIp(QWidget, Ui_Form):
         self.btn_last.clicked.connect(self.on_btn_last_ip)
         self.btn_next.clicked.connect(self.on_btn_next_ip)
         self.btn_save_config.clicked.connect(self.on_btn_save_config)
+        self.btn_set.clicked.connect(self.on_btn_set)
         pass
 
     def set_currip(self, ip):
         self.currip = ip
         self.line_currip.setText(self.currip)
+
+    def on_btn_set(self):
+        """
+        功能：弹出设置窗口
+        """
+        self.dia = WidgetSet()
+        self.dia.show()
+        # dia.exec()
+
 
     def on_btn_save_config(self):
         obj = ManageConfigFile()
