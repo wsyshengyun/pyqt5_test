@@ -19,6 +19,11 @@ class SipProcess(BasePage):
         self.path_update_file = ""
         self.path_config_file = ""
 
+    def is_in(self):
+        # return self.is_exists_element(self.loc.)
+        # todo 体现本页存在的标签名称
+        return True
+
     def pro_config(self):
         # 判断是否在这个页面
         self.click_button(self.loc.config_page)

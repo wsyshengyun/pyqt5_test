@@ -24,6 +24,9 @@ class BasePage(object):
     def find_element(self, locator):  # locator为一个元组类型
         return self.driver.find_element(*locator)  # *locator 解包
 
+    def is_exists_element(self, locator):
+        return True if self.find_element(locator) else False
+
     def until_find_element(self, locator):
         try:
             WebDriverWait(self.driver, 15).until(lambda driver: driver.find_element(locator).is_display())
@@ -68,7 +71,7 @@ class BasePage(object):
         locator: (id, "name")
         """
 
-        self.clear_key(locator)
+        # self.clear_key(locator)
         self.find_element(locator).send_keys(value)
 
     def select_combox_index(self, locator, index):
@@ -106,4 +109,17 @@ class BasePage(object):
         # current_path = os.path.dirname(__file__)  # 获取当前的路径
         # driver_path = os.path.join(current_path, '../driver/chromedriver.exe')  # 当前路径 + chromedriver路径相连
         pass
+
+    def sleep(self, nsec):
+        time.sleep(nsec)
+
+    def init_driver_implicitly(self):
+        """
+        隐性等待
+        """
+
+        self.driver.implicitly_wait(self.timeout)
+
+
+
 
