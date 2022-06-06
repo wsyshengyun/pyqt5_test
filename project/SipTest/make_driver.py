@@ -15,7 +15,9 @@ options = EdgeOptions()
 options.use_chromium = True
 # options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 options.add_argument('start-maximized')
-path = r"D:\wsy\project\pyqt5_test\edgedriver\msedgedriver.exe"
-path2 = r"d:\_python\xdkj_test\edgedriver\msedgedriver.exe"
-s = Service(path2)
+options.binary_location = r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
+# path_levo = r"D:\wsy\project\pyqt5_test\edgedriver\msedgedriver.exe"
+# path_home = r"d:\_python\xdkj_test\edgedriver\msedgedriver.exe"
+path_philips = r"E:\wsy\py_pro\pyqt5_test\edgedriver\msedgedriver.exe"
+s = Service(path_philips)
 driver = Edge(service=s, options=options)
