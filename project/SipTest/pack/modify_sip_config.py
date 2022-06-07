@@ -37,7 +37,7 @@ class ManageConfigFile(object):
     re_gateway_ = r"(.*WAN Gateway\s+:)" + __common_ip
     re_sip_service_ = r"(.*SIP1 Register Addr\s+:)" + __common_ip
 
-    def __init__(self, path=r"D:\_python\xdkj_test\project\SipTest\sip_config.txt"):
+    def __init__(self, path=r"D:\_python\my\xdkj_test\project\SipTest\sip_config.txt"):
         """ """
         self.path = path
         self.ip = None

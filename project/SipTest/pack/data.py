@@ -27,7 +27,7 @@ config_dict ={
 
 def get_config():
     global config_dict
-    obj = MyConfigObj(pth=r"D:\_python\xdkj_test\project\SipTest\other\sip_app.ini")
+    obj = MyConfigObj(pth=r"D:\_python\my\xdkj_test\project\SipTest\other\sip_app.ini")
     for key in config_dict:
         config_dict[key] = obj.get_value('set', key)
 
