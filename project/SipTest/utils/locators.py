@@ -22,11 +22,16 @@ class SipLoginLocators(object):
 
 
 class SipMainLocators(object):
+    connect = (By.ID, "XSTR_LBL_GEN_KEEP_ONLINE")
+
     update_page = (By.LINK_TEXT, '升级')   # 页按钮 - 升级
     update_select_file = (By.CLASS_NAME, 'btninput_l lit_btninput')  # 选择文件
     update_submit = (By.CLASS_NAME, 'WebUpdate')    # 升级按钮
 
-    config_page = (By.LINK_TEXT, '系统配置')  # 系统配置 - 页按钮
+    # config_page = (By.LINK_TEXT, '系统配置')  # 系统配置 - 页按钮
+    # config_page = (By.TAG_NAME, '系统配置')  # 系统配置 - 页按钮
+    config_page = (By.XPATH, '//*[@id="top_td"]/a')  # 系统配置 - 页按钮
+
     config_select_file = (By.XPATH, '//*[@id="ImportBody"]/table/tbody/tr/td[5]/input')  # 导入配置 按钮
     config_submit = (By.XPATH, '//*[@id="System"]')  # 选择文件 按钮
 
@@ -39,23 +44,23 @@ class SipMainLocators(object):
     camera_outer_box = (By.ID, 'Native_Camera_Connect_Mode_RW')  # 相机设置 外接 ComBox
     camera_btn_submit = (By.XPATH, '//*[@id="ipcMode"]/div[2]/input[2]')  # 相机设置 外接 提交
 
-class SipMainLocators(object):
-    update_page = (By.LINK_TEXT, '升级')
-    select_btn = (By.CLASS_NAME, 'btninput_l lit_btninput')
-    update_btn = (By.CLASS_NAME, 'WebUpdate')
-
-    system_page = (By.LINK_TEXT, '系统配置')
-    daoru_btn_system = (By.XPATH, '//*[@id="ImportBody"]/table/tbody/tr/td[5]/input')
-    select_btn_system = (By.XPATH, '//*[@id="System"]')
-
-    djsz_page = (By.ID, 'XSTR_HLP_SETTING_PHONE')  # 对讲设置
-    djsz_page_meiti = (By.LINK_TEXT, '媒体设置')
-    djsz_page_xiangji = (By.LINK_TEXT, '相机设置')
-
-    m1 = (By.ID, 'XSTR_LBL_GEN_MEDIA')  # 媒体设置>>
-
-    m1 = (By.ID, 'Native_Camera_Connect_Mode_RW')  # xiang ji waijie  box
-    m1 = (By.XPATH, '//*[@id="ipcMode"]/div[2]/input[2]')  # tijiao btn
+# class SipMainLocators(object):
+#     update_page = (By.LINK_TEXT, '升级')
+#     select_btn = (By.CLASS_NAME, 'btninput_l lit_btninput')
+#     update_btn = (By.CLASS_NAME, 'WebUpdate')
+#
+#     system_page = (By.LINK_TEXT, '系统配置')
+#     daoru_btn_system = (By.XPATH, '//*[@id="ImportBody"]/table/tbody/tr/td[5]/input')
+#     select_btn_system = (By.XPATH, '//*[@id="System"]')
+#
+#     djsz_page = (By.ID, 'XSTR_HLP_SETTING_PHONE')  # 对讲设置
+#     djsz_page_meiti = (By.LINK_TEXT, '媒体设置')
+#     djsz_page_xiangji = (By.LINK_TEXT, '相机设置')
+#
+#     m1 = (By.ID, 'XSTR_LBL_GEN_MEDIA')  # 媒体设置>>
+#
+#     m1 = (By.ID, 'Native_Camera_Connect_Mode_RW')  # xiang ji waijie  box
+#     m1 = (By.XPATH, '//*[@id="ipcMode"]/div[2]/input[2]')  # tijiao btn
 
 
 

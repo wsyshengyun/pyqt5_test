@@ -9,7 +9,7 @@
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import time
 from selenium.webdriver.support.ui import Select
 
@@ -22,14 +22,20 @@ class BasePage(object):
         self.timeout = 30
 
     def find_element(self, locator):  # locator为一个元组类型
-        return self.driver.find_element(*locator)  # *locator 解包
+        try:
+            element =  self.driver.find_element(*locator)  # *locator 解包
+            print("ok finded! > {} - {}".format(*locator))
+            return element
+        except NoSuchElementException:
+            print("|没有发现此元素> {} - {}".format(*locator))
+            return None
 
     def is_exists_element(self, locator):
         return True if self.find_element(locator) else False
 
     def until_find_element(self, locator):
         try:
-            WebDriverWait(self.driver, 15).until(lambda driver: driver.find_element(locator).is_display())
+            WebDriverWait(self.driver, 15).until(lambda driver: driver.find_element(*locator).is_display())
             return self.driver.find_element(locator)
         except:
             print("没有找到元素")

@@ -9,15 +9,28 @@
 
 # def get_driver():
 #     global driver
-from selenium.webdriver import Edge, EdgeOptions
-from selenium.webdriver.edge.service import Service
-options = EdgeOptions()
+flg_chrome = True
+
+if flg_chrome:
+    from selenium.webdriver import Chrome as SelBrower, ChromeOptions as SelBrowerOptions
+    from selenium.webdriver.chrome.service import Service as SelService
+else:
+    from selenium.webdriver import Edge as SelBrower, EdgeOptions as SelBrowerOptions
+    from selenium.webdriver.edge.service import Service as SelService
+
+options = SelBrowerOptions()
 options.use_chromium = True
 # options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 options.add_argument('start-maximized')
-options.binary_location = r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
+# options.binary_location = r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
+
+if flg_chrome:
+    # options.setExperimentalOption("debuggerAddress", '127.0.0.1:9222')
+    options.add_experimental_option("debuggerAddress", '127.0.0.1:9222')
+
 # path_levo = r"D:\wsy\project\pyqt5_test\edgedriver\msedgedriver.exe"
 # path_home = r"d:\_python\xdkj_test\edgedriver\msedgedriver.exe"
-path_philips = r"E:\wsy\py_pro\pyqt5_test\edgedriver\msedgedriver.exe"
-s = Service(path_philips)
-driver = Edge(service=s, options=options)
+# path_philips = r"E:\wsy\py_pro\pyqt5_test\edgedriver\msedgedriver.exe"
+path_philips = r"E:\wsy\py_pro\pyqt5_test\chromedriver_win32\chromedriver.exe"
+s = SelService(path_philips)
+driver = SelBrower(service=s, options=options)

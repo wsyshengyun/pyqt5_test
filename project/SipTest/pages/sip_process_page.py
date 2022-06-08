@@ -11,21 +11,32 @@ from project.SipTest.utils.locators import SipMainLocators
 
 
 class SipProcess(BasePage):
-    def __init__(self):
+    def __init__(self,driver, base_url=""):
         """ """
+        super(SipProcess, self).__init__(driver, base_url)
         self.loc = SipMainLocators()
         # todo 目标版本?升级文件路径?配置文件路径?
-        self.target_version = ""
+        self.target_version = "	T2.4.15"
         self.path_update_file = ""
         self.path_config_file = ""
 
-    def is_in(self):
-        # return self.is_exists_element(self.loc.)
-        # todo 体现本页存在的标签名称
-        return True
+    def is_in_main(self):
+        print(self.loc.connect)
+        return self.is_exists_element(self.loc.connect)
+
+    def test_ui_elements(self):
+        # print(self.driver)
+        self.find_element(self.loc.connect)
+        self.find_element(self.loc.config_page)
+        self.find_element(self.loc.update_page)
+        self.find_element(self.loc.dj_page)
 
     def pro_config(self):
         # 判断是否在这个页面
+        if not self.is_in_main():
+            print("没有在主界面")
+            return
+        self.until_find_element(self.loc.config_page)
         self.click_button(self.loc.config_page)
         self.click_button(self.loc.config_select_file)
         # todo 弹出输入配置文件窗口了怎么办?
@@ -73,3 +84,15 @@ class SipProcess(BasePage):
         pass
 
 
+if __name__ == '__main__':
+    from project.SipTest.make_driver import driver
+    from project.SipTest.pages.sip_login_page import LoginPage
+    ip = "192.168.0.246"
+    # obj = LoginPage(driver)
+    # obj.open_and_login(ip)
+    import time
+    mainobj = SipProcess(driver)
+    mainobj.open_ip(ip)
+    # mainobj.pro_config()
+    time.sleep(2)
+    mainobj.test_ui_elements()

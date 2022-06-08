@@ -35,7 +35,9 @@ class LoginPage(BasePage):
         self.login()
 
 
-if __name__ == '__main__':
-    ip = "192.168.0.246"
-    obj = LoginPage(driver)
-    obj.login(ip)
+# if __name__ == '__main__':
+# ip = "192.168.0.246"
+# obj = LoginPage(driver)
+# obj.open_and_login(ip)
+# from project.SipTest.pages.sip_process_page import SipProcess
+# mainobj = SipProcess(driver)
