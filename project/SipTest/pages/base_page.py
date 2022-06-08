@@ -20,14 +20,23 @@ class BasePage(object):
         self.base_url = base_url
         self.driver = driver
         self.timeout = 30
+    #
+    # def find_element(self, locator):  # locator为一个元组类型
+    #     try:
+    #         element =  self.driver.find_element(*locator)  # *locator 解包
+    #         print("ok finded! > {} - {}".format(*locator))
+    #         return element
+    #     except NoSuchElementException:
+    #         print("|没有发现此元素> {} - {}".format(*locator))
+    #         return None
 
-    def find_element(self, locator):  # locator为一个元组类型
+    def find_element(self, loc):
         try:
-            element =  self.driver.find_element(*locator)  # *locator 解包
-            print("ok finded! > {} - {}".format(*locator))
-            return element
+            # WebDriverWait(self.driver, 15).until(lambda driver: driver.find_element(*loc).is_display())
+            WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(loc))
+            # return self.driver.find_element(*loc)
         except NoSuchElementException:
-            print("|没有发现此元素> {} - {}".format(*locator))
+            print("没有找到元素")
             return None
 
     def is_exists_element(self, locator):

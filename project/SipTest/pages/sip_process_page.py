@@ -19,6 +19,15 @@ class SipProcess(BasePage):
         self.target_version = "	T2.4.15"
         self.path_update_file = ""
         self.path_config_file = ""
+        self.js_path = r"E:\wsy\py_pro\pyqt5_test\project\SipTest\other\xmlUtil.js"
+
+    def init_js(self):
+        # with open(self.js_path, 'r') as f:
+        #     cont = f.read()
+        # self.driver.execute_script(cont)
+        js = 'window.scrollTo(0,document.body.scrollHeight)' # js语句     页面直接滚到最下方
+        self.driver.execute_script(js) # 执行js的方
+        print('init js')
 
     def is_in_main(self):
         print(self.loc.connect)
@@ -30,6 +39,8 @@ class SipProcess(BasePage):
         self.find_element(self.loc.config_page)
         self.find_element(self.loc.update_page)
         self.find_element(self.loc.dj_page)
+        content = self.driver.page_source
+        write(content)
 
     def pro_config(self):
         # 判断是否在这个页面
@@ -84,6 +95,11 @@ class SipProcess(BasePage):
         pass
 
 
+def write(text):
+    path = './source.txt'
+    with open(path, 'w') as f:
+        f.write(text)
+
 if __name__ == '__main__':
     from project.SipTest.make_driver import driver
     from project.SipTest.pages.sip_login_page import LoginPage
@@ -94,5 +110,6 @@ if __name__ == '__main__':
     mainobj = SipProcess(driver)
     mainobj.open_ip(ip)
     # mainobj.pro_config()
+    mainobj.init_js()
     time.sleep(2)
     mainobj.test_ui_elements()
