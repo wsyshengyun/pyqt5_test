@@ -51,3 +51,4 @@ tmp/
 # ignore supervisor configure file
 supervisor.conf
 .idea/
+chromedriver_win32/chromedriver.exe

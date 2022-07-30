@@ -1,0 +1,164 @@
+<html><head>
+<title>VoIP</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="expires" content="0">
+<script language="javascript" type="text/javascript" src="xmlUtil.js"></script>
+<script language="javascript" type="text/javascript">
+var gStrList = new Array();
+var gStrId = new xJSon();
+var gLangId = new xJSon();
+var docAjax = new xAjax("GET", "romfs/xstr_list.xst?now=" + new Date().getTime(), false, xmlHookFun);
+var xmlHttp = docAjax.xmlHttp;
+docAjax.send(null);
+
+var gErrorList = new Array();
+var gErrorId = new xJSon();
+var gErrorLangId = new xJSon();
+var errorAjax = new xAjax("GET", "romfs/xstr_errorlist.xst?now=" + new Date().getTime(), false, xmlErrorFun);
+var xmlErrorHttp = errorAjax.xmlHttp;
+errorAjax.send(null);
+
+var helpsObj = {};
+var helpAjax = new xAjax("GET", "help.xst?now=" + new Date().getTime(), false, parseHelpData);
+var helpHttp = helpAjax.xmlHttp;
+helpAjax.send(null);
+/*
+var ajax = new xAjax("POST", "logoStatus", true);
+var content = "CUR_SERVER_LOGO_URL=http://172.16.20.29/title_logo.png";
+ajax.send(content);
+*/
+function parseHelpData(data){
+    if (helpHttp != null) {
+        if (4 == helpHttp.readyState) {
+            if (200 == helpHttp.status) {
+                var rows = helpHttp.responseText.split("\r\n");
+                var head = rows[0].split("\t");
+                var enIndex = null;
+
+                for(var i=0; i<head.length; i++){
+                    if(head[i] == "en"){}
+                    enIndex = i;
+                }
+
+                for(var i=1; i<rows.length; i++){
+                    if(rows[i] != null && rows[i].length != 0){
+                        var item = rows[i].split("\t");
+                        var helps = {};
+
+                        for(var j=1; j<head.length; j++){
+                            var help = {};
+                            if(item[j] != null && item[j].length != 0){
+                                var contents = item[j].split("\n");
+
+                            }else{
+                                var contents = item[enIndex].split("\n");
+                            }
+                            for(var n=0; n<contents.length; n++){
+                                var content = contents[n];
+                                if(content != null && content.length != 0 ){
+                                    if(-1 != content .search("£º"))
+                                    {
+                                        var conArr = content.split("£º");
+                                    }
+                                    else
+                                    {
+                                        var conArr = content.split(":");
+                                    }
+
+                                    var conVal="";
+                                    for(var m=1; m<conArr.length; m++){
+                                        if(m == 1){
+                                            conVal = conArr[m];
+										}else{
+                                            conVal = conVal + ":" + conArr[m];
+										}
+
+                                    }
+                                    help[conArr[0]] = conVal;
+                                }
+                            }
+                            helps[head[j]] = help;
+                        }
+                        helpsObj[item[0]] = helps;
+                    }
+                }
+
+                return helpsObj;
+            }
+        }
+    }
+}
+
+function xmlHookFun() {
+	if (xmlHttp != null) {
+		if (4 == xmlHttp.readyState) {
+			if (200 == xmlHttp.status) {
+				var rows = xmlHttp.responseText.split("\r\n");			
+				var colsLen = rows[0].split("\t").length;
+				gLangId.addItem("MAX_COLS", colsLen - 1);
+				for (var i=0; i<rows.length; i++) {
+					if (rows[i]) {
+						var cols = rows[i].split("\t");
+						if (i != 0) gStrList[i - 1] = new Array();
+						for (var j=0; j<colsLen; j++) {
+							if (i == 0 && j != 0) {
+								gLangId.addItem(cols[j], j - 1);
+							} else {
+								if (j == 0) gStrId.addItem(cols[j], i - 1);	
+								else 		gStrList[i - 1][j - 1] = cols[j];
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+function xmlErrorFun() {
+	if (xmlErrorHttp != null) {
+		if (4 == xmlErrorHttp.readyState) {
+			if (200 == xmlErrorHttp.status) {
+				var rows = xmlErrorHttp.responseText.split("\r\n");			
+				var colsLen = rows[0].split("\t").length;
+				
+				gErrorLangId.addItem("MAX_COLS", colsLen - 1);
+				for (var i=0; i<rows.length; i++) {
+					if (rows[i]) {
+						var cols = rows[i].split("\t");
+						if (i != 0) gErrorList[i - 1] = new Array();
+						for (var j=0; j<colsLen; j++) {
+							if (i == 0 && j != 0) {
+								gErrorLangId.addItem(cols[j], j - 1);
+							} else {
+								if (j == 0) gErrorId.addItem(cols[j], i - 1);	
+								else 		gErrorList[i - 1][j - 1] = cols[j];
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+function goPAGE() {
+	if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+		window.location.href="first.html";
+	}
+}
+goPAGE();
+</script>
+</head>
+<frameset rows="117,*,37" frameborder="no" framespacing="0px">
+	<frame src="title.htm" name="title_top" frameborder="no" noresize="noresize" framespacing="0px" scrolling="no">
+	<frameset cols="225,*,0" frameborder="no" framespacing="0px">
+		<frame noresize="noresize" src="menu.htm" name="menu" frameborder="no" framespacing="0px" scrolling="no">
+		<frame noresize="noresize" src="information.htm" name="main" frameborder="no" framespacing="0px" style="background-color:#EEF6F8;">
+        <frame noresize="" name="websocket" frameborder="no" src="realws.htm">
+	</frameset>
+	<frame src="footer.htm" name="footer" frameborder="no" noresize="noresize" framespacing="0px" scrolling="no">
+</frameset><noframes></noframes>
+
+</html>
