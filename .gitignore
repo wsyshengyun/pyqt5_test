@@ -1,4 +1,5 @@
 # ignore virtual environment
+edgedriver/
 ips.json
 .idea
 venv/

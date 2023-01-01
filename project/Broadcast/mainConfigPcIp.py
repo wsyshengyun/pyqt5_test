@@ -189,7 +189,7 @@ class UI_pc_ip(QWidget, Ui_Form):
         self.pushButton.setEnabled(False)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     import sys
     # import ctypes
     # print('++++++++++++++++++++++')
