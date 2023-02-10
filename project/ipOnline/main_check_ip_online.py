@@ -115,6 +115,10 @@ class MyClass(MainWidget):
         self.manage_threads.quit()
         self.progressBar.setVisible(100)
 
+        # no on line
+        self.model.update_not_online()
+        self.model.flush()
+
     def update_progressbar(self, finished_ths, sum_ths):
         value = int(100 * finished_ths / sum_ths)
         self.progressBar.setValue(value)
