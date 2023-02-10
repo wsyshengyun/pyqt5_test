@@ -28,7 +28,6 @@ class IP(object):
                 return e
             self.ip = ip
 
-
     def get_ip(self):
         return self.ip
 
@@ -52,6 +51,18 @@ class IP(object):
         list_secs = self.list_4_section()
         list_secs.pop()
         return '.'.join(list_secs)
+
+    def next_ip(self, n=1):
+        int_tail = int(self.tail()) + n
+        if int_tail > 255:
+            raise ValueError("IP值超过范围")
+        return self.replace_tail(int_tail)
+
+    def last_ip(self, n=1):
+        int_tail = int(self.tail()) - n
+        if int_tail <= 0:
+            raise ValueError("IP值超过范围")
+        return self.replace_tail(int_tail)
 
     def tail(self):
         """ """
@@ -129,10 +140,12 @@ class IP(object):
     def __str__(self):
         return f"<IP: {self.ip}>"
 
+
 STATE_UN_KNOW = 0
 STATE_FINDED = 1
 STATE_ON_LINE = 2
 STATE_NEW_ADD = 3
+
 
 class IpState(IP):
     def __init__(self, ip):
@@ -153,15 +166,15 @@ class IpState(IP):
 
     def get_color(self):
         if self.state == STATE_UN_KNOW:
-            return QColor(255,255,255)
+            return QColor(255, 255, 255)
             return
         elif self.state == STATE_FINDED:
-            return QColor(170,170,170)
+            return QColor(170, 170, 170)
             return
         elif self.state == STATE_ON_LINE:
-            return QColor(22,150,209)
+            return QColor(22, 150, 209)
         elif self.state == STATE_NEW_ADD:
-            return QColor(29,140,29)
+            return QColor(29, 140, 29)
 
     def update_state(self):
         if self.state == STATE_UN_KNOW:
@@ -172,7 +185,6 @@ class IpState(IP):
             self.state = STATE_FINDED
         elif self.state == STATE_NEW_ADD:
             self.state = STATE_FINDED
-
 
     def set_unknow(self):
         self.state = STATE_UN_KNOW
@@ -185,7 +197,6 @@ class IpState(IP):
 
     def set_finded(self):
         self.state = STATE_FINDED
-
 
     def __str__(self):
         return f"<IpState: {self.ip}"

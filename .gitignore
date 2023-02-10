@@ -22,7 +22,7 @@ build/
 # Generated files
 bin/
 gen/
-
+edgedriver/
 # Gradle files
 .gradle/
 

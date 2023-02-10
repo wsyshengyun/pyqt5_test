@@ -17,19 +17,11 @@ def get_path(filename):
 
 
 path = get_path('app.ini')
-print(path)
 
 
 class MyConfigObj(object):
     def __init__(self, pth=None):
-        global path
-        if pth:
-            if not os.path.exists(pth):
-                self.path = 'app.ini'
-            else:
-                self.path = pth
-        else:
-            self.path = path
+        self.path = pth
         self.conf = ConfigObj(self.path, encoding='utf8')
 
     def add_section(self, sec, option=None, value=None):
@@ -53,3 +45,31 @@ class MyConfigObj(object):
     def save_other_file(self, path):
         self.conf.filename = path
         self.conf.write()
+
+
+config_obj = MyConfigObj(r"D:\wsy\py_pro\pyqt5_test\project\ipOnline\pack\app.ini")
+
+
+def config_to_value(func):
+    """ """
+    key_name = func.__name__
+
+    def inner(*args, **kwargs):
+        section = kwargs.get('section')
+        return config_obj.get_value(section, key_name)
+    return inner
+
+
+class GetObject(object):
+    def __init__(self):
+        """ """
+
+    @config_to_value
+    def end(self, section=None):
+        pass
+
+
+if __name__ == '__main__':
+    obj = GetObject()
+    print(obj.end(section='ip'))
+
