@@ -6,7 +6,7 @@
 
 # coding:utf8
 import os
-
+import json
 from configobj import ConfigObj
 
 
@@ -68,6 +68,29 @@ class GetObject(object):
     def end(self, section=None):
         pass
 
+
+path = '.project\\config\\setting.json'
+
+class Json(object):
+    def __init__(self, path):
+        
+        self.path = path
+        self.f = open(self.path, 'r+', encoding='utf8')
+        self.obj = None
+        
+    @classmethod
+    def is_path_exist(cls, path):
+        import os
+        return os.path.exists(path)
+    
+    def write(self):
+        json.dump(self.obj, self.f)
+        
+    def read(self):
+        self.obj = json.load(self.f)
+        pass
+    
+    
 
 if __name__ == '__main__':
     obj = GetObject()

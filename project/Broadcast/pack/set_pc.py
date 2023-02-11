@@ -6,16 +6,13 @@
 
 # coding:utf8
 
-import psutil
-import socket
-import os
 import re
+import socket
 from time import sleep
-from wmi import WMI
+
+import psutil
 import wmi
-
-import ctypes, sys
-
+from wmi import WMI
 
 # import sys
 # import win32com.shell.shell as shell
@@ -33,15 +30,16 @@ import os, json
 
 path = 'ips.json'
 
+
 def write():
     with open(path, 'w', encoding='utf8') as f:
         json.dump(set_ip_object, f)
+
 
 def read():
     global set_ip_object
     with open(path, 'r', encoding='utf8') as f:
         set_ip_object = json.load(f)
-
 
 
 def set_ips_and_masks():
@@ -58,13 +56,14 @@ def set_ips_and_masks():
         else:
             print("设置IP不成功~~")
 
+
 def inner():
-   #获取管理员权限
-   if ctypes.windll.shell32.IsUserAnAdmin():
-       return
-   else:
-       ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 0)
-       # sys.exit()
+    # 获取管理员权限
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        return
+    else:
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 0)
+        # sys.exit()
 
 
 class NetWorkCard(object):
@@ -74,7 +73,7 @@ class NetWorkCard(object):
         self.configs = self.w.Win32_NetworkAdapterConfiguration(IPEnabled=True)
         self.cards = [Card(net) for net in self.configs]
         self.defaultCard = None
-
+    
     def get_card_names(self):
         """
         获得所有网卡的名字
@@ -82,7 +81,7 @@ class NetWorkCard(object):
         """
         for net in self.configs:
             yield net.Description
-
+    
     def get_card_from_name(self, name="环回"):
         """
         如果self.cards为空 则返回
@@ -90,13 +89,13 @@ class NetWorkCard(object):
         """
         if not self.cards:
             return
-
+        
         for card in self.cards:
             if name in card.get_name():
                 return card
         else:
             return self.cards[0]
-
+    
     def get_card_from_index(self, index):
         for card in self.cards:
             if index == card.index():
@@ -104,18 +103,18 @@ class NetWorkCard(object):
 
 
 class Card(object):
-
+    
     def __init__(self, card: wmi._wmi_object):
         """ """
         self.card = card
-
+    
     def get_name(self):
         return self.card.Description
-
+    
     def index(self):
         pass
         return self.card.Index
-
+    
     @staticmethod
     def check_ip(ip: str):
         import re
@@ -127,8 +126,7 @@ class Card(object):
             if not 0 <= d <= 255:
                 return None
         return True
-
-
+    
     def ips(self):
         """
         获得所有的IP
@@ -136,8 +134,7 @@ class Card(object):
         """
         ips: set = self.card.IPAddress
         return self._filter_ip(ips)
-
-
+    
     def _filter_ip(self, ips):
         filter_ips = []
         if ips:
@@ -147,7 +144,7 @@ class Card(object):
                     filter_ips.append(ip)
                 pass
         return filter_ips
-
+    
     def gateway(self):
         """
         返回默认网关
@@ -156,7 +153,7 @@ class Card(object):
         if self.card.DefaultIPGateway:
             return list(self.card.DefaultIPGateway)[0]
         pass
-
+    
     def mac(self):
         """
         获得此网卡的mac地址
@@ -166,7 +163,7 @@ class Card(object):
         if ips:
             ips = list(ips)
             return ips[-1]
-
+    
     def ip_subnet(self):
         """
         获得所有的dns
@@ -174,8 +171,7 @@ class Card(object):
         """
         subnets = self.card.IPSubnet
         return self._filter_ip(subnets)
-
-
+    
     def ip_subnet_tuples(self):
         ips = self.ips()
         subnets = self.ip_subnet()
@@ -183,7 +179,7 @@ class Card(object):
             return zip(ips, subnets)
         else:
             return []
-
+    
     def set_ip_and_mask(self, ips: list, masks: list):
         print('ips: {}'.format(ips))
         print('masks: {}'.format(masks))
@@ -195,7 +191,7 @@ class Card(object):
         else:
             print("设置IP不成功~~")
             return False
-
+    
     def set_gateway(self, interway):
         # 修改网关
         if interway:
@@ -205,7 +201,7 @@ class Card(object):
             else:
                 print('修改网关失败')
                 return False
-
+    
     def set_dns(self, dns):
         # 修改dns
         if dns:
@@ -219,8 +215,8 @@ class Card(object):
                 print('修改DNS失败')
                 return False
 
-import ctypes, sys
 
+import ctypes, sys
 
 
 def get_ips(name_wang_ka):
@@ -246,7 +242,7 @@ def get_wangka_info():
             iter_data['macaddress'] = nic.MACAddress
             iter_data['model'] = nic.Caption
             iter_data['name'] = nic.Index
-
+            
             if nic.IPAddress is not None:
                 iter_data['ipaddress'] = nic.IPAddress[0]
                 iter_data['netmask'] = nic.IPSubnet
@@ -255,6 +251,7 @@ def get_wangka_info():
                 iter_data['netmask'] = ''
             data["nic%s" % count] = iter_data
     return data
+
 
 def set_wangka_ip(ip, mask, index):
     w = WMI()
@@ -270,15 +267,16 @@ def set_wangka_ip(ip, mask, index):
         else:
             print("设置IP不成功~~")
 
+
 class UpdateIp(object):
     re_ip_str = r"\d+.\d+.\d+.\d+"
-
+    
     def __init__(self):
         self.wmiservice = WMI()
         self.configs = self.wmiservice.Win32_NetworkAdapterConfiguration(
             IPEnabled=True  # # 获取到本机所有的网卡的信息,list
         )
-
+    
     def get_inter(self):
         """ """
         flag = 0
@@ -290,10 +288,10 @@ class UpdateIp(object):
             else:
                 flag = flag + 1
         return flag
-
+    
     def runset(self, ip, subnetmask, interway=None, dns=None):
         adapter = self.configs[self.get_inter()]
-
+        
         # 开始执行修改ip、子网掩码、网关
         ipres = adapter.EnableStatic(IPAddress=ip, SubnetMask=subnetmask)
         if ipres[0] == 0:
@@ -304,7 +302,7 @@ class UpdateIp(object):
             else:
                 print('修改IP失败')
                 return False
-
+        
         # 修改网关
         if interway:
             wayres = adapter.SetGateways(DefaultIPGateway=interway, GatewayCostMetric=[1])
@@ -313,7 +311,7 @@ class UpdateIp(object):
             else:
                 print('修改网关失败')
                 return False
-
+        
         # 修改dns
         if dns:
             dnsres = adapter.SetDNSServerSearchOrder(DNSServerSearchOrder=dns)
@@ -326,16 +324,17 @@ class UpdateIp(object):
                 print('修改DNS失败')
                 return False
 
+
 def get_admin_and_do(do_function, *args, **kwargs):
     """ """
-
+    
     def is_admin():
         try:
             return ctypes.windll.shell32.IsUserAnAdmin()
         except:
             print("False")
             return False
-
+    
     if is_admin():
         # Code of your program here
         do_function(*args, **kwargs)
@@ -356,9 +355,8 @@ card = obj_network.get_card_from_name()
 if __name__ == '__main__':
     read()
     get_admin_and_do(set_ips_and_masks)
-
-
-      # todo 删除一些IP
-      # todo 网卡根据名字来差早;
-      # todo 长传忽略文件
+    
+    # todo 删除一些IP
+    # todo 网卡根据名字来差早;
+    # todo 长传忽略文件
     pass
