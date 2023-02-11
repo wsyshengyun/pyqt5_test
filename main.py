@@ -11,9 +11,9 @@ from project.ipOnline.pack.log import logger
 # from test.test import main
 # from project.widget_check_ips import main
 # from test.test import main
-from project.ipOnline.main_check_ip_online import main
+# from project.ipOnline.main_check_ip_online import main
+from project.mainwindow.main_mainwindow import main
+# from project.Broadcast.mainConfigPcIp import main
 
 logger.info('-' * 100)
 main()
-print('hello')
-print('my is xdkj')

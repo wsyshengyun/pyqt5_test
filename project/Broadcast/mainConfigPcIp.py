@@ -10,8 +10,8 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel, QTableWidg
                              QLayout, QHBoxLayout, QVBoxLayout,QApplication,
                             QMessageBox
                              )
-from project.Broadcast.ui.pcip import Ui_Form
-from project.Broadcast.pack.set_pc import NetWorkCard
+# from project.Broadcast.ui.pcip import Ui_Form
+from .ui.Ui_pcip import Ui_Form
 import project.Broadcast.pack.set_pc as pc
 from project.Broadcast.ui._table import _Table
 
@@ -29,7 +29,7 @@ class UI_pc_ip(QWidget, Ui_Form):
         super(UI_pc_ip, self).__init__()
         self.setupUi(self)
         self.init_data()
-        self.init_layout()
+        # self.init_layout()
         self.init_ui()
 
     def get_screen_h_w(self):
@@ -46,7 +46,6 @@ class UI_pc_ip(QWidget, Ui_Form):
             return 800, 1000
         elif 1920<= s_height <=2560:
             return 1000, 1200
-
 
     def init_layout(self):
         """
@@ -77,8 +76,8 @@ class UI_pc_ip(QWidget, Ui_Form):
         self.card = self.network.get_card_from_name()
 
     def init_ui(self):
-        size = self.get_self_size()
-        self.setGeometry(0, 0, *size)
+        # size = self.get_self_size()
+        # self.setGeometry(0, 0, *size)
         # 初始化列表框
         default = self.card.get_name()
         names: list = list(self.network.get_card_names())
@@ -189,7 +188,7 @@ class UI_pc_ip(QWidget, Ui_Form):
         self.pushButton.setEnabled(False)
 
 
-if __name__ == '__main__': 
+def main():
     import sys
     # import ctypes
     # print('++++++++++++++++++++++')
@@ -201,3 +200,7 @@ if __name__ == '__main__':
     wid = UI_pc_ip()
     wid.show()
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()

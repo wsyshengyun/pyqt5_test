@@ -17,8 +17,8 @@ from PyQt5.QtWidgets import (QApplication, QPushButton, QWidget, QTableWidgetIte
                             ,QVBoxLayout, QHBoxLayout, QMessageBox
                             ,QSpacerItem, QSizePolicy
                              )
-from project.ipOnline.ui.ip_online import Ui_Form
-
+# from project.ipOnline.ui.ip_online import Ui_Form
+from .Ui_ip_online import Ui_Form
 
 class MainWidget(Ui_Form, QWidget):
     def __init__(self):

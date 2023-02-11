@@ -23,11 +23,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.actionSetConfig.triggered.connect(self.on_actionSetConfig_changed)
-        self.actionSetIp.triggered.connect(self.on_actionSetIp_changed)
 
-        
-    
+
     @pyqtSlot()
     def on_actionSetIp_changed(self):
         """
@@ -45,11 +42,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO: not implemented yet
         print("on set config")
         # raise NotImplementedError
-    
-if __name__ == '__main__':
+
+
+def main( ):
     import sys
     from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)
     win = MainWindow()
     win.show()
     app.exec_()
+
+
+if __name__ == '__main__':
+    main()
