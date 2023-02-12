@@ -22,11 +22,11 @@ class IP(object):
         if isinstance(ip, IP):
             self.__dict__ = ip.__dict__
         else:
-            try:
-                self.check_ip_formatter(ip)
-            except TypeError as e:
-                raise e
-            self._ip = ip
+            if self.check_ip_formatter(ip):
+                self._ip = ip
+            else:
+                raise TypeError("不是一个IP")
+                
     @property
     def ip(self):
         return self._ip

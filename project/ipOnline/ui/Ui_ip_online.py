@@ -98,6 +98,9 @@ class Ui_Form(object):
         self.gridLayout.addWidget(self.push_test, 3, 3, 1, 2)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 0, 5, 1, 1)
+        self.btn_clear = QtWidgets.QPushButton(Form)
+        self.btn_clear.setObjectName("btn_clear")
+        self.gridLayout.addWidget(self.btn_clear, 3, 5, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
         self.tableview = QtWidgets.QTableView(Form)
         self.tableview.setObjectName("tableview")
@@ -106,6 +109,13 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.line_start1, self.line_end1)
+        Form.setTabOrder(self.line_end1, self.btn_search1)
+        Form.setTabOrder(self.btn_search1, self.line_start2)
+        Form.setTabOrder(self.line_start2, self.line_end2)
+        Form.setTabOrder(self.line_end2, self.btn_search2)
+        Form.setTabOrder(self.btn_search2, self.tableview)
+        Form.setTabOrder(self.tableview, self.push_test)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -115,6 +125,7 @@ class Ui_Form(object):
         self.btn_search2.setText(_translate("Form", "搜索"))
         self.btn_search1.setText(_translate("Form", "搜索"))
         self.push_test.setText(_translate("Form", "test"))
+        self.btn_clear.setText(_translate("Form", "清空"))
 
 
 if __name__ == "__main__":

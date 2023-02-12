@@ -173,6 +173,13 @@
          </property>
         </spacer>
        </item>
+       <item row="3" column="5">
+        <widget class="QPushButton" name="btn_clear">
+         <property name="text">
+          <string>清空</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -182,6 +189,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>line_start1</tabstop>
+  <tabstop>line_end1</tabstop>
+  <tabstop>btn_search1</tabstop>
+  <tabstop>line_start2</tabstop>
+  <tabstop>line_end2</tabstop>
+  <tabstop>btn_search2</tabstop>
+  <tabstop>tableview</tabstop>
+  <tabstop>push_test</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

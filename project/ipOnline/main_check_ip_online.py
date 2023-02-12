@@ -8,20 +8,19 @@
 from PyQt5 import QtCore
 # import PyQt5.QtCore as PQC
 from PyQt5.QtCore import pyqtSignal, QCoreApplication
-from PyQt5.QtWidgets import (QApplication, QWidget )
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import (QApplication)
 
 from project.ipOnline.pack.middle import GlobalDataUi
 from project.ipOnline.pack.ping_ip import ManageTheads
 from project.ipOnline.pack.standard_model import ContainerAtModel
 from project.ipOnline.ui import mtab
-from ..pack.ip import IpState
+from .pack.middle import check_edit_text
 from .ui.ip_online import Form
-# from .ui.Ui_ip_online import Ui_Form
+from ..pack.ip import IpState
 
 
 class MyClass(Form):
-    # signal = pyqtSignal(str)
     _startThread = pyqtSignal()
     
     def __init__(self):
@@ -48,33 +47,51 @@ class MyClass(Form):
     def on_btn_search1_clicked(self):
         print("btn1 click")
         self.on_checkip_start()
-        # return super(MyClass, self).on_btn_search1_clicked()
-
+    
     @pyqtSlot()
     def on_btn_search2_clicked(self):
         print("btn2 click")
         self.on_checkip_start()
-        # return super(MyClass, self).on_btn_search2_clicked()
         pass
-
+    
     @pyqtSlot()
     def on_line_end1_editingFinished(self):
+        text1 = self.line_end1.text()
+        
         pass
-
+    
     @pyqtSlot()
     def on_line_end2_editingFinished(self):
         pass
-
+    
     @pyqtSlot()
     def on_line_start1_editingFinished(self):
-        pass
-
+        self.line_edit_auto_text(self.line_start1, self.line_end1)
+    
+    @staticmethod
+    def line_edit_auto_text(edit_s, edit_e):
+        if not edit_s.hasFocus():
+            return
+        text = edit_s.text()
+        try:
+            result = check_edit_text(text, flag='start')
+            if isinstance(result, tuple):
+                edit_s.setText(result[0])
+                edit_e.setText(result[1])
+            else:
+                edit_s.setText(result[0])
+        except ValueError:
+            pass
+    
     @pyqtSlot()
     def on_line_start2_editingFinished(self):
-        pass
-
+        self.line_edit_auto_text(self.line_start2, self.line_end2)
+    
     @pyqtSlot()
     def on_push_test_clicked(self):
+        """
+        测试按扭
+        """
         print('on_test')
         start, end = self._get_start_end_ip(self.btn_search1)
         self._set_current_section(start)
@@ -84,7 +101,14 @@ class MyClass(Form):
         from project.ipOnline.pack.standard_model import factory_container_model_obj
         factory_container_model_obj(self.model)
         pass
-    
+
+    @pyqtSlot()
+    def on_btn_clear_clicked(self):
+        """
+        清空表格
+        """
+        pass
+
     # -------------------------------------------------------------
     # 结束
     # -------------------------------------------------------------
@@ -174,7 +198,6 @@ def main():
     win.push_test.hide()
     win.show()
     sys.exit(app.exec_())
-
 
 # if __name__ == '__main__':
 #     main()

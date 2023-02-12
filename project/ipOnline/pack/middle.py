@@ -4,6 +4,38 @@ from ...pack.ip import IP
 # from project.ipOnline.pack.standard_model import ContainerAtModel
 from ...pack.config import JsonIpOnline
 
+def check_edit_text(ip_text:str, flag='start'):
+    """
+    如果ip_text是一个ip,则直接返回
+    如果ip是一个正数,其范围在0到255,
+        输出一个元组
+    """
+    try:
+        
+        ipobj = IP(ip_text)
+        print("is obj")
+        return ip_text
+    except TypeError:
+        print("not ipobj")
+        try:
+            val = int(ip_text)
+            if val < 255:
+                fax = "192.168." + ip_text.strip() + '.'
+                s1 = (fax+'2', fax+'254')
+                s2 = (fax+'254', fax+'2`')
+                if flag == "start":
+                    return s1
+                else:
+                    return s2
+            else:
+                raise ValueError("输入的值应该小于255")
+        except ValueError:
+            # 返回为空
+            raise ValueError("输入的数值错误,不是一个IP,也不是一个数字")
+            pass
+        
+        
+        
 
 class GlobalDataUi(object):
     def __init__(self):
