@@ -17,9 +17,10 @@ from project.ipOnline.pack.standard_model import  ContainerAtModel
 from project.ipOnline.pack.middle import GlobalDataUi
 from project.ipOnline.ui import mtab
 from project.ipOnline.ui.main_widget import MainWidget
+from .ui.ip_online import Form
 
 
-class MyClass(MainWidget):
+class MyClass(Form):
     # signal = pyqtSignal(str)
     _startThread = pyqtSignal()
 
