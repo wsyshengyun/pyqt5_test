@@ -21,8 +21,8 @@ class MainMainwindow(MainWindow):
     def init_ui(self):
         self.actionSetConfig.triggered.connect(self.on_actionSetConfig_changed)
         self.actionSetIp.triggered.connect(self.on_actionSetIp_changed)
-        online_wiget = MyClass()
-        self.setCentralWidget(online_wiget)
+        self.online_wiget = MyClass()
+        self.setCentralWidget(self.online_wiget)
         
         # dockwidget
         # setip_widget = UI_pc_ip()
@@ -39,10 +39,9 @@ class MainMainwindow(MainWindow):
         self.setip_widget = UI_pc_ip()
         self.setip_widget.show()
         
-        
-        
-        # return super().on_actionSetIp_changed()
-
+    def closeEvent(self, a0) -> None:
+        self.online_wiget.closeEvent(a0)
+        # super(MainMainwindow, self).closeEvent(a0)
 
 def main():
     import sys

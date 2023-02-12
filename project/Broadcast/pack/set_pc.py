@@ -14,6 +14,9 @@ import psutil
 import wmi
 from wmi import WMI
 
+from ...pack.config import JsonSetPc
+import os, json
+
 # import sys
 # import win32com.shell.shell as shell
 # ASADMIN = 'asadmin'
@@ -25,32 +28,39 @@ from wmi import WMI
 #     # sys.exit(0)
 
 set_ip_object = []
-
-import os, json
+json_setpc = JsonSetPc()
 
 path = 'ips.json'
 
 
-def write():
-    with open(path, 'w', encoding='utf8') as f:
-        json.dump(set_ip_object, f)
+# def write():
+#     with open(path, 'w', encoding='utf8') as f:
+#         json.dump(set_ip_object, f)
 
+
+# def read():
+#     global set_ip_object
+#     with open(path, 'r', encoding='utf8') as f:
+#         set_ip_object = json.load(f)
+
+
+def write():
+    json_setpc.set(set_ip_object)
+    pass
 
 def read():
-    global set_ip_object
-    with open(path, 'r', encoding='utf8') as f:
-        set_ip_object = json.load(f)
-
+    set_ip_object = json_setpc.get()
+    pass
 
 def set_ips_and_masks():
     print("in set_ips_and_masks()....")
     if set_ip_object:
         ips, masks, card_text = set_ip_object
         print('in set_ips_and_masks(): {}'.format(ips, masks))
-        # input('.......~~~~')
         card = obj_network.get_card_from_name(card_text)
         result = card.card.EnableStatic(IPAddress=ips, SubnetMask=masks)
         print(result)
+        # todo:写法修改
         if result[0] == 0 or result[0] == 1:
             print("设置ip成功!")
         else:

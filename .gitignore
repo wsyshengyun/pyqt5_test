@@ -53,3 +53,7 @@ tmp/
 # ignore supervisor configure file
 supervisor.conf
 .idea/
+_eric6project/xdkj.e4q
+_eric6project/xdkj.e6t
+xdkj.e4p
+*.e4p

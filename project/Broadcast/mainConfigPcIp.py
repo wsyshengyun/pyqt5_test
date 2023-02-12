@@ -47,29 +47,29 @@ class UI_pc_ip(QWidget, Ui_Form):
         elif 1920<= s_height <=2560:
             return 1000, 1200
 
-    def init_layout(self):
-        """
-        初始化布局
-        """
-        h_box_1 = QHBoxLayout()
-        h_box_2 = QHBoxLayout()
-        h_box_3 = QHBoxLayout()
-        v_box_1 = QVBoxLayout()
-        v_box = QVBoxLayout()
-        h_box_1.addWidget(self.label_card)
-        h_box_1.addWidget(self.box_card)
-        h_box_2.addWidget(self.label_grate_way)
-        h_box_2.addWidget(self.line_gateway)
-        h_box_3.addWidget(self.btn_del)
-        h_box_3.addWidget(self.btn_add)
-        h_box_3.addWidget(self.pushButton)
-        v_box_1.addWidget(self.table)
-        v_box_1.addWidget(self.label_info)
-        v_box.addLayout(h_box_1)
-        v_box.addLayout(h_box_2)
-        v_box.addLayout(h_box_3)
-        v_box.addLayout(v_box_1)
-        self.setLayout(v_box)
+    # def init_layout(self):
+    #     """
+    #     初始化布局
+    #     """
+    #     h_box_1 = QHBoxLayout()
+    #     h_box_2 = QHBoxLayout()
+    #     h_box_3 = QHBoxLayout()
+    #     v_box_1 = QVBoxLayout()
+    #     v_box = QVBoxLayout()
+    #     h_box_1.addWidget(self.label_card)
+    #     h_box_1.addWidget(self.box_card)
+    #     h_box_2.addWidget(self.label_grate_way)
+    #     h_box_2.addWidget(self.line_gateway)
+    #     h_box_3.addWidget(self.btn_del)
+    #     h_box_3.addWidget(self.btn_add)
+    #     h_box_3.addWidget(self.pushButton)
+    #     v_box_1.addWidget(self.table)
+    #     v_box_1.addWidget(self.label_info)
+    #     v_box.addLayout(h_box_1)
+    #     v_box.addLayout(h_box_2)
+    #     v_box.addLayout(h_box_3)
+    #     v_box.addLayout(v_box_1)
+    #     self.setLayout(v_box)
 
     def init_data(self):
         self.network = pc.obj_network
@@ -190,6 +190,7 @@ class UI_pc_ip(QWidget, Ui_Form):
 
 def main():
     import sys
+    # todo del comment
     # import ctypes
     # print('++++++++++++++++++++++')
     # if not ctypes.windll.shell32.IsUserAnAdmin():

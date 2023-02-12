@@ -124,6 +124,7 @@ class MyClass(MainWidget):
         self.progressBar.setValue(value)
 
     def closeEvent(self, a0) -> None:
+        print('closeEvent')
         self.gdata.save_cfg()
 
 

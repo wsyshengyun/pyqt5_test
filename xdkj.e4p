@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project xdkj -->
-<!-- Saved: 2023-02-10, 22:08:21 -->
+<!-- Saved: 2023-02-12, 10:39:49 -->
 <!-- Copyright (C) 2023 ,  -->
 <Project version="5.1">
   <Language></Language>
@@ -17,6 +17,7 @@
     <Source>__init__.py</Source>
     <Source>b.py</Source>
     <Source>main.py</Source>
+    <Source>project/mainwindow/Ui_mainwindow.py</Source>
     <Source>project/Broadcast/__init__.py</Source>
     <Source>project/Broadcast/mainConfigPcIp.py</Source>
     <Source>project/Broadcast/pack/__init__.py</Source>
@@ -24,6 +25,8 @@
     <Source>project/Broadcast/pack/middle.py</Source>
     <Source>project/Broadcast/pack/set_pc.py</Source>
     <Source>project/Broadcast/ui.py</Source>
+    <Source>project/Broadcast/ui/Ui_pcip.py</Source>
+    <Source>project/Broadcast/ui/Ui_widget.py</Source>
     <Source>project/Broadcast/ui/__init__.py</Source>
     <Source>project/Broadcast/ui/_table.py</Source>
     <Source>project/Broadcast/ui/pc_info.py</Source>
@@ -44,6 +47,8 @@
     <Source>project/SipTest/pages/base_page.py</Source>
     <Source>project/SipTest/pages/sip_login_page.py</Source>
     <Source>project/SipTest/pages/sip_process_page.py</Source>
+    <Source>project/SipTest/ui/Ui_ui_changeip.py</Source>
+    <Source>project/SipTest/ui/Ui_ui_set.py</Source>
     <Source>project/SipTest/ui/__init__.py</Source>
     <Source>project/SipTest/ui/ui_changeip.py</Source>
     <Source>project/SipTest/ui/ui_set.py</Source>
@@ -73,11 +78,15 @@
     <Source>project/ipOnline/test/test_generate_ip.py</Source>
     <Source>project/ipOnline/test/test_ip1.py</Source>
     <Source>project/ipOnline/test/test_middle.py</Source>
+    <Source>project/ipOnline/ui/Ui_ip_online.py</Source>
+    <Source>project/ipOnline/ui/Ui_test_view_standard.py</Source>
     <Source>project/ipOnline/ui/__init__.py</Source>
     <Source>project/ipOnline/ui/ip_online.py</Source>
     <Source>project/ipOnline/ui/main_widget.py</Source>
     <Source>project/ipOnline/ui/mtab.py</Source>
     <Source>project/ipOnline/ui/test_view_standard.py</Source>
+    <Source>project/mainwindow/Ui_mainwindow.py</Source>
+    <Source>project/mainwindow/mainwindow.py</Source>
     <Source>project/pack/__init__.py</Source>
     <Source>project/pack/config.py</Source>
     <Source>test/__init__.py</Source>
@@ -2838,12 +2847,11 @@
     <Source>venv/Scripts/wmiweb.py</Source>
   </Sources>
   <Forms>
+    <Form>project/mainwindow/mainwindow.ui</Form>
     <Form>project/Broadcast/ui/pcip.ui</Form>
-    <Form>project/Broadcast/ui/widget.ui</Form>
     <Form>project/SipTest/ui/ui_changeip.ui</Form>
     <Form>project/SipTest/ui/ui_set.ui</Form>
     <Form>project/ipOnline/ui/ip_online.ui</Form>
-    <Form>project/ipOnline/ui/test_view_standard.ui</Form>
   </Forms>
   <Translations>
     <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_ar.qm</Translation>
