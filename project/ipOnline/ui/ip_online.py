@@ -30,7 +30,7 @@ class Form(QWidget, Ui_Form):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        pass
     
     @pyqtSlot()
     def on_line_end1_editingFinished(self):
@@ -38,7 +38,7 @@ class Form(QWidget, Ui_Form):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        pass
     
     @pyqtSlot()
     def on_btn_search1_clicked(self):
@@ -46,7 +46,7 @@ class Form(QWidget, Ui_Form):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        pass
     
     @pyqtSlot()
     def on_line_start2_editingFinished(self):
@@ -54,7 +54,7 @@ class Form(QWidget, Ui_Form):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        pass
     
     @pyqtSlot()
     def on_line_end2_editingFinished(self):

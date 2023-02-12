@@ -24,7 +24,7 @@ class ContainerRow(object):
 
 
 class ContainerAtModel(QStandardItemModel, ContainerAt):
-    def __init__(self):
+    def __init__(self) -> object:
         super(ContainerAtModel, self).__init__()
 
     def add_ip_update_all_model(self, ip: str):

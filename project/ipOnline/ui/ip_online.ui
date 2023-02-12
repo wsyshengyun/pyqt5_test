@@ -18,6 +18,19 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_zhi_2">
+         <property name="font">
+          <font>
+           <family>Adobe Arabic</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>至</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QLineEdit" name="line_start1">
          <property name="font">
@@ -38,6 +51,23 @@
          </property>
          <property name="text">
           <string>至</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="line_start2">
+         <property name="font">
+          <font>
+           <family>Adobe Arabic</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QProgressBar" name="progressBar">
+         <property name="value">
+          <number>24</number>
          </property>
         </widget>
        </item>
@@ -72,6 +102,13 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="4">
+        <widget class="QPushButton" name="btn_search2">
+         <property name="text">
+          <string>搜索</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="4">
         <widget class="QPushButton" name="btn_search1">
          <property name="text">
@@ -79,30 +116,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLineEdit" name="line_start2">
-         <property name="font">
-          <font>
-           <family>Adobe Arabic</family>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_zhi_2">
-         <property name="font">
-          <font>
-           <family>Adobe Arabic</family>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>至</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2" colspan="2">
+       <item row="2" column="2" colspan="2">
         <widget class="QLineEdit" name="line_end2">
          <property name="enabled">
           <bool>true</bool>
@@ -133,21 +147,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="4">
-        <widget class="QPushButton" name="btn_search2">
-         <property name="text">
-          <string>搜索</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QProgressBar" name="progressBar">
-         <property name="value">
-          <number>24</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3" colspan="2">
+       <item row="3" column="3" colspan="2">
         <widget class="QPushButton" name="push_test">
          <property name="font">
           <font>
@@ -159,6 +159,19 @@
           <string>test</string>
          </property>
         </widget>
+       </item>
+       <item row="0" column="5">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>

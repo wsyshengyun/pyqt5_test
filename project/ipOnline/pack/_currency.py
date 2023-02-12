@@ -7,7 +7,7 @@
 import os
 
 from project.ipOnline.pack.config import path, MyConfigObj
-from project.ipOnline.pack.ip import IP, IpState
+from ...pack.ip import IP, IpState
 from project.ipOnline.pack.log import logger
 
 # -----------------------------------------------------------

@@ -9,7 +9,8 @@
 装集合的容器
 
 """
-from project.ipOnline.pack.ip import IpState
+from ...pack.ip import IP, IpState
+
 from typing import List
 
 

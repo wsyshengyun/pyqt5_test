@@ -1,6 +1,6 @@
 # coding:utf8
 
-from project.ipOnline.pack.ip import IP
+from ...pack.ip import IP
 # from project.ipOnline.pack.standard_model import ContainerAtModel
 from ...pack.config import JsonIpOnline
 

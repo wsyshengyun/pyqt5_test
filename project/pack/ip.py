@@ -1,4 +1,4 @@
-#  Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#  Copyright (c) 2023. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 #  Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
 #  Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
 #  Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
@@ -25,11 +25,11 @@ class IP(object):
             try:
                 self.check_ip_formatter(ip)
             except TypeError as e:
-                return e
-            self.ip = ip
-
-    def get_ip(self):
-        return self.ip
+                raise e
+            self._ip = ip
+    @property
+    def ip(self):
+        return self._ip
 
     @staticmethod
     def check_ip_formatter(ip: str):
@@ -80,7 +80,7 @@ class IP(object):
         return '.'.join(list_secs)
 
     def list_4_section(self):
-        return self.ip.split('.')
+        return self._ip.split('.')
 
     @staticmethod
     def join_4_section(ip_sections):
@@ -138,7 +138,7 @@ class IP(object):
             return int(self.section()) < int(other.section())
 
     def __str__(self):
-        return f"<IP: {self.ip}>"
+        return f"<IP: {self._ip}>"
 
 
 STATE_UN_KNOW = 0
@@ -197,4 +197,4 @@ class IpState(IP):
         self.state = STATE_FINDED
 
     def __str__(self):
-        return f"<IpState: {self.ip}"
+        return f"<IpState: {self._ip}"
