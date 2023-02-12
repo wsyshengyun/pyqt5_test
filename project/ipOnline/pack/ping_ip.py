@@ -82,12 +82,12 @@ class ManageTheads(QObject):
     
     def __init__(self):
         super(ManageTheads, self).__init__()
-    
+        self.objs = []
+        self.ths = []
+
     def create_threads(self, start=None, end=None):
         ips = _get_range_ips(start, end)
-        self.ths = []
-        self.objs = []
-        
+
         for ip in ips:
             ip_obj = PingIp3(ip)
             # ip_obj = PingIp(ip)

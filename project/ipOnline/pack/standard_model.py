@@ -46,6 +46,10 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
             obj = ContainerRow(co)
             items = obj.to_row_items()
             self.appendRow(items)
+            
+    def clear(self):
+        self.list = []
+        self.flush()
 
     def set_header(self):
         header_labels = ["字段", "IP1", "IP2", "IP3", "IP4", "IP5", "IP6", "IP7", "IP8", "IP9", "IP10"]
