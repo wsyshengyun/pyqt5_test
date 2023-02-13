@@ -13,7 +13,8 @@ class ContainerRow(object):
         first = QStandardItem("字段{}".format(self.co.section))
         items.append(first)
         for _, ipo in self.co:
-            ip_str = ipo.get_ip()
+            # ip_str = ipo.get_ip()
+            ip_str = ipo.ip
             item = QStandardItem(ip_str)
             color = ipo.get_color()
             if color:
@@ -49,6 +50,7 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
             
     def clear(self):
         self.list = []
+        self.reset_data()
         self.flush()
 
     def set_header(self):
@@ -59,15 +61,16 @@ class ContainerAtModel(QStandardItemModel, ContainerAt):
 
 def factory_container_model_obj(model = None):
     """ """
-    from project.ipOnline.test.test_generate_ip import iplist
-    if model:
-        obj = model
-    else:
-        obj = ContainerAtModel()
-    for ip in iplist:
-        obj.add_ip_update_all_model(ip)
-    print(obj)
-    return obj
+    # from project.ipOnline.test.test_generate_ip import iplist
+    # if model:
+    #     obj = model
+    # else:
+    #     obj = ContainerAtModel()
+    # for ip in iplist:
+    #     obj.add_ip_update_all_model(ip)
+    # print(obj)
+    # return obj
+    pass
 
 
 if __name__ == '__main__':

@@ -130,6 +130,13 @@ class ContainerAt(object):
         self.ip_dict = {}  # {'ip': ipoat}
         self.curr_sec_cos = []  # 当前字段的ip对象
         self.second_sec_cos = []
+        
+    def reset_data(self):
+        self.list = []
+        self._pos = 0
+        self.ip_dict = {}
+        self.curr_sec_cos = []
+        self.second_sec_cos = []
 
 
     def is_ip_exist(self, ip):
@@ -314,31 +321,33 @@ class ContainerAt(object):
         tsr_all = '\r\n'.join(str_list)
         return tsr_all
 
-def set_init_containat():
-    from project.ipOnline.test.test_generate_ip import iplist
-    objAt = ContainerAt('43')
-    for ip in iplist:
-        ipoat = IpState(ip)
-        x, y = objAt.add_ip(ipoat)
-    return objAt
+# def set_init_containat():
+#     from project.ipOnline.test.test_generate_ip import iplist
+#     objAt = ContainerAt('43')
+#     for ip in iplist:
+#         ipoat = IpState(ip)
+#         x, y = objAt.add_ip(ipoat)
+#     return objAt
+#     pass
 
 
 
 if __name__ == '__main__':
-    from project.ipOnline.pack.test_generate_ip import iplist
-
-
-    # print(obj)
-    obj2 = Container()
-    obj2.section = "5"
-    for ip in iplist:
-        obj2.add(IpState(ip))
-
-
-    objAt = ContainerAt('12')
-    for ip in iplist:
-        ipoat = IpState(ip)
-        x, y = objAt.add_ip(ipoat)
-        print(x, y)
-
-    print(objAt)
+    # from project.ipOnline.pack.test_generate_ip import iplist
+    #
+    #
+    # # print(obj)
+    # obj2 = Container()
+    # obj2.section = "5"
+    # for ip in iplist:
+    #     obj2.add(IpState(ip))
+    #
+    #
+    # objAt = ContainerAt('12')
+    # for ip in iplist:
+    #     ipoat = IpState(ip)
+    #     x, y = objAt.add_ip(ipoat)
+    #     print(x, y)
+    #
+    # print(objAt)
+    pass

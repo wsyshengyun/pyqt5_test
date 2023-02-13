@@ -86,6 +86,8 @@ class ManageTheads(QObject):
         self.ths = []
 
     def create_threads(self, start=None, end=None):
+        if len(self.ths)>0:
+            self.ths = []
         ips = _get_range_ips(start, end)
 
         for ip in ips:
@@ -126,7 +128,7 @@ class ManageTheads(QObject):
     def quit(self):
         for th in self.ths:
             th.quit()
-    
+
     def start(self):
         for th in self.ths:
             th.start()

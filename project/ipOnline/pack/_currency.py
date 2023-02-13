@@ -192,74 +192,74 @@ class CompareIPList(object):
             dit['lose'] = []
         return dit
 
-
-class CompareIpListAt(CompareIPList):
-    def __init__(self):
-        super(CompareIpListAt, self).__init__()
-        self.ips = []
-        self.current_section = None  # 当前IP段
-
-    def set_current_section(self, current_section):
-        self.current_section = current_section
-
-    def add_new(self, ip_str):
-        if self.flg_start:
-            obj = None
-            # 遍历所有的ipobj
-            for ipobj in self.ips:
-                # 要插入的ip已经存在; 什么也不做
-                if ip_str == ipobj.get_ip():
-                    obj = ipobj
-                    break
-            else:
-                # 新建一个ipobj
-                # obj = IpState(ip_str)
-                # self.ips.append(obj)
-
-                # 如果是新的IP要找到它的插入位置
-                # 首先与相同字段的IP放在一起, 没有则按字段从小到大排列
-                # 如果有想同的字段,则根据尾部排序,从小到大
-                obj = self._inert_ip_from_sort(ip_str)
-
-            obj.update_state()
-            return obj
-
-    def _inert_ip_from_sort(self, ip_str):
-        obj = IpState(ip_str)
-        sec = obj.section()
-        tail = obj.tail()
-        will_insert_pos = 0
-        for obj_ in self.ips:
-            # IP的字段相同
-            if obj_.section() == sec:
-                obj_pos = self.ips.index(obj_)
-                if will_insert_pos == -2:
-                    will_insert_pos = obj_pos
-                    continue
-                if obj_.tail() > tail:
-                    will_insert_pos = obj_pos
-        self.ips.insert(will_insert_pos, obj)
-        return obj
-
-
-
-
-    def update_state_all(self):
-        for ipobj in self.ips:
-            ipobj.update_state()
-
-
-    def type_ips(self):
-        """ 把IP分类"""
-        dit = {}
-        for ipobj in self.ips:
-            sec = ipobj.section()
-            if sec in dit:
-                dit[sec].append(ipobj)
-            else:
-                dit[sec] = [ipobj]
-        return dit
-
+#
+# class CompareIpListAt(CompareIPList):
+#     def __init__(self):
+#         super(CompareIpListAt, self).__init__()
+#         self.ips = []
+#         self.current_section = None  # 当前IP段
+#
+#     def set_current_section(self, current_section):
+#         self.current_section = current_section
+#
+#     def add_new(self, ip_str):
+#         if self.flg_start:
+#             obj = None
+#             # 遍历所有的ipobj
+#             for ipobj in self.ips:
+#                 # 要插入的ip已经存在; 什么也不做
+#                 if ip_str == ipobj.get_ip():
+#                     obj = ipobj
+#                     break
+#             else:
+#                 # 新建一个ipobj
+#                 # obj = IpState(ip_str)
+#                 # self.ips.append(obj)
+#
+#                 # 如果是新的IP要找到它的插入位置
+#                 # 首先与相同字段的IP放在一起, 没有则按字段从小到大排列
+#                 # 如果有想同的字段,则根据尾部排序,从小到大
+#                 obj = self._inert_ip_from_sort(ip_str)
+#
+#             obj.update_state()
+#             return obj
+#
+#     def _inert_ip_from_sort(self, ip_str):
+#         obj = IpState(ip_str)
+#         sec = obj.section()
+#         tail = obj.tail()
+#         will_insert_pos = 0
+#         for obj_ in self.ips:
+#             # IP的字段相同
+#             if obj_.section() == sec:
+#                 obj_pos = self.ips.index(obj_)
+#                 if will_insert_pos == -2:
+#                     will_insert_pos = obj_pos
+#                     continue
+#                 if obj_.tail() > tail:
+#                     will_insert_pos = obj_pos
+#         self.ips.insert(will_insert_pos, obj)
+#         return obj
+#
+#
+#
+#
+#     def update_state_all(self):
+#         for ipobj in self.ips:
+#             ipobj.update_state()
+#
+#
+#     def type_ips(self):
+#         """ 把IP分类"""
+#         dit = {}
+#         for ipobj in self.ips:
+#             sec = ipobj.section()
+#             if sec in dit:
+#                 dit[sec].append(ipobj)
+#             else:
+#                 dit[sec] = [ipobj]
+#         return dit
+#
 
 
 
@@ -347,11 +347,13 @@ if __name__ == '__main__':
         '192.168.2.14',
     ]
     # CompareIpListAt
-    obj = CompareIpListAt()
-    obj.set_flg_start_true()
-    for ip in ips:
-        obj.add_new(ip)
-    print(obj.ips)
-    for obj in obj.ips:
-        print(obj.ip)
+    # obj = CompareIpListAt()
+    # obj.set_flg_start_true()
+    # for ip in ips:
+    #     obj.add_new(ip)
+    # print(obj.ips)
+    # for obj in obj.ips:
+    #     print(obj.ip)
+    #
+    pass
 

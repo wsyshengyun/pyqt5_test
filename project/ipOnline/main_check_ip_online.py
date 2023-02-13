@@ -31,6 +31,9 @@ class MyClass(Form):
         self.model = ContainerAtModel()
         print('init')
         self.progressBar.setValue(0)
+        
+        self.push_test.hide()
+        
         self.tableview.setColumnWidth(0, 50)
         self.tableview.setModel(self.model)
         
@@ -93,7 +96,7 @@ class MyClass(Form):
         测试按扭
         """
         print('on_test')
-        start, end = self._get_start_end_ip(self.btn_search1)
+        start, end = self.get_ip_from_lineedit(self.btn_search1)
         self._set_current_section(start)
         self.model.flush()
         
@@ -140,13 +143,13 @@ class MyClass(Form):
         print(" 接收到ip = {}".format(ip))
         self.model.add_ip_update_all_model(ip)
     
-    def _get_start_end_ip(self, btn):
+    def get_ip_from_lineedit(self, btn):
         if btn == self.btn_search1:
             return self.line_start1.text(), self.line_end1.text()
         else:
             return self.line_start2.text(), self.line_end2.text()
     
-    def _set_start_end_ip(self, btn, start, end):
+    def set_source_two_ip(self, btn, start, end):
         if btn == self.btn_search1:
             self.gdata.set_start_end1(start, end)
         else:
@@ -158,8 +161,8 @@ class MyClass(Form):
         self._enable_btn(False)
         self.progressBar.setValue(0)
         sender = self.sender()
-        start, end = self._get_start_end_ip(sender)
-        self._set_start_end_ip(sender, start, end)
+        start, end = self.get_ip_from_lineedit(sender)
+        self.set_source_two_ip(sender, start, end)
         self._set_current_section(start)
         self.model.flush()
         self.init_ping_ip(start, end)

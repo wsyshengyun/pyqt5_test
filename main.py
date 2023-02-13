@@ -16,5 +16,5 @@ from project.ipOnline.pack.log import logger
 # from project.ipOnline.main_check_ip_online import main
 from project.mainwindow.main_mainwindow import main
 
-logger.info('-' * 100)
+# logger.info('-' * 100)
 main()
