@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project xdkj -->
-<!-- Saved: 2023-02-12, 10:39:49 -->
+<!-- Saved: 2023-02-13, 20:39:23 -->
 <!-- Copyright (C) 2023 ,  -->
 <Project version="5.1">
   <Language></Language>
@@ -14,10 +14,7 @@
   <TranslationPattern>dist/SearchIP/PyQt5/Qt5/translations/qtbase_%language%.qm</TranslationPattern>
   <Eol index="0"/>
   <Sources>
-    <Source>__init__.py</Source>
-    <Source>b.py</Source>
     <Source>main.py</Source>
-    <Source>project/mainwindow/Ui_mainwindow.py</Source>
     <Source>project/Broadcast/__init__.py</Source>
     <Source>project/Broadcast/mainConfigPcIp.py</Source>
     <Source>project/Broadcast/pack/__init__.py</Source>
@@ -26,12 +23,9 @@
     <Source>project/Broadcast/pack/set_pc.py</Source>
     <Source>project/Broadcast/ui.py</Source>
     <Source>project/Broadcast/ui/Ui_pcip.py</Source>
-    <Source>project/Broadcast/ui/Ui_widget.py</Source>
     <Source>project/Broadcast/ui/__init__.py</Source>
     <Source>project/Broadcast/ui/_table.py</Source>
     <Source>project/Broadcast/ui/pc_info.py</Source>
-    <Source>project/Broadcast/ui/pcip.py</Source>
-    <Source>project/Broadcast/ui/widget.py</Source>
     <Source>project/SipTest/__init__.py</Source>
     <Source>project/SipTest/main_sip.py</Source>
     <Source>project/SipTest/make_driver.py</Source>
@@ -58,10 +52,6 @@
     <Source>project/SipTest/utils/locators.py</Source>
     <Source>project/SipTest/utils/users.py</Source>
     <Source>project/__init__.py</Source>
-    <Source>project/auto_set_sip/__init__.py</Source>
-    <Source>project/auto_set_sip/auto_set_ip.py</Source>
-    <Source>project/auto_set_sip/pack/__init__.py</Source>
-    <Source>project/auto_set_sip/ui/__init__.py</Source>
     <Source>project/ipOnline/__init__.py</Source>
     <Source>project/ipOnline/main_check_ip_online.py</Source>
     <Source>project/ipOnline/pack/__init__.py</Source>
@@ -79,18 +69,17 @@
     <Source>project/ipOnline/test/test_ip1.py</Source>
     <Source>project/ipOnline/test/test_middle.py</Source>
     <Source>project/ipOnline/ui/Ui_ip_online.py</Source>
-    <Source>project/ipOnline/ui/Ui_test_view_standard.py</Source>
     <Source>project/ipOnline/ui/__init__.py</Source>
     <Source>project/ipOnline/ui/ip_online.py</Source>
     <Source>project/ipOnline/ui/main_widget.py</Source>
     <Source>project/ipOnline/ui/mtab.py</Source>
-    <Source>project/ipOnline/ui/test_view_standard.py</Source>
+    <Source>project/ipcheck/Ui_ipcheck.py</Source>
+    <Source>project/ipcheck/ipcheck.py</Source>
+    <Source>project/mainwindow/Ui_mainwindow.py</Source>
     <Source>project/mainwindow/Ui_mainwindow.py</Source>
     <Source>project/mainwindow/mainwindow.py</Source>
     <Source>project/pack/__init__.py</Source>
     <Source>project/pack/config.py</Source>
-    <Source>test/__init__.py</Source>
-    <Source>test/test_broadcast_1.py</Source>
     <Source>venv/Lib/site-packages/OpenSSL/SSL.py</Source>
     <Source>venv/Lib/site-packages/OpenSSL/__init__.py</Source>
     <Source>venv/Lib/site-packages/OpenSSL/_util.py</Source>
@@ -2847,105 +2836,14 @@
     <Source>venv/Scripts/wmiweb.py</Source>
   </Sources>
   <Forms>
-    <Form>project/mainwindow/mainwindow.ui</Form>
+    <Form>project/ipcheck/ipcheck.ui</Form>
     <Form>project/Broadcast/ui/pcip.ui</Form>
     <Form>project/SipTest/ui/ui_changeip.ui</Form>
     <Form>project/SipTest/ui/ui_set.ui</Form>
     <Form>project/ipOnline/ui/ip_online.ui</Form>
+    <Form>project/mainwindow/mainwindow.ui</Form>
   </Forms>
   <Translations>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_ar.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_bg.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_ca.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_cs.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_da.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_de.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_en.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_es.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_fi.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_fr.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_gd.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_he.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_hu.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_it.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_ja.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_ko.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_lv.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_pl.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_ru.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_sk.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_tr.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_uk.qm</Translation>
-    <Translation>dist/SearchIP/PyQt5/Qt5/translations/qtbase_zh_TW.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_ar.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_bg.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_ca.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_cs.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_da.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_de.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_en.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_es.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_fi.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_fr.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_gd.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_he.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_hu.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_it.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_ja.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_ko.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_lv.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_pl.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_ru.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_sk.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_tr.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_uk.qm</Translation>
-    <Translation>dist/SetPcIP1/PyQt5/Qt5/translations/qtbase_zh_TW.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_ar.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_bg.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_ca.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_cs.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_da.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_de.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_en.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_es.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_fi.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_fr.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_gd.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_he.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_hu.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_it.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_ja.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_ko.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_lv.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_pl.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_ru.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_sk.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_tr.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_uk.qm</Translation>
-    <Translation>dist/SetPcIP2/PyQt5/Qt5/translations/qtbase_zh_TW.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_ar.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_bg.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_ca.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_cs.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_da.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_de.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_en.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_es.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_fi.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_fr.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_gd.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_he.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_hu.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_it.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_ja.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_ko.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_lv.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_pl.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_ru.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_sk.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_tr.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_uk.qm</Translation>
-    <Translation>dist/SetPcIP/PyQt5/Qt5/translations/qtbase_zh_TW.qm</Translation>
     <Translation>venv/Lib/site-packages/PyQt5/Qt5/translations/qt_ar.qm</Translation>
     <Translation>venv/Lib/site-packages/PyQt5/Qt5/translations/qt_bg.qm</Translation>
     <Translation>venv/Lib/site-packages/PyQt5/Qt5/translations/qt_ca.qm</Translation>
@@ -3147,8 +3045,6 @@
     <Interface>venv/Lib/site-packages/win32com/test/pippo.idl</Interface>
   </Interfaces>
   <Others>
-    <Other>build/mainSetPc/warn-mainSetPc.txt</Other>
-    <Other>build/main_on_line/warn-main_on_line.txt</Other>
     <Other>project/SipTest/other/aa.txt</Other>
     <Other>project/SipTest/other/default_user_config - 带备注（增加了J4G通话配置）(1).txt</Other>
     <Other>project/SipTest/other/selenium.md</Other>
@@ -3231,7 +3127,6 @@
     <Other>venv/Lib/site-packages/win32com/test/readme.txt</Other>
     <Other>venv/Lib/site-packages/wsproto-1.1.0.dist-info/top_level.txt</Other>
     <Other>venv/Lib/site-packages/zipp-3.7.0.dist-info/top_level.txt</Other>
-    <Other>venv/readme.rst</Other>
   </Others>
   <MainScript>qtbase.py</MainScript>
   <Vcs>
